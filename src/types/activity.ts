@@ -1,4 +1,4 @@
-interface Activity {
+export interface Activity {
   name: string;
   /**
    * Link to icon location
