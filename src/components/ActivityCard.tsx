@@ -5,20 +5,26 @@ import { Text, View } from "./Themed";
 
 export const ActivityCard = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.rowContainer}>
         <View style={styles.iconContainer}>
           <FontAwesome name="music" size={24} />
         </View>
         <Text>Guitar practice</Text>
       </View>
-      <ProgressBar />
+      <ProgressBar percentage={50} style={{ alignSelf: "stretch" }} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    borderColor: "#444",
+    borderWidth: 1,
+    borderRadius: 12,
+    overflow: "hidden",
+    width: "100%",
+  },
   rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
   iconContainer: {
     backgroundColor: "#ccc",

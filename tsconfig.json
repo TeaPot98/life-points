@@ -3,6 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
+      "@local-types/*": ["./src/types/*"],
       "@*": ["./src/*"]
     },
     "types": ["node"]

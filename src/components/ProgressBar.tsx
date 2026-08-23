@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { View } from "./Themed";
 
 const COLORS_MAP = {
@@ -10,12 +10,16 @@ const COLORS_MAP = {
 
 export const ProgressBar = ({
   color = "primary",
+  percentage,
+  style,
 }: {
   color?: keyof typeof COLORS_MAP;
+  percentage: number;
+  style?: StyleProp<ViewStyle>;
 }) => {
   return (
-    <View style={styles(color).container}>
-      <View style={styles(color).fill}></View>
+    <View style={[styles(color).container, style]}>
+      <View style={[styles(color).fill, { width: `${percentage}%` }]}></View>
     </View>
   );
 };
@@ -24,8 +28,11 @@ const styles = (color: keyof typeof COLORS_MAP) =>
   StyleSheet.create({
     container: {
       backgroundColor: COLORS_MAP[color].background,
+      height: 20,
+      minWidth: 120,
     },
     fill: {
       backgroundColor: COLORS_MAP[color].fill,
+      height: "100%",
     },
   });

@@ -1,3 +1,5 @@
+import { Database } from "./database";
+
 export interface Activity {
   name: string;
   /**
@@ -51,3 +53,9 @@ enum ActivityType {
   Time,
   Count,
 }
+
+export type ActivitiesUpdatePayload =
+  Database["public"]["Tables"]["activities"]["Update"];
+
+export type ActivitiesCreatePayload =
+  Database["public"]["Tables"]["activities"]["Insert"];

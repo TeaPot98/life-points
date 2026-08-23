@@ -1,9 +1,12 @@
-import { BooksCreatePayload, BooksUpdatePayload } from "@local-types/books";
+import {
+  RewardsCreatePayload,
+  RewardsUpdatePayload,
+} from "@local-types/rewards";
 import { supabase } from "./supabase";
 
-const books = {
-  async create(payload: BooksCreatePayload) {
-    const { data, error } = await supabase.from("books").insert(payload);
+const rewards = {
+  async create(payload: RewardsCreatePayload) {
+    const { data, error } = await supabase.from("rewards").insert(payload);
 
     if (error) throw error;
 
@@ -11,7 +14,7 @@ const books = {
   },
   async getAll(userId: string) {
     const { data, error } = await supabase
-      .from("books")
+      .from("rewards")
       .select()
       .eq("user_id", userId);
 
@@ -19,9 +22,9 @@ const books = {
 
     return data;
   },
-  async update(id: number, payload: BooksUpdatePayload) {
+  async update(id: number, payload: RewardsUpdatePayload) {
     const { data, error } = await supabase
-      .from("books")
+      .from("rewards")
       .update(payload)
       .eq("id", id);
 
@@ -30,7 +33,10 @@ const books = {
     return data;
   },
   async delete(id: number) {
-    const { data, error } = await supabase.from("books").delete().eq("id", id);
+    const { data, error } = await supabase
+      .from("rewards")
+      .delete()
+      .eq("id", id);
 
     if (error) throw error;
 
@@ -38,4 +44,4 @@ const books = {
   },
 };
 
-export default books;
+export default rewards;
