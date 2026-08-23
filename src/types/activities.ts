@@ -48,7 +48,7 @@ interface TimeActivityInstance extends TimeActivity {
   duration: number;
 }
 
-enum ActivityType {
+export enum ActivityType {
   Milestone,
   Time,
   Count,
