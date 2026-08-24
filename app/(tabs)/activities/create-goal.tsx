@@ -1,8 +1,12 @@
 import Api from "@api";
 import { ControlledPicker } from "@components/ControlledPicker";
-import { ControlledTextInput } from "@components/ControlledTextInput";
 import { View } from "@components/Themed";
 import { useUserContext } from "@context";
+import {
+  CountBasedGoalForm,
+  MilestonesGoalForm,
+  TimeBasedGoalForm,
+} from "@features/goals";
 import { ActivityType } from "@local-types/activities";
 import { GoalSchedule } from "@local-types/goals";
 import { useQuery } from "@tanstack/react-query";
@@ -18,6 +22,7 @@ type FormFieldValues = {
   duration?: number;
   reward_per_item?: number;
   schedule?: GoalSchedule;
+  goal_count?: number;
 };
 
 const activityTypeOptions = [
@@ -37,9 +42,9 @@ const activityTypeOptions = [
 
 export default function CreateGoalScreen() {
   const { user } = useUserContext();
-  const { handleSubmit, control } = useForm<FormFieldValues>();
+  const { handleSubmit, control, watch } = useForm<FormFieldValues>();
 
-  const { data: activities, isLoading: isActivitiesLoading } = useQuery({
+  const { data: activities } = useQuery({
     queryKey: ["activities"],
     queryFn: () => Api.activities.getAll(user?.id ?? ""),
   });
@@ -69,21 +74,15 @@ export default function CreateGoalScreen() {
         name="type"
         options={activityTypeOptions}
       />
-      <ControlledTextInput
-        control={control}
-        name="reward"
-        textInputPros={{ label: "Reward" }}
-      />
-      <ControlledTextInput
-        control={control}
-        name="icon"
-        textInputPros={{ label: "icon" }}
-      />
-      <ControlledTextInput
-        control={control}
-        name="color"
-        textInputPros={{ label: "color" }}
-      />
+      {watch("type") === ActivityType.Time && (
+        <TimeBasedGoalForm control={control} />
+      )}
+      {watch("type") === ActivityType.Count && (
+        <CountBasedGoalForm control={control} />
+      )}
+      {watch("type") === ActivityType.Milestone && (
+        <MilestonesGoalForm control={control} />
+      )}
       <Button icon="plus" onPress={handleSubmit(onSubmit)}>
         Save
       </Button>

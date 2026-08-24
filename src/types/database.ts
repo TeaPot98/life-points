@@ -76,6 +76,7 @@ export type Database = {
           activity_id: number;
           created_at: string;
           duration: number | null;
+          goal_count: number;
           id: number;
           reward: number;
           reward_per_item: number;
@@ -87,6 +88,7 @@ export type Database = {
           activity_id: number;
           created_at?: string;
           duration?: number | null;
+          goal_count?: number;
           id?: number;
           reward: number;
           reward_per_item?: number;
@@ -98,6 +100,7 @@ export type Database = {
           activity_id?: number;
           created_at?: string;
           duration?: number | null;
+          goal_count?: number;
           id?: number;
           reward?: number;
           reward_per_item?: number;
@@ -122,6 +125,7 @@ export type Database = {
           id: number;
           name: string;
           reward: number;
+          user_id: string;
         };
         Insert: {
           created_at?: string;
@@ -129,6 +133,7 @@ export type Database = {
           id?: number;
           name: string;
           reward: number;
+          user_id: string;
         };
         Update: {
           created_at?: string;
@@ -136,6 +141,7 @@ export type Database = {
           id?: number;
           name?: string;
           reward?: number;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -179,33 +185,57 @@ export type Database = {
           },
         ];
       };
-      rewards: {
+      reward_activities: {
         Row: {
           color: string;
           created_at: string;
-          icon: string | null;
+          icon: string;
           id: number;
           name: string;
-          price: number;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
           color: string;
           created_at?: string;
-          icon?: string | null;
+          icon: string;
           id?: number;
           name: string;
-          price: number;
-          user_id?: string | null;
+          user_id: string;
         };
         Update: {
           color?: string;
           created_at?: string;
-          icon?: string | null;
+          icon?: string;
           id?: number;
           name?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      rewards: {
+        Row: {
+          created_at: string;
+          duration: number | null;
+          id: number;
+          price: number;
+          reward_activity_id: number;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          duration?: number | null;
+          id?: number;
+          price: number;
+          reward_activity_id: number;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          duration?: number | null;
+          id?: number;
           price?: number;
-          user_id?: string | null;
+          reward_activity_id?: number;
+          user_id?: string;
         };
         Relationships: [];
       };

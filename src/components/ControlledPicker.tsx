@@ -1,4 +1,8 @@
-import { Picker, PickerProps } from "@react-native-picker/picker";
+import {
+  Picker,
+  PickerItemProps,
+  PickerProps,
+} from "@react-native-picker/picker";
 import {
   Control,
   Controller,
@@ -12,7 +16,7 @@ type ControlledPickerProps<T extends FieldValues = FieldValues> = {
   name: Path<T>;
   controllerProps?: Omit<ControllerProps<T>, "name" | "control" | "render">;
   pickerProps?: Omit<PickerProps, "selectedValue" | "onValueChange" | "onBlur">;
-  options: { label: string; value: string | number }[];
+  options: PickerItemProps<string | number>[];
 };
 
 export const ControlledPicker = <T extends FieldValues = FieldValues>({
@@ -35,7 +39,7 @@ export const ControlledPicker = <T extends FieldValues = FieldValues>({
           {...pickerProps}
         >
           {options.map((option) => (
-            <Picker.Item {...option} />
+            <Picker.Item key={option.value} {...option} />
           ))}
         </Picker>
       )}
