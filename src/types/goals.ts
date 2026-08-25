@@ -21,3 +21,5 @@ export type MilestonesCreatePayload =
   Database["public"]["Tables"]["milestones"]["Insert"];
 
 export type Milestone = Database["public"]["Tables"]["milestones"]["Row"];
+
+export type DraftMilestone = Pick<Milestone, "name" | "reward">;

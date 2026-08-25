@@ -2,7 +2,7 @@ import { ControlledPicker } from "@components/ControlledPicker";
 import { ControlledTextInput } from "@components/ControlledTextInput";
 import { GOAL_SCHEDULE_OPTIONS } from "@constants";
 import { GoalSchedule } from "@local-types/goals";
-import { Control } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 interface TimeBasedFields {
   duration?: number;
@@ -10,27 +10,23 @@ interface TimeBasedFields {
   schedule?: GoalSchedule;
 }
 
-type TimeBasedGoalFormProps<T extends TimeBasedFields> = {
-  control: Control<T>;
-};
+export const TimeBasedGoalForm = () => {
+  const { control } = useFormContext<TimeBasedFields>();
 
-export const TimeBasedGoalForm = <T extends TimeBasedFields = TimeBasedFields>({
-  control,
-}: TimeBasedGoalFormProps<T>) => {
   return (
     <>
       <ControlledTextInput
-        control={control as unknown as Control<TimeBasedFields>}
+        control={control}
         name="duration"
         textInputPros={{ label: "icon" }}
       />
       <ControlledPicker
-        control={control as unknown as Control<TimeBasedFields>}
+        control={control}
         name="schedule"
         options={GOAL_SCHEDULE_OPTIONS}
       />
       <ControlledTextInput
-        control={control as unknown as Control<TimeBasedFields>}
+        control={control}
         name="reward"
         textInputPros={{ label: "Reward" }}
       />

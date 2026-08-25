@@ -11,7 +11,7 @@ type ControlledTextInputProps<T extends FieldValues = FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   controllerProps?: Omit<ControllerProps<T>, "name" | "control" | "render">;
-  textInputPros: Omit<TextInputProps, "value" | "onChangeText" | "onBlur">;
+  textInputPros?: Omit<TextInputProps, "value" | "onChangeText" | "onBlur">;
 };
 
 export const ControlledTextInput = <T extends FieldValues = FieldValues>({

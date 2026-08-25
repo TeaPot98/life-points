@@ -8,10 +8,10 @@ import {
   TimeBasedGoalForm,
 } from "@features/goals";
 import { ActivityType } from "@local-types/activities";
-import { GoalSchedule } from "@local-types/goals";
+import { DraftMilestone, GoalSchedule } from "@local-types/goals";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
@@ -23,6 +23,7 @@ type FormFieldValues = {
   reward_per_item?: number;
   schedule?: GoalSchedule;
   goal_count?: number;
+  milestones?: DraftMilestone[];
 };
 
 const activityTypeOptions = [
@@ -42,15 +43,29 @@ const activityTypeOptions = [
 
 export default function CreateGoalScreen() {
   const { user } = useUserContext();
-  const { handleSubmit, control, watch } = useForm<FormFieldValues>();
+  const form = useForm<FormFieldValues>();
+  const { handleSubmit, control, watch } = form;
 
   const { data: activities } = useQuery({
     queryKey: ["activities"],
     queryFn: () => Api.activities.getAll(user?.id ?? ""),
   });
 
-  const onSubmit = (values: FormFieldValues) => {
-    Api.goals.create({ ...values, user_id: user?.id ?? "" });
+  const onSubmit = async ({ milestones, ...values }: FormFieldValues) => {
+    const newGoals = await Api.goals.create({
+      ...values,
+      user_id: user?.id ?? "",
+    });
+
+    if (values.type === ActivityType.Milestone && milestones && newGoals[0]) {
+      await Api.mielestones.create(
+        milestones.map((milestone) => ({
+          ...milestone,
+          goal_id: newGoals[0].id,
+          user_id: user?.id ?? "",
+        })),
+      );
+    }
   };
 
   const activitiesOptions = useMemo(
@@ -63,30 +78,26 @@ export default function CreateGoalScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <ControlledPicker
-        control={control}
-        name="activity_id"
-        options={activitiesOptions}
-      />
-      <ControlledPicker
-        control={control}
-        name="type"
-        options={activityTypeOptions}
-      />
-      {watch("type") === ActivityType.Time && (
-        <TimeBasedGoalForm control={control} />
-      )}
-      {watch("type") === ActivityType.Count && (
-        <CountBasedGoalForm control={control} />
-      )}
-      {watch("type") === ActivityType.Milestone && (
-        <MilestonesGoalForm control={control} />
-      )}
-      <Button icon="plus" onPress={handleSubmit(onSubmit)}>
-        Save
-      </Button>
-    </View>
+    <FormProvider {...form}>
+      <View style={styles.container}>
+        <ControlledPicker
+          control={control}
+          name="activity_id"
+          options={activitiesOptions}
+        />
+        <ControlledPicker
+          control={control}
+          name="type"
+          options={activityTypeOptions}
+        />
+        {watch("type") === ActivityType.Time && <TimeBasedGoalForm />}
+        {watch("type") === ActivityType.Count && <CountBasedGoalForm />}
+        {watch("type") === ActivityType.Milestone && <MilestonesGoalForm />}
+        <Button icon="plus" onPress={handleSubmit(onSubmit)}>
+          Save
+        </Button>
+      </View>
+    </FormProvider>
   );
 }
 

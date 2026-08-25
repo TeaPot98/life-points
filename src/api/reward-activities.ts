@@ -1,12 +1,14 @@
-import { GoalsCreatePayload, GoalsUpdatePayload } from "@local-types/goals";
+import {
+  RewardActivitiesCreatePayload,
+  RewardActivitiesUpdatePayload,
+} from "@local-types/rewards";
 import { supabase } from "./supabase";
 
-const goals = {
-  async create(payload: GoalsCreatePayload) {
+const rewardActivities = {
+  async create(payload: RewardActivitiesCreatePayload) {
     const { data, error } = await supabase
-      .from("goals")
-      .insert(payload)
-      .select();
+      .from("reward_activities")
+      .insert(payload);
 
     if (error) throw error;
 
@@ -14,7 +16,7 @@ const goals = {
   },
   async getAll(userId: string) {
     const { data, error } = await supabase
-      .from("goals")
+      .from("reward_activities")
       .select()
       .eq("user_id", userId);
 
@@ -22,9 +24,9 @@ const goals = {
 
     return data;
   },
-  async update(id: number, payload: GoalsUpdatePayload) {
+  async update(id: number, payload: RewardActivitiesUpdatePayload) {
     const { data, error } = await supabase
-      .from("goals")
+      .from("reward_activities")
       .update(payload)
       .eq("id", id);
 
@@ -33,7 +35,10 @@ const goals = {
     return data;
   },
   async delete(id: number) {
-    const { data, error } = await supabase.from("goals").delete().eq("id", id);
+    const { data, error } = await supabase
+      .from("reward_activities")
+      .delete()
+      .eq("id", id);
 
     if (error) throw error;
 
@@ -41,4 +46,4 @@ const goals = {
   },
 };
 
-export default goals;
+export default rewardActivities;

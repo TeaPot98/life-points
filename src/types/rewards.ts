@@ -5,3 +5,9 @@ export type RewardsUpdatePayload =
 
 export type RewardsCreatePayload =
   Database["public"]["Tables"]["rewards"]["Insert"];
+
+export type RewardActivitiesUpdatePayload =
+  Database["public"]["Tables"]["reward_activities"]["Update"];
+
+export type RewardActivitiesCreatePayload =
+  Database["public"]["Tables"]["reward_activities"]["Insert"];
