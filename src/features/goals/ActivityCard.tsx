@@ -1,9 +1,31 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { ActivityType } from "@local-types/activities";
+import { GoalSchedule } from "@local-types/goals";
 import { StyleSheet } from "react-native";
-import { ProgressBar } from "./ProgressBar";
-import { Text, View } from "./Themed";
+import { ProgressBar } from "../../components/ProgressBar";
+import { Text, View } from "../../components/Themed";
 
-export const ActivityCard = () => {
+type GoalCardProps = {
+  activityId: number;
+  name: string;
+  type: ActivityType;
+  reward: number;
+  reward_per_item?: number;
+  schedule?: GoalSchedule;
+  duration?: number;
+  goalCount?: number;
+};
+
+export const GoalCard = ({
+  activityId,
+  name,
+  reward,
+  type,
+  duration,
+  goalCount,
+  reward_per_item,
+  schedule,
+}: GoalCardProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>

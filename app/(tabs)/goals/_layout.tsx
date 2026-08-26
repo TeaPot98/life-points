@@ -17,7 +17,7 @@ export default function ActivitiesLayout() {
         options={{
           headerLeft: () => (
             <Pressable
-              onPress={() => router.push("/activities/manage-goals")}
+              onPress={() => router.push("/goals/manage-goals")}
               style={{ backgroundColor: "#ccc" }}
             >
               <FontAwesome name="cog" size={24} />

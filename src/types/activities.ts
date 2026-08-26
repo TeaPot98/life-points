@@ -10,48 +10,10 @@ export interface Activity {
   reward: number;
 }
 
-interface ReadingTracker {
-  latestBook: Book;
-  books: Book[];
-  rewardPerPage: number;
-}
-
-interface Book {
-  title: string;
-  author: string;
-  numberOfPages: number;
-  readPages: number;
-}
-
-interface TimeActivity extends Activity {
-  type: ActivityType.Time;
-}
-
-interface MilestoneActivity extends Activity {
-  type: ActivityType.Milestone;
-  milestones: Milestone[];
-}
-
-interface CountActivity extends Activity {
-  type: ActivityType.Count;
-}
-
-interface Milestone {
-  name: string;
-  reward: number;
-}
-
-interface TimeActivityInstance extends TimeActivity {
-  /**
-   * Duration in minutes
-   */
-  duration: number;
-}
-
 export enum ActivityType {
-  Milestone,
-  Time,
-  Count,
+  Milestone = 0,
+  Time = 1,
+  Count = 2,
 }
 
 export type ActivitiesUpdatePayload =

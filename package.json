@@ -7,10 +7,12 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "update-db-types": "npx supabase gen types typescripts --project-id tkpjxfdapjrfewwwnbyf > ./src/types/database.ts --lang typescript"
+    "update-db-types": "npx supabase gen types typescripts --project-id tkpjxfdapjrfewwwnbyf > ./src/types/database.ts --lang typescript",
+    "lint": "expo lint"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-picker/picker": "2.11.1",
     "@react-navigation/native": "^7.1.8",
     "@supabase/supabase-js": "^2.112.3",
@@ -40,6 +42,8 @@
     "@tanstack/eslint-plugin-query": "^5.101.4",
     "@types/node": "^26.2.0",
     "@types/react": "~19.1.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~10.0.0",
     "react-test-renderer": "19.1.0",
     "typescript": "~5.9.2"
   },

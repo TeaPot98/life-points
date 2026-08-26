@@ -2,7 +2,7 @@ import activities from "./activities";
 import auth from "./auth";
 import books from "./books";
 import goals from "./goals";
-import mielestones from "./milestones";
+import milestones from "./milestones";
 import rewardActivities from "./reward-activities";
 import rewards from "./rewards";
 
@@ -14,7 +14,7 @@ const Api = {
   rewards,
   activities,
   goals,
-  mielestones,
+  milestones,
   rewardActivities,
 };
 

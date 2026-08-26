@@ -1,9 +1,11 @@
 import { GoalSchedule } from "@local-types/goals";
 import { PickerItemProps } from "@react-native-picker/picker";
 
-export * from "./Colors";
-
 export const GOAL_SCHEDULE_OPTIONS = [
+  {
+    label: "None",
+    value: GoalSchedule.None,
+  },
   {
     label: "Daily",
     value: GoalSchedule.Daily,

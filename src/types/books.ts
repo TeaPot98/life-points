@@ -5,3 +5,9 @@ export type BooksUpdatePayload =
 
 export type BooksCreatePayload =
   Database["public"]["Tables"]["books"]["Insert"];
+
+export type ReadingTrackerUpdatePayload =
+  Database["public"]["Tables"]["reading_trackers"]["Update"];
+
+export type ReadingTrackerCreatePayload =
+  Database["public"]["Tables"]["reading_trackers"]["Insert"];

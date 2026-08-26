@@ -1,11 +1,11 @@
 import { ControlledTextInput } from "@components/ControlledTextInput";
-import { DraftMilestone } from "@local-types/goals";
+import { IDraftMilestone } from "@local-types/goals";
 import { useFormContext } from "react-hook-form";
-import { MilestonesInput } from "../MilestonesInput";
+import { MilestonesInput } from "../components";
 
 interface MilestonesFields {
   reward: number;
-  milestones: DraftMilestone[];
+  milestones: IDraftMilestone[];
 }
 
 export const MilestonesGoalForm = () => {

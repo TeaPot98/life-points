@@ -20,6 +20,8 @@ export type MilestonesUpdatePayload =
 export type MilestonesCreatePayload =
   Database["public"]["Tables"]["milestones"]["Insert"];
 
-export type Milestone = Database["public"]["Tables"]["milestones"]["Row"];
+export type IMilestone = Database["public"]["Tables"]["milestones"]["Row"];
 
-export type DraftMilestone = Pick<Milestone, "name" | "reward">;
+export type IDraftMilestone = Pick<IMilestone, "name" | "reward">;
+
+export type IGoal = Database["public"]["Tables"]["goals"]["Row"];

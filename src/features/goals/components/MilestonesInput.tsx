@@ -1,5 +1,5 @@
 import { View } from "@components/Themed";
-import { DraftMilestone } from "@local-types/goals";
+import { IDraftMilestone } from "@local-types/goals";
 import { useState } from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
 import { Button, Text, TextInput } from "react-native-paper";
@@ -7,11 +7,11 @@ import { Button, Text, TextInput } from "react-native-paper";
 const EMPTY_MILESTONE = {
   name: "",
   reward: 0,
-} satisfies DraftMilestone;
+} satisfies IDraftMilestone;
 
 type FormInputValue = {
   reward: number;
-  milestones: DraftMilestone[];
+  milestones: IDraftMilestone[];
 };
 
 type MilestonesInputProps = {
@@ -26,7 +26,9 @@ export const MilestonesInput = ({
   control,
   controllerProps,
 }: MilestonesInputProps) => {
-  const [newMilestone, setNewMilestone] = useState<DraftMilestone | null>(null);
+  const [newMilestone, setNewMilestone] = useState<IDraftMilestone | null>(
+    null,
+  );
 
   const addNewMilestone = () => {
     setNewMilestone(EMPTY_MILESTONE);

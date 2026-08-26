@@ -28,19 +28,12 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="activities"
-        options={{
-          title: "Activities",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="share-alt" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          title: "Overview",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="bar-chart" color={color} />
+          ),
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -55,6 +48,22 @@ export default function TabLayout() {
               </Pressable>
             </Link>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="activities"
+        options={{
+          title: "Goals",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="flag-checkered" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="reading"
+        options={{
+          title: "Reading",
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
       <Tabs.Screen

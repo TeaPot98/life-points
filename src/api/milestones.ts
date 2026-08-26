@@ -4,7 +4,7 @@ import {
 } from "@local-types/goals";
 import { supabase } from "./supabase";
 
-const mielestones = {
+const milestones = {
   async create(payload: MilestonesCreatePayload | MilestonesCreatePayload[]) {
     const { data, error } = await supabase.from("milestones").insert(payload);
 
@@ -44,4 +44,4 @@ const mielestones = {
   },
 };
 
-export default mielestones;
+export default milestones;

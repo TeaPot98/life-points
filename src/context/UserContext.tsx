@@ -1,4 +1,4 @@
-import Api from "@api";
+import Api, { supabase } from "@api";
 import { Session, User, WeakPassword } from "@supabase/supabase-js";
 import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import { usePathname, useRouter } from "expo-router";
@@ -40,10 +40,26 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (!user && pathname !== "/sign-in") {
-      router.replace("/sign-in");
-    }
-  }, [user]);
+    (async () => {
+      const {
+        data: { user: sessionUser },
+      } = await supabase.auth.getUser();
+
+      setUser(sessionUser);
+
+      if (!sessionUser && pathname !== "/sign-in") {
+        router.replace("/sign-in");
+      }
+    })();
+  }, [pathname, router]);
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) router.replace("/sign-in");
+
+      setUser(session?.user ?? null);
+    });
+  }, [router]);
 
   const { mutate: signInWithPassword, isPending: isSigningIn } = useMutation({
     mutationFn: Api.auth.signInWithPassword,

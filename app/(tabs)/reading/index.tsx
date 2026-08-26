@@ -1,36 +1,33 @@
 import { StyleSheet } from "react-native";
 
-import { ActivityCard } from "@components/ActivityCard";
 import { FAB } from "@components/FAB";
 import { Text, View } from "@components/Themed";
+import { useIsFocused } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 
-export default function ActivitiesTabScreen() {
+export default function ReadingTabScreen() {
   const router = useRouter();
+  const isFocused = useIsFocused();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Goals Tab</Text>
+      <Text style={styles.title}>Reading Tab</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <ActivityCard />
-      <FAB
-        actions={[
-          {
-            icon: "star",
-            label: "Activity",
-            onPress: () => router.push("/activities/create-activity"),
-          },
-          {
-            icon: "star",
-            label: "Goal",
-            onPress: () => router.push("/activities/create-goal"),
-          },
-        ]}
-      />
+      {isFocused && (
+        <FAB
+          actions={[
+            {
+              icon: "book",
+              label: "New Book",
+              onPress: () => router.push("/reading/create-book"),
+            },
+          ]}
+        />
+      )}
     </View>
   );
 }
