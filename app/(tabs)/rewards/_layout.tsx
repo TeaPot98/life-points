@@ -7,6 +7,7 @@ export default function RewardsLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="create-reward" />
       <Stack.Screen name="create-reward-activity" />
+      <Stack.Screen name="rewards-shop" />
     </Stack>
   );
 }

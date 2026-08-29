@@ -1,23 +1,29 @@
+import { ProgressBar } from "@components/ProgressBar";
 import { Text, View } from "@components/Themed";
-import { IGoal } from "@local-types/goals";
+import { IUserGoal } from "@local-types/goals";
+import { isNil } from "@utils";
+import { computeGoalCompletionPercentage } from "@utils/goals";
 import { StyleSheet } from "react-native";
 
-type GoalCardProps = {
-  goal: IGoal;
+type UserGoalCardProps = {
+  userGoal: IUserGoal;
 };
 
-export const GoalCard = ({
-  goal: {
-    name,
-    type,
-    duration,
-    goal_count,
-    activity_id,
-    reward,
-    reward_per_item,
-    schedule,
-  },
-}: GoalCardProps) => {
+export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
+  const percentage = computeGoalCompletionPercentage(userGoal);
+  const {
+    goal: {
+      type,
+      duration,
+      goal_count,
+      activity_id,
+      reward,
+      reward_per_item,
+      schedule,
+      name,
+    },
+  } = userGoal;
+
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
@@ -33,6 +39,9 @@ export const GoalCard = ({
         <Text>{reward_per_item}</Text>
         <Text>{schedule}</Text>
       </View>
+      {!isNil(percentage) && (
+        <ProgressBar percentage={percentage} style={{ alignSelf: "stretch" }} />
+      )}
     </View>
   );
 };

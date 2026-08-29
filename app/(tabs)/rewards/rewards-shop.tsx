@@ -4,52 +4,44 @@ import Api from "@api";
 import { FAB } from "@components/FAB";
 import { Text, View } from "@components/Themed";
 import { useUserContext } from "@context";
-import { UserGoalCard } from "@features/goals/components";
+import { RewardCard } from "@features/rewards/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Button } from "react-native-paper";
 
-export default function GoalsTabScreen() {
+export default function RewardsShopScreen() {
   const router = useRouter();
-  const { user } = useUserContext();
   const isFocused = useIsFocused();
+  const { user } = useUserContext();
 
-  const { data: userGoals } = useQuery({
-    queryKey: ["user-goals"],
-    queryFn: () => Api.userGoals.getAll(user?.id ?? ""),
+  const { data: rewards } = useQuery({
+    queryKey: ["rewards"],
+    queryFn: () => Api.rewards.getAll(user?.id ?? ""),
   });
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Goals Tab</Text>
-      <Button
-        onPress={() => {
-          router.push("/goals/manage-activities");
-        }}
-      >
-        Manage Activities
-      </Button>
+      <Text style={styles.title}>Rewards Shop</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      {userGoals?.map((userGoal) => (
-        <UserGoalCard key={userGoal.id} userGoal={userGoal} />
+      {rewards?.map((reward) => (
+        <RewardCard key={reward.id} reward={reward} />
       ))}
       {isFocused && (
         <FAB
           actions={[
             {
               icon: "star",
-              label: "Activity",
-              onPress: () => router.push("/goals/create-activity"),
+              label: "Activity Reward",
+              onPress: () => router.push("/rewards/create-reward-activity"),
             },
             {
               icon: "star",
-              label: "Goal",
-              onPress: () => router.push("/goals/create-goal"),
+              label: "Reward",
+              onPress: () => router.push("/rewards/create-reward"),
             },
           ]}
         />

@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -46,6 +46,7 @@ export type Database = {
           author: string
           created_at: string
           id: number
+          last_updated_at: string | null
           number_of_pages: number
           read_pages: number
           title: string
@@ -55,6 +56,7 @@ export type Database = {
           author: string
           created_at?: string
           id?: number
+          last_updated_at?: string | null
           number_of_pages: number
           read_pages?: number
           title: string
@@ -64,6 +66,7 @@ export type Database = {
           author?: string
           created_at?: string
           id?: number
+          last_updated_at?: string | null
           number_of_pages?: number
           read_pages?: number
           title?: string
@@ -81,8 +84,8 @@ export type Database = {
           name: string
           reward: number
           reward_per_item: number
-          schedule: number
-          type: number
+          schedule: Database["public"]["Enums"]["goal_schedule"]
+          type: Database["public"]["Enums"]["activity_type"]
           user_id: string
         }
         Insert: {
@@ -94,8 +97,8 @@ export type Database = {
           name: string
           reward: number
           reward_per_item?: number
-          schedule?: number
-          type: number
+          schedule: Database["public"]["Enums"]["goal_schedule"]
+          type: Database["public"]["Enums"]["activity_type"]
           user_id: string
         }
         Update: {
@@ -107,8 +110,8 @@ export type Database = {
           name?: string
           reward?: number
           reward_per_item?: number
-          schedule?: number
-          type?: number
+          schedule?: Database["public"]["Enums"]["goal_schedule"]
+          type?: Database["public"]["Enums"]["activity_type"]
           user_id?: string
         }
         Relationships: [
@@ -123,6 +126,7 @@ export type Database = {
       }
       milestones: {
         Row: {
+          completed_at: string | null
           created_at: string
           goal_id: number
           id: number
@@ -131,6 +135,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          completed_at?: string | null
           created_at?: string
           goal_id: number
           id?: number
@@ -139,6 +144,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          completed_at?: string | null
           created_at?: string
           goal_id?: number
           id?: number
@@ -240,7 +246,88 @@ export type Database = {
           reward_activity_id?: number
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "rewards_reward_activity_id_fkey"
+            columns: ["reward_activity_id"]
+            isOneToOne: false
+            referencedRelation: "reward_activities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_goals: {
+        Row: {
+          completed_count: number
+          completed_duration: number
+          completed_milestones: number[]
+          created_at: string
+          goal_id: number
+          id: number
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_count?: number
+          completed_duration?: number
+          completed_milestones?: number[]
+          created_at?: string
+          goal_id: number
+          id?: number
+          started_at: string
+          user_id: string
+        }
+        Update: {
+          completed_count?: number
+          completed_duration?: number
+          completed_milestones?: number[]
+          created_at?: string
+          goal_id?: number
+          id?: number
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_goals_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_rewards: {
+        Row: {
+          claimed_at: string | null
+          created_at: string
+          id: number
+          reward_id: number
+          user_id: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          created_at?: string
+          id?: number
+          reward_id: number
+          user_id: string
+        }
+        Update: {
+          claimed_at?: string | null
+          created_at?: string
+          id?: number
+          reward_id?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_rewards_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -250,7 +337,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      activity_type: "milestone" | "time" | "count"
+      goal_schedule: "none" | "daily" | "weekly" | "monthly" | "yearly"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -377,6 +465,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      activity_type: ["milestone", "time", "count"],
+      goal_schedule: ["none", "daily", "weekly", "monthly", "yearly"],
+    },
   },
 } as const

@@ -26,6 +26,7 @@ export default function ActivitiesLayout() {
         }}
       />
       <Stack.Screen name="manage-goals" />
+      <Stack.Screen name="manage-activities" />
       <Stack.Screen name="create-goal" />
       <Stack.Screen name="create-activity" />
     </Stack>

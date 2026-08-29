@@ -4,39 +4,31 @@ import Api from "@api";
 import { FAB } from "@components/FAB";
 import { Text, View } from "@components/Themed";
 import { useUserContext } from "@context";
-import { UserGoalCard } from "@features/goals/components";
+import { ActivityCard } from "@features/goals/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Button } from "react-native-paper";
 
-export default function GoalsTabScreen() {
+export default function ManageActivitiesScreen() {
   const router = useRouter();
-  const { user } = useUserContext();
   const isFocused = useIsFocused();
+  const { user } = useUserContext();
 
-  const { data: userGoals } = useQuery({
-    queryKey: ["user-goals"],
-    queryFn: () => Api.userGoals.getAll(user?.id ?? ""),
+  const { data: activities } = useQuery({
+    queryKey: ["activities"],
+    queryFn: () => Api.activities.getAll(user?.id ?? ""),
   });
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Goals Tab</Text>
-      <Button
-        onPress={() => {
-          router.push("/goals/manage-activities");
-        }}
-      >
-        Manage Activities
-      </Button>
+      <Text style={styles.title}>Manage Activities</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      {userGoals?.map((userGoal) => (
-        <UserGoalCard key={userGoal.id} userGoal={userGoal} />
+      {activities?.map((activity) => (
+        <ActivityCard key={activity.id} activity={activity} />
       ))}
       {isFocused && (
         <FAB

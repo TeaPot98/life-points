@@ -1,12 +1,15 @@
 import {
-  RewardsCreatePayload,
-  RewardsUpdatePayload,
-} from "@local-types/rewards";
+  UserGoalsCreatePayload,
+  UserGoalsUpdatePayload,
+} from "@local-types/goals";
 import { supabase } from "./supabase";
 
-const rewards = {
-  async create(payload: RewardsCreatePayload) {
-    const { data, error } = await supabase.from("rewards").insert(payload);
+const userGoals = {
+  async create(payload: UserGoalsCreatePayload) {
+    const { data, error } = await supabase
+      .from("user_goals")
+      .insert(payload)
+      .select();
 
     if (error) throw error;
 
@@ -14,17 +17,19 @@ const rewards = {
   },
   async getAll(userId: string) {
     const { data, error } = await supabase
-      .from("rewards")
-      .select("*, activity:reward_activities (*)")
+      .from("user_goals")
+      .select("*, goal:goals (*, milestones:milestones (*))")
       .eq("user_id", userId);
+
+    console.log({ userId });
 
     if (error) throw error;
 
     return data;
   },
-  async update(id: number, payload: RewardsUpdatePayload) {
+  async update(id: number, payload: UserGoalsUpdatePayload) {
     const { data, error } = await supabase
-      .from("rewards")
+      .from("user_goals")
       .update(payload)
       .eq("id", id);
 
@@ -34,7 +39,7 @@ const rewards = {
   },
   async delete(id: number) {
     const { data, error } = await supabase
-      .from("rewards")
+      .from("user_goals")
       .delete()
       .eq("id", id);
 
@@ -44,4 +49,4 @@ const rewards = {
   },
 };
 
-export default rewards;
+export default userGoals;

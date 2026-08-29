@@ -3,8 +3,11 @@ import auth from "./auth";
 import books from "./books";
 import goals from "./goals";
 import milestones from "./milestones";
+import readingTracker from "./readingTrackers";
 import rewardActivities from "./reward-activities";
 import rewards from "./rewards";
+import userGoals from "./userGoals";
+import userRewards from "./userRewards";
 
 export * from "./supabase";
 
@@ -16,6 +19,9 @@ const Api = {
   goals,
   milestones,
   rewardActivities,
+  readingTracker,
+  userGoals,
+  userRewards,
 };
 
 export default Api;

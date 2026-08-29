@@ -32,23 +32,23 @@ type FormFieldValues = {
 const activityTypeOptions = [
   {
     label: "Count",
-    value: ActivityType.Count,
+    value: "count",
   },
   {
     label: "Time-based",
-    value: ActivityType.Time,
+    value: "time",
   },
   {
     label: "Milestone",
-    value: ActivityType.Milestone,
+    value: "milestone",
   },
-];
+] satisfies { label: string; value: ActivityType }[];
 
 export default function CreateGoalScreen() {
   const router = useRouter();
   const { user } = useUserContext();
   const form = useForm<FormFieldValues>({
-    defaultValues: { schedule: GoalSchedule.None, type: ActivityType.Time },
+    defaultValues: { schedule: "none", type: "time" },
   });
   const { handleSubmit, control, watch, reset } = form;
 
@@ -83,11 +83,11 @@ export default function CreateGoalScreen() {
     duration,
     goal_count,
     reward_per_item,
-    schedule,
+    schedule = "none",
   }: FormFieldValues) => {
     try {
       switch (type) {
-        case ActivityType.Count:
+        case "count":
           await createGoal({
             activity_id,
             name,
@@ -99,12 +99,13 @@ export default function CreateGoalScreen() {
             user_id: user?.id ?? "",
           });
           break;
-        case ActivityType.Milestone:
+        case "milestone":
           const newGoals = await createGoal({
             activity_id,
             name,
             type,
             reward,
+            schedule,
             user_id: user?.id ?? "",
           });
 
@@ -118,7 +119,7 @@ export default function CreateGoalScreen() {
             );
           }
           break;
-        case ActivityType.Time:
+        case "time":
           await createGoal({
             activity_id,
             name,
@@ -167,9 +168,9 @@ export default function CreateGoalScreen() {
           name="type"
           options={activityTypeOptions}
         />
-        {watch("type") === ActivityType.Time && <TimeBasedGoalForm />}
-        {watch("type") === ActivityType.Count && <CountBasedGoalForm />}
-        {watch("type") === ActivityType.Milestone && <MilestonesGoalForm />}
+        {watch("type") === "time" && <TimeBasedGoalForm />}
+        {watch("type") === "count" && <CountBasedGoalForm />}
+        {watch("type") === "milestone" && <MilestonesGoalForm />}
         <Button icon="plus" onPress={handleSubmit(onSubmit)}>
           Save
         </Button>

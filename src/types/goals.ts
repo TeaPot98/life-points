@@ -1,12 +1,6 @@
 import { Database } from "./database";
 
-export enum GoalSchedule {
-  None = 0,
-  Daily = 1,
-  Weekly = 2,
-  Monthly = 3,
-  Yearly = 4,
-}
+export type GoalSchedule = Database["public"]["Enums"]["goal_schedule"];
 
 export type GoalsUpdatePayload =
   Database["public"]["Tables"]["goals"]["Update"];
@@ -25,3 +19,13 @@ export type IMilestone = Database["public"]["Tables"]["milestones"]["Row"];
 export type IDraftMilestone = Pick<IMilestone, "name" | "reward">;
 
 export type IGoal = Database["public"]["Tables"]["goals"]["Row"];
+
+export type UserGoalsUpdatePayload =
+  Database["public"]["Tables"]["user_goals"]["Update"];
+
+export type UserGoalsCreatePayload =
+  Database["public"]["Tables"]["user_goals"]["Insert"];
+
+export type IUserGoal = Database["public"]["Tables"]["user_goals"]["Row"] & {
+  goal: IGoal & { milestones: IMilestone[] };
+};

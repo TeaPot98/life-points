@@ -4,22 +4,22 @@ import { PickerItemProps } from "@react-native-picker/picker";
 export const GOAL_SCHEDULE_OPTIONS = [
   {
     label: "None",
-    value: GoalSchedule.None,
+    value: "none",
   },
   {
     label: "Daily",
-    value: GoalSchedule.Daily,
+    value: "daily",
   },
   {
     label: "Weekly",
-    value: GoalSchedule.Weekly,
+    value: "weekly",
   },
   {
     label: "Monthly",
-    value: GoalSchedule.Monthly,
+    value: "monthly",
   },
   {
     label: "Yearly",
-    value: GoalSchedule.Yearly,
+    value: "yearly",
   },
-] satisfies PickerItemProps<number>[];
+] satisfies PickerItemProps<GoalSchedule>[];
