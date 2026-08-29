@@ -1,13 +1,13 @@
 import {
-  UserGoalsCreatePayload,
-  UserGoalsUpdatePayload,
-} from "@local-types/goals";
+  UserDataCreatePayload,
+  UserDataUpdatePayload,
+} from "@local-types/user";
 import { supabase } from "./supabase";
 
-const userGoals = {
-  async create(payload: UserGoalsCreatePayload) {
+const userData = {
+  async create(payload: UserDataCreatePayload) {
     const { data, error } = await supabase
-      .from("user_goals")
+      .from("user_data")
       .insert(payload)
       .select();
 
@@ -16,15 +16,25 @@ const userGoals = {
       throw error;
     }
 
-    return data;
+    return data?.[0];
   },
-  async getAll(userId: string) {
+  async getByUserId(userId: string) {
     const { data, error } = await supabase
-      .from("user_goals")
-      .select("*, goal:goals (*, milestones:milestones (*))")
+      .from("user_data")
+      .select()
       .eq("user_id", userId);
 
-    console.log({ userId });
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  },
+  async updatePoints(diffAmount: number) {
+    const { data, error } = await supabase.rpc("update_user_points", {
+      increment_amount: diffAmount,
+    });
 
     if (error) {
       console.error(error);
@@ -33,23 +43,10 @@ const userGoals = {
 
     return data;
   },
-  async update(id: number, payload: UserGoalsUpdatePayload) {
+  async update(id: number, payload: UserDataUpdatePayload) {
     const { data, error } = await supabase
-      .from("user_goals")
+      .from("user_data")
       .update(payload)
-      .eq("id", id);
-
-    if (error) {
-      console.error(error);
-      throw error;
-    }
-
-    return data;
-  },
-  async delete(id: number) {
-    const { data, error } = await supabase
-      .from("user_goals")
-      .delete()
       .eq("id", id);
 
     if (error) {
@@ -61,4 +58,4 @@ const userGoals = {
   },
 };
 
-export default userGoals;
+export default userData;

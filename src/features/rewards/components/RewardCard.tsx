@@ -1,12 +1,27 @@
+import Api from "@api";
 import { Text, View } from "@components/Themed";
+import { useUserContext } from "@context";
 import { IReward } from "@local-types/rewards";
+import { useMutation } from "@tanstack/react-query";
 import { StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 
 type RewardCardProps = {
   reward: IReward;
 };
 
 export const RewardCard = ({ reward }: RewardCardProps) => {
+  const { user } = useUserContext();
+  const userId = user?.id ?? "";
+
+  const { mutate: buyReward } = useMutation({
+    mutationFn: async (rewardId: number) => {
+      await Api.userData.updatePoints(-reward.price);
+
+      return Api.userRewards.create({ reward_id: rewardId, user_id: userId });
+    },
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
@@ -14,6 +29,7 @@ export const RewardCard = ({ reward }: RewardCardProps) => {
         <Text>duration: {reward.duration}</Text>
         <Text>price: {reward.price}</Text>
       </View>
+      <Button onPress={() => buyReward(reward.id)}>Buy</Button>
     </View>
   );
 };

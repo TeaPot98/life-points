@@ -256,6 +256,27 @@ export type Database = {
           },
         ]
       }
+      user_data: {
+        Row: {
+          created_at: string
+          id: number
+          points: number
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          points?: number
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          points?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_goals: {
         Row: {
           completed_count: number
@@ -334,7 +355,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_user_points: {
+        Args: { increment_amount: number }
+        Returns: number
+      }
     }
     Enums: {
       activity_type: "milestone" | "time" | "count"

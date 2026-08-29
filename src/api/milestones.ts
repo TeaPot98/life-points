@@ -8,7 +8,10 @@ const milestones = {
   async create(payload: MilestonesCreatePayload | MilestonesCreatePayload[]) {
     const { data, error } = await supabase.from("milestones").insert(payload);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -18,7 +21,10 @@ const milestones = {
       .select()
       .eq("user_id", userId);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -28,7 +34,10 @@ const milestones = {
       .update(payload)
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -38,7 +47,10 @@ const milestones = {
       .delete()
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },

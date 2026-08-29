@@ -27,6 +27,7 @@ export default function ReadingLayout() {
       />
       <Stack.Screen name="manage-reading" />
       <Stack.Screen name="create-book" />
+      <Stack.Screen name="edit-book/[id]" />
     </Stack>
   );
 }

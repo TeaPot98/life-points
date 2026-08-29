@@ -10,7 +10,10 @@ const rewardActivities = {
       .from("reward_activities")
       .insert(payload);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -20,7 +23,10 @@ const rewardActivities = {
       .select()
       .eq("user_id", userId);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -30,7 +36,10 @@ const rewardActivities = {
       .update(payload)
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -40,7 +49,10 @@ const rewardActivities = {
       .delete()
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },

@@ -2,6 +2,7 @@ import {
   ReadingTrackerCreatePayload,
   ReadingTrackerUpdatePayload,
 } from "@local-types/books";
+import { isNil } from "@utils";
 import { supabase } from "./supabase";
 
 const readingTracker = {
@@ -11,7 +12,10 @@ const readingTracker = {
       .insert(payload)
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data?.[0];
   },
@@ -21,9 +25,46 @@ const readingTracker = {
       .select()
       .eq("user_id", userId);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
-    return data?.[0];
+    return data;
+  },
+
+  async getStatistics(userId: string) {
+    const [
+      { data: readingTracker, error: readingTrackerError },
+      { count: totalBooks, error: totalBooksError },
+    ] = await Promise.all([
+      supabase
+        .from("reading_trackers")
+        .select("*, last_book:books (*)")
+        .eq("user_id", userId)
+        .single(),
+      supabase
+        .from("books")
+        .select("*", {
+          count: "exact",
+          head: true,
+        })
+        .eq("user_id", userId),
+    ]);
+
+    if (readingTrackerError) {
+      console.error(readingTrackerError);
+      throw readingTrackerError;
+    }
+
+    if (totalBooksError) {
+      console.error(totalBooksError);
+      throw totalBooksError;
+    }
+
+    if (isNil(readingTracker)) return;
+
+    return { ...readingTracker, total_books: totalBooks ?? 0 };
   },
   async update(id: number, payload: ReadingTrackerUpdatePayload) {
     const { data, error } = await supabase
@@ -31,17 +72,10 @@ const readingTracker = {
       .update(payload)
       .eq("id", id);
 
-    if (error) throw error;
-
-    return data;
-  },
-  async delete(id: number) {
-    const { data, error } = await supabase
-      .from("reading_trackers")
-      .delete()
-      .eq("id", id);
-
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },

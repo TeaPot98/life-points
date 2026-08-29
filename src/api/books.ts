@@ -5,7 +5,10 @@ const books = {
   async create(payload: BooksCreatePayload) {
     const { data, error } = await supabase.from("books").insert(payload);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -15,7 +18,25 @@ const books = {
       .select()
       .eq("user_id", userId);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  },
+  async getById(bookId: number, userId: string) {
+    const { data, error } = await supabase
+      .from("books")
+      .select()
+      .eq("id", bookId)
+      .eq("user_id", userId)
+      .single();
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -25,14 +46,20 @@ const books = {
       .update(payload)
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
   async delete(id: number) {
     const { data, error } = await supabase.from("books").delete().eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },

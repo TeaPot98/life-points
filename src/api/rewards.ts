@@ -8,7 +8,10 @@ const rewards = {
   async create(payload: RewardsCreatePayload) {
     const { data, error } = await supabase.from("rewards").insert(payload);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -18,7 +21,10 @@ const rewards = {
       .select("*, activity:reward_activities (*)")
       .eq("user_id", userId);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -28,7 +34,10 @@ const rewards = {
       .update(payload)
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -38,7 +47,10 @@ const rewards = {
       .delete()
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },

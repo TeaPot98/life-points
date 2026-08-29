@@ -8,7 +8,10 @@ const activities = {
   async create(payload: ActivitiesCreatePayload) {
     const { data, error } = await supabase.from("activities").insert(payload);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -18,7 +21,10 @@ const activities = {
       .select()
       .eq("user_id", userId);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -28,7 +34,10 @@ const activities = {
       .update(payload)
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -38,7 +47,10 @@ const activities = {
       .delete()
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },

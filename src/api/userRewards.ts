@@ -11,7 +11,10 @@ const userRewards = {
       .insert(payload)
       .select();
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -21,7 +24,10 @@ const userRewards = {
       .select("*, reward:rewards (*, activity:reward_activities (*))")
       .eq("user_id", userId);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -31,7 +37,10 @@ const userRewards = {
       .update(payload)
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -41,7 +50,10 @@ const userRewards = {
       .delete()
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },

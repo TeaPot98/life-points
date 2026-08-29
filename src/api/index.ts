@@ -6,6 +6,7 @@ import milestones from "./milestones";
 import readingTracker from "./readingTrackers";
 import rewardActivities from "./reward-activities";
 import rewards from "./rewards";
+import userData from "./userData";
 import userGoals from "./userGoals";
 import userRewards from "./userRewards";
 
@@ -22,6 +23,7 @@ const Api = {
   readingTracker,
   userGoals,
   userRewards,
+  userData,
 };
 
 export default Api;

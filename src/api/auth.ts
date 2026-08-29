@@ -13,7 +13,10 @@ const auth = {
       password,
     });
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
@@ -29,7 +32,10 @@ const auth = {
       password,
     });
 
-    if (error) throw error;
+    if (error) {
+      console.error(error);
+      throw error;
+    }
 
     return data;
   },
