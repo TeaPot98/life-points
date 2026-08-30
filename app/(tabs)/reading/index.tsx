@@ -1,14 +1,14 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Api from "@api";
 import { FAB } from "@components/FAB";
-import { Text, View } from "@components/Themed";
 import { useUserContext } from "@context";
 import { BookCard, ReadingStatistics } from "@features/reading/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { isNil } from "@utils";
 import { useRouter } from "expo-router";
+import { Text } from "react-native-paper";
 
 export default function ReadingTabScreen() {
   const router = useRouter();
@@ -28,19 +28,11 @@ export default function ReadingTabScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Reading Tab</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <View style={styles.separator} />
       {!isNil(readingStatistics) && (
         <ReadingStatistics readingStatistics={readingStatistics} />
       )}
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <View style={styles.separator} />
       {books?.map((book) => (
         <BookCard key={book.id} book={book} />
       ))}
@@ -50,7 +42,7 @@ export default function ReadingTabScreen() {
             {
               icon: "book",
               label: "New Book",
-              onPress: () => router.push("/reading/create-book"),
+              onPress: () => router.push("/reading/books/create"),
             },
           ]}
         />

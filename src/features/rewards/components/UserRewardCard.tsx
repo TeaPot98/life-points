@@ -1,6 +1,6 @@
-import { Text, View } from "@components/Themed";
 import { IUserReward } from "@local-types/rewards";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 
 type UserRewardCardProps = {
   userReward: IUserReward;

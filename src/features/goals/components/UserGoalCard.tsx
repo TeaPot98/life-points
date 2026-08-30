@@ -1,11 +1,10 @@
 import { ProgressBar } from "@components/ProgressBar";
-import { Text, View } from "@components/Themed";
 import { IUserGoal } from "@local-types/goals";
 import { isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
 import { useRouter } from "expo-router";
-import { StyleSheet } from "react-native";
-import { Button, Card } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Card, Text } from "react-native-paper";
 
 type UserGoalCardProps = {
   userGoal: IUserGoal;

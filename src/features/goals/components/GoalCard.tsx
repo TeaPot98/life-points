@@ -1,8 +1,7 @@
-import { Text, View } from "@components/Themed";
 import { IGoal } from "@local-types/goals";
 import { useRouter } from "expo-router";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 type GoalCardProps = {
   goal: IGoal;

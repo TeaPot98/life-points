@@ -23,7 +23,7 @@ export const MilestonesGoalForm = () => {
       <ControlledNumericInput
         control={control}
         name="reward"
-        textInputPros={{ label: "Final Reward" }}
+        inputProps={{ label: "Final Reward" }}
       />
       <MilestonesInput control={control} />
     </>

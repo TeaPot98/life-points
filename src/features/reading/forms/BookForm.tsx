@@ -1,9 +1,8 @@
 import { ControlledNumericInput } from "@components/ControlledNumberInput";
 import { ControlledTextInput } from "@components/ControlledTextInput";
-import { View } from "@components/Themed";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 
 export type BookFormValues = {

@@ -18,7 +18,7 @@ export const TimeBasedGoalForm = () => {
       <ControlledNumericInput
         control={control}
         name="duration"
-        textInputPros={{ label: "Duration" }}
+        inputProps={{ label: "Duration" }}
       />
       <ControlledPicker
         control={control}
@@ -28,7 +28,7 @@ export const TimeBasedGoalForm = () => {
       <ControlledNumericInput
         control={control}
         name="reward"
-        textInputPros={{ label: "Reward" }}
+        inputProps={{ label: "Reward" }}
       />
     </>
   );

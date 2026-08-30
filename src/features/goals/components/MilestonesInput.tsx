@@ -1,9 +1,9 @@
 import { NumberInput } from "@components/NumberInput";
-import { Text, View } from "@components/Themed";
 import { IDraftMilestone } from "@local-types/goals";
 import { useState } from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
-import { Button, TextInput } from "react-native-paper";
+import { View } from "react-native";
+import { Button, Text, TextInput } from "react-native-paper";
 
 const EMPTY_MILESTONE = {
   name: "",

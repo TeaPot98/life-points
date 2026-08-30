@@ -1,9 +1,8 @@
-import { Text, View } from "@components/Themed";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IActivity } from "@local-types/activities";
 import { useRouter } from "expo-router";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 type ActivityCardProps = {
   activity: IActivity;

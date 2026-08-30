@@ -1,5 +1,6 @@
-import { Text, View } from "@components/Themed";
 import { IReadingStatistics } from "@local-types/books";
+import { View } from "react-native";
+import { Text } from "react-native-paper";
 
 type ReadingStatisticsProps = {
   readingStatistics: IReadingStatistics | undefined;

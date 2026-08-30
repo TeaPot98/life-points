@@ -1,13 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Api from "@api";
 import { FAB } from "@components/FAB";
-import { Text, View } from "@components/Themed";
 import { useUserContext } from "@context";
 import { GoalCard } from "@features/goals/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import { Text } from "react-native-paper";
 
 export default function ManageGoalsScreen() {
   const router = useRouter();
@@ -22,11 +22,7 @@ export default function ManageGoalsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Goals Tab</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <View style={styles.separator} />
       {goals?.map((goal) => (
         <GoalCard key={goal.id} goal={goal} />
       ))}

@@ -5,8 +5,7 @@ import {
   FieldPathByValue,
   FieldValues,
 } from "react-hook-form";
-import { TextInputProps } from "react-native-paper";
-import { NumberInput } from "./NumberInput";
+import { NumberInput, NumberInputProps } from "./NumberInput";
 
 type NumericPath<T extends FieldValues> =
   | FieldPathByValue<T, number>
@@ -22,7 +21,7 @@ type ControlledNumericInputProps<
     ControllerProps<T, TName>,
     "name" | "control" | "render"
   >;
-  textInputPros?: Omit<TextInputProps, "value" | "onChangeText" | "onBlur">;
+  inputProps?: Omit<NumberInputProps, "value" | "onChange" | "onBlur">;
 };
 
 export const ControlledNumericInput = <
@@ -32,7 +31,7 @@ export const ControlledNumericInput = <
   control,
   controllerProps,
   name,
-  textInputPros,
+  inputProps,
 }: ControlledNumericInputProps<T, TName>) => {
   return (
     <Controller
@@ -40,7 +39,12 @@ export const ControlledNumericInput = <
       name={name}
       {...controllerProps}
       render={({ field: { onChange, onBlur, value } }) => (
-        <NumberInput onChange={onChange} onBlur={onBlur} value={value} />
+        <NumberInput
+          onChange={onChange}
+          onBlur={onBlur}
+          value={value}
+          {...inputProps}
+        />
       )}
     />
   );

@@ -1,14 +1,13 @@
 import Api from "@api";
 import { ControlledPicker } from "@components/ControlledPicker";
 import { ControlledTextInput } from "@components/ControlledTextInput";
-import { View } from "@components/Themed";
 import { useUserContext } from "@context";
 import { ActivityType } from "@local-types/activities";
 import { GoalSchedule, IDraftMilestone } from "@local-types/goals";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-paper";
 import { CountBasedGoalForm } from "./CountBasedGoalForm";
 import { MilestonesGoalForm } from "./MilestonesGoalForm";

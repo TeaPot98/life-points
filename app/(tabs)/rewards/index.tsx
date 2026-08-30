@@ -1,14 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Api from "@api";
 import { FAB } from "@components/FAB";
-import { Text, View } from "@components/Themed";
 import { useUserContext } from "@context";
 import { UserRewardCard } from "@features/rewards/components/UserRewardCard";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Button } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 
 export default function UserRewardsTabScreen() {
   const router = useRouter();
@@ -37,11 +36,7 @@ export default function UserRewardsTabScreen() {
       >
         Buy Rewards
       </Button>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <View style={styles.separator} />
       {userRewards?.map((userReward) => (
         <UserRewardCard key={userReward.id} userReward={userReward} />
       ))}

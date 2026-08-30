@@ -1,9 +1,4 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -12,7 +7,14 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@components/useColorScheme";
 import { UserContextProvider } from "@context";
+import { ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  CustomDarkTheme,
+  CustomLightTheme,
+  CustomNavigationDarkTheme,
+  CustomNavigationLightTheme,
+} from "@theme";
 import { PaperProvider } from "react-native-paper";
 
 export {
@@ -22,7 +24,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "(tabs)/goals",
 };
 
 const queryClient = new QueryClient();
@@ -60,12 +62,20 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  console.log({ colorScheme });
+
   return (
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
-        <PaperProvider>
+        <PaperProvider
+          theme={colorScheme === "dark" ? CustomDarkTheme : CustomLightTheme}
+        >
           <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            value={
+              colorScheme === "dark"
+                ? CustomNavigationDarkTheme
+                : CustomNavigationLightTheme
+            }
           >
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

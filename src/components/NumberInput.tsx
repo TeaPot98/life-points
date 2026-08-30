@@ -1,7 +1,7 @@
 import { isNil } from "@utils";
 import { TextInput, TextInputProps } from "react-native-paper";
 
-interface NumberInputProps extends Omit<
+export interface NumberInputProps extends Omit<
   TextInputProps,
   "value" | "onChange" | "keyboardType" | "onChangeText"
 > {

@@ -1,5 +1,4 @@
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { View } from "./Themed";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 
 const COLORS_MAP = {
   primary: {

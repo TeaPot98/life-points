@@ -1,10 +1,9 @@
 import Api from "@api";
-import { Text, View } from "@components/Themed";
 import { useUserContext } from "@context";
 import { IReward } from "@local-types/rewards";
 import { useMutation } from "@tanstack/react-query";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 type RewardCardProps = {
   reward: IReward;

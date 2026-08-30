@@ -1,8 +1,7 @@
-import { Text, View } from "@components/Themed";
 import { IRewardActivity } from "@local-types/rewards";
 import { useRouter } from "expo-router";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 type RewardActivityCardProps = {
   rewardActivity: IRewardActivity;
@@ -22,7 +21,7 @@ export const RewardActivityCard = ({
       <Button
         onPress={() =>
           router.push({
-            pathname: "/rewards/edit-reward-activity/[id]",
+            pathname: "/rewards/reward-activities/[id]/edit",
             params: { id: String(rewardActivity.id) },
           })
         }

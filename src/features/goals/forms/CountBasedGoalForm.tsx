@@ -19,7 +19,7 @@ export const CountBasedGoalForm = () => {
       <ControlledNumericInput
         control={control}
         name="goal_count"
-        textInputPros={{ label: "Goal Count" }}
+        inputProps={{ label: "Goal Count" }}
       />
       <ControlledPicker
         control={control}
@@ -29,12 +29,12 @@ export const CountBasedGoalForm = () => {
       <ControlledNumericInput
         control={control}
         name="reward_per_item"
-        textInputPros={{ label: "Reward per Item" }}
+        inputProps={{ label: "Reward per Item" }}
       />
       <ControlledNumericInput
         control={control}
         name="reward"
-        textInputPros={{ label: "Final Reward" }}
+        inputProps={{ label: "Final Reward" }}
       />
     </>
   );

@@ -1,13 +1,12 @@
 import Api from "@api";
 import { ProgressBar } from "@components/ProgressBar";
-import { Text, View } from "@components/Themed";
 import { IMilestone, IUserGoal } from "@local-types/goals";
 import { useMutation } from "@tanstack/react-query";
 import { isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
 import dayjs from "dayjs";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 type MilestoneUserGoalDetailsProps = {
   userGoal: IUserGoal;
