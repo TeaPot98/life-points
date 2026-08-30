@@ -39,7 +39,7 @@ export default function ManageRewardActivitiesScreen() {
             {
               icon: "star",
               label: "Reward Activity",
-              onPress: () => router.push("/goals/create-activity"),
+              onPress: () => router.push("/goals/activities/create"),
             },
           ]}
         />

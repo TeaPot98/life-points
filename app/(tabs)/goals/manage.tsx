@@ -36,12 +36,12 @@ export default function ManageGoalsScreen() {
             {
               icon: "star",
               label: "Activity",
-              onPress: () => router.push("/goals/create-activity"),
+              onPress: () => router.push("/goals/activities/create"),
             },
             {
               icon: "star",
               label: "Goal",
-              onPress: () => router.push("/goals/create-goal"),
+              onPress: () => router.push("/goals/create"),
             },
           ]}
         />

@@ -3,15 +3,19 @@ import { Text, View } from "@components/Themed";
 import { IUserGoal } from "@local-types/goals";
 import { isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
+import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
+import { Button, Card } from "react-native-paper";
 
 type UserGoalCardProps = {
   userGoal: IUserGoal;
 };
 
 export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
+  const router = useRouter();
   const percentage = computeGoalCompletionPercentage(userGoal);
   const {
+    id,
     goal: {
       type,
       duration,
@@ -25,24 +29,39 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
   } = userGoal;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.rowContainer}>
-        {/* <View style={styles.iconContainer}>
+    <Card
+      onPress={() =>
+        router.push({
+          pathname: "/(tabs)/goals/user-goals/[id]",
+          params: { id },
+        })
+      }
+    >
+      <Card.Content>
+        <View style={styles.container}>
+          <View style={styles.rowContainer}>
+            {/* <View style={styles.iconContainer}>
           <FontAwesome name={icon} size={24} />
         </View> */}
-        <Text>{name}</Text>
-        <Text>{type}</Text>
-        <Text>{duration}</Text>
-        <Text>{goal_count}</Text>
-        <Text>{activity_id}</Text>
-        <Text>{reward}</Text>
-        <Text>{reward_per_item}</Text>
-        <Text>{schedule}</Text>
-      </View>
-      {!isNil(percentage) && (
-        <ProgressBar percentage={percentage} style={{ alignSelf: "stretch" }} />
-      )}
-    </View>
+            <Text>{name}</Text>
+            <Text>{type}</Text>
+            <Text>{duration}</Text>
+            <Text>{goal_count}</Text>
+            <Text>{activity_id}</Text>
+            <Text>{reward}</Text>
+            <Text>{reward_per_item}</Text>
+            <Text>{schedule}</Text>
+          </View>
+          {!isNil(percentage) && (
+            <ProgressBar
+              percentage={percentage}
+              style={{ alignSelf: "stretch" }}
+            />
+          )}
+          <Button>Edit</Button>
+        </View>
+      </Card.Content>
+    </Card>
   );
 };
 

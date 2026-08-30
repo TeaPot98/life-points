@@ -16,7 +16,9 @@ export type MilestonesCreatePayload =
 
 export type IMilestone = Database["public"]["Tables"]["milestones"]["Row"];
 
-export type IDraftMilestone = Pick<IMilestone, "name" | "reward">;
+export type IDraftMilestone = Pick<IMilestone, "name" | "reward"> & {
+  id?: number;
+};
 
 export type IGoal = Database["public"]["Tables"]["goals"]["Row"];
 

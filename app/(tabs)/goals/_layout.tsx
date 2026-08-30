@@ -17,7 +17,7 @@ export default function ActivitiesLayout() {
         options={{
           headerLeft: () => (
             <Pressable
-              onPress={() => router.push("/goals/manage-goals")}
+              onPress={() => router.push("/goals/manage")}
               style={{ backgroundColor: "#ccc" }}
             >
               <FontAwesome name="cog" size={24} />
@@ -27,8 +27,8 @@ export default function ActivitiesLayout() {
       />
       <Stack.Screen name="manage" />
       <Stack.Screen name="create" />
-      <Stack.Screen name="[id]" />
       <Stack.Screen name="[id]/edit" />
+      <Stack.Screen name="user-goals/[id]" />
       <Stack.Screen name="activities/manage" />
       <Stack.Screen name="activities/create" />
       <Stack.Screen name="activities/[id]/edit" />

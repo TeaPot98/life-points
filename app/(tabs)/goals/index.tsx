@@ -25,7 +25,7 @@ export default function GoalsTabScreen() {
       <Text style={styles.title}>Goals Tab</Text>
       <Button
         onPress={() => {
-          router.push("/goals/manage-activities");
+          router.push("/goals/activities/manage");
         }}
       >
         Manage Activities
@@ -44,12 +44,12 @@ export default function GoalsTabScreen() {
             {
               icon: "star",
               label: "Activity",
-              onPress: () => router.push("/goals/create-activity"),
+              onPress: () => router.push("/goals/activities/create"),
             },
             {
               icon: "star",
               label: "Goal",
-              onPress: () => router.push("/goals/create-goal"),
+              onPress: () => router.push("/goals/create"),
             },
           ]}
         />

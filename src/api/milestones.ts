@@ -41,11 +41,11 @@ const milestones = {
 
     return data;
   },
-  async delete(id: number) {
+  async delete(id: number | number[]) {
     const { data, error } = await supabase
       .from("milestones")
       .delete()
-      .eq("id", id);
+      .in("id", Array.isArray(id) ? id : [id]);
 
     if (error) {
       console.error(error);

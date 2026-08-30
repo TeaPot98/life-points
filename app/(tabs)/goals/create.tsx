@@ -1,61 +1,12 @@
 import Api from "@api";
-import { ControlledPicker } from "@components/ControlledPicker";
-import { ControlledTextInput } from "@components/ControlledTextInput";
-import { View } from "@components/Themed";
 import { useUserContext } from "@context";
-import {
-  CountBasedGoalForm,
-  MilestonesGoalForm,
-  TimeBasedGoalForm,
-} from "@features/goals";
-import { ActivityType } from "@local-types/activities";
-import { GoalSchedule, IDraftMilestone } from "@local-types/goals";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { GoalForm, GoalFormValues } from "@features/goals";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { useEffect, useMemo } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
-
-type FormFieldValues = {
-  activity_id: number;
-  reward: number;
-  type: ActivityType;
-  name: string;
-  duration?: number;
-  reward_per_item?: number;
-  schedule?: GoalSchedule;
-  goal_count?: number;
-  milestones?: IDraftMilestone[];
-};
-
-const activityTypeOptions = [
-  {
-    label: "Count",
-    value: "count",
-  },
-  {
-    label: "Time-based",
-    value: "time",
-  },
-  {
-    label: "Milestone",
-    value: "milestone",
-  },
-] satisfies { label: string; value: ActivityType }[];
 
 export default function CreateGoalScreen() {
   const router = useRouter();
   const { user } = useUserContext();
-  const form = useForm<FormFieldValues>({
-    defaultValues: { schedule: "none", type: "time" },
-  });
-  const { handleSubmit, control, watch, reset } = form;
-
-  const { data: activities, isSuccess } = useQuery({
-    queryKey: ["activities"],
-    queryFn: () => Api.activities.getAll(user?.id ?? ""),
-  });
 
   const { mutateAsync: createGoal } = useMutation({
     mutationFn: Api.goals.create,
@@ -64,15 +15,6 @@ export default function CreateGoalScreen() {
   const { mutateAsync: createMilestones } = useMutation({
     mutationFn: Api.milestones.create,
   });
-
-  useEffect(() => {
-    if (!isSuccess || !activities?.length) return;
-
-    reset((prev) => ({
-      ...prev,
-      activity_id: activities[0].id,
-    }));
-  }, [activities, isSuccess, reset]);
 
   const onSubmit = async ({
     milestones,
@@ -84,7 +26,7 @@ export default function CreateGoalScreen() {
     goal_count,
     reward_per_item,
     schedule = "none",
-  }: FormFieldValues) => {
+  }: GoalFormValues) => {
     try {
       switch (type) {
         case "count":
@@ -141,46 +83,5 @@ export default function CreateGoalScreen() {
     }
   };
 
-  const activitiesOptions = useMemo(
-    () =>
-      activities?.map((activity) => ({
-        label: activity.name,
-        value: activity.id,
-      })) ?? [],
-    [activities],
-  );
-
-  return (
-    <FormProvider {...form}>
-      <View style={styles.container}>
-        <ControlledTextInput
-          control={control}
-          name="name"
-          textInputPros={{ label: "Name" }}
-        />
-        <ControlledPicker
-          control={control}
-          name="activity_id"
-          options={activitiesOptions}
-        />
-        <ControlledPicker
-          control={control}
-          name="type"
-          options={activityTypeOptions}
-        />
-        {watch("type") === "time" && <TimeBasedGoalForm />}
-        {watch("type") === "count" && <CountBasedGoalForm />}
-        {watch("type") === "milestone" && <MilestonesGoalForm />}
-        <Button icon="plus" onPress={handleSubmit(onSubmit)}>
-          Save
-        </Button>
-      </View>
-    </FormProvider>
-  );
+  return <GoalForm onSubmit={onSubmit} />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-  },
-});
