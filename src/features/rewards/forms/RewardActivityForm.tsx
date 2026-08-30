@@ -1,24 +1,32 @@
-import Api from "@api";
 import { ControlledTextInput } from "@components/ControlledTextInput";
 import { View } from "@components/Themed";
-import { useUserContext } from "@context";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
-type FormFieldValues = {
+export type RewardActivityFormValues = {
   name: string;
   icon: string;
   color: string;
 };
 
-export default function CreateRewardActivityScreen() {
-  const { user } = useUserContext();
-  const { handleSubmit, control } = useForm<FormFieldValues>();
+type RewardActivityFormProps = {
+  defaultValues?: RewardActivityFormValues;
+  onSubmit: (values: RewardActivityFormValues) => void;
+};
 
-  const onSubmit = (values: FormFieldValues) => {
-    Api.rewardActivities.create({ ...values, user_id: user?.id ?? "" });
-  };
+export const RewardActivityForm = ({
+  onSubmit,
+  defaultValues,
+}: RewardActivityFormProps) => {
+  const { handleSubmit, control, reset } = useForm<RewardActivityFormValues>({
+    defaultValues,
+  });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   return (
     <View style={styles.container}>
@@ -42,7 +50,7 @@ export default function CreateRewardActivityScreen() {
       </Button>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

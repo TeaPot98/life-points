@@ -25,10 +25,13 @@ export default function ActivitiesLayout() {
           ),
         }}
       />
-      <Stack.Screen name="manage-goals" />
-      <Stack.Screen name="manage-activities" />
-      <Stack.Screen name="create-goal" />
-      <Stack.Screen name="create-activity" />
+      <Stack.Screen name="manage" />
+      <Stack.Screen name="create" />
+      <Stack.Screen name="[id]" />
+      <Stack.Screen name="[id]/edit" />
+      <Stack.Screen name="activities/manage" />
+      <Stack.Screen name="activities/create" />
+      <Stack.Screen name="activities/[id]/edit" />
     </Stack>
   );
 }

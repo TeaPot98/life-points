@@ -22,7 +22,7 @@ export const BookCard = ({ book }: BookCardProps) => {
       <Button
         onPress={() =>
           router.push({
-            pathname: "/reading/edit-book/[id]",
+            pathname: "/reading/books/[id]/edit",
             params: { id: String(book.id) },
           })
         }

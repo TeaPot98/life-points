@@ -4,392 +4,395 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
+    PostgrestVersion: "14.5";
+  };
   public: {
     Tables: {
       activities: {
         Row: {
-          color: string
-          created_at: string
-          icon: string | null
-          id: number
-          name: string
-          user_id: string
-        }
+          color: string;
+          created_at: string;
+          icon: string;
+          id: number;
+          name: string;
+          user_id: string;
+        };
         Insert: {
-          color: string
-          created_at?: string
-          icon?: string | null
-          id?: number
-          name: string
-          user_id: string
-        }
+          color: string;
+          created_at?: string;
+          icon: string;
+          id?: number;
+          name: string;
+          user_id: string;
+        };
         Update: {
-          color?: string
-          created_at?: string
-          icon?: string | null
-          id?: number
-          name?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          color?: string;
+          created_at?: string;
+          icon?: string;
+          id?: number;
+          name?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       books: {
         Row: {
-          author: string
-          created_at: string
-          id: number
-          last_updated_at: string | null
-          number_of_pages: number
-          read_pages: number
-          title: string
-          user_id: string
-        }
+          author: string;
+          created_at: string;
+          id: number;
+          last_updated_at: string | null;
+          number_of_pages: number;
+          read_pages: number;
+          title: string;
+          user_id: string;
+        };
         Insert: {
-          author: string
-          created_at?: string
-          id?: number
-          last_updated_at?: string | null
-          number_of_pages: number
-          read_pages?: number
-          title: string
-          user_id: string
-        }
+          author: string;
+          created_at?: string;
+          id?: number;
+          last_updated_at?: string | null;
+          number_of_pages: number;
+          read_pages?: number;
+          title: string;
+          user_id: string;
+        };
         Update: {
-          author?: string
-          created_at?: string
-          id?: number
-          last_updated_at?: string | null
-          number_of_pages?: number
-          read_pages?: number
-          title?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          author?: string;
+          created_at?: string;
+          id?: number;
+          last_updated_at?: string | null;
+          number_of_pages?: number;
+          read_pages?: number;
+          title?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       goals: {
         Row: {
-          activity_id: number
-          created_at: string
-          duration: number | null
-          goal_count: number
-          id: number
-          name: string
-          reward: number
-          reward_per_item: number
-          schedule: Database["public"]["Enums"]["goal_schedule"]
-          type: Database["public"]["Enums"]["activity_type"]
-          user_id: string
-        }
+          activity_id: number;
+          created_at: string;
+          duration: number | null;
+          goal_count: number;
+          id: number;
+          name: string;
+          reward: number;
+          reward_per_item: number;
+          schedule: Database["public"]["Enums"]["goal_schedule"];
+          type: Database["public"]["Enums"]["activity_type"];
+          user_id: string;
+        };
         Insert: {
-          activity_id: number
-          created_at?: string
-          duration?: number | null
-          goal_count?: number
-          id?: number
-          name: string
-          reward: number
-          reward_per_item?: number
-          schedule: Database["public"]["Enums"]["goal_schedule"]
-          type: Database["public"]["Enums"]["activity_type"]
-          user_id: string
-        }
+          activity_id: number;
+          created_at?: string;
+          duration?: number | null;
+          goal_count?: number;
+          id?: number;
+          name: string;
+          reward: number;
+          reward_per_item?: number;
+          schedule: Database["public"]["Enums"]["goal_schedule"];
+          type: Database["public"]["Enums"]["activity_type"];
+          user_id: string;
+        };
         Update: {
-          activity_id?: number
-          created_at?: string
-          duration?: number | null
-          goal_count?: number
-          id?: number
-          name?: string
-          reward?: number
-          reward_per_item?: number
-          schedule?: Database["public"]["Enums"]["goal_schedule"]
-          type?: Database["public"]["Enums"]["activity_type"]
-          user_id?: string
-        }
+          activity_id?: number;
+          created_at?: string;
+          duration?: number | null;
+          goal_count?: number;
+          id?: number;
+          name?: string;
+          reward?: number;
+          reward_per_item?: number;
+          schedule?: Database["public"]["Enums"]["goal_schedule"];
+          type?: Database["public"]["Enums"]["activity_type"];
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "goals_activity_id_fkey"
-            columns: ["activity_id"]
-            isOneToOne: false
-            referencedRelation: "activities"
-            referencedColumns: ["id"]
+            foreignKeyName: "goals_activity_id_fkey";
+            columns: ["activity_id"];
+            isOneToOne: false;
+            referencedRelation: "activities";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       milestones: {
         Row: {
-          completed_at: string | null
-          created_at: string
-          goal_id: number
-          id: number
-          name: string
-          reward: number
-          user_id: string
-        }
+          completed_at: string | null;
+          created_at: string;
+          goal_id: number;
+          id: number;
+          name: string;
+          reward: number;
+          user_id: string;
+        };
         Insert: {
-          completed_at?: string | null
-          created_at?: string
-          goal_id: number
-          id?: number
-          name: string
-          reward: number
-          user_id: string
-        }
+          completed_at?: string | null;
+          created_at?: string;
+          goal_id: number;
+          id?: number;
+          name: string;
+          reward: number;
+          user_id: string;
+        };
         Update: {
-          completed_at?: string | null
-          created_at?: string
-          goal_id?: number
-          id?: number
-          name?: string
-          reward?: number
-          user_id?: string
-        }
+          completed_at?: string | null;
+          created_at?: string;
+          goal_id?: number;
+          id?: number;
+          name?: string;
+          reward?: number;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "milestones_goal_id_fkey"
-            columns: ["goal_id"]
-            isOneToOne: false
-            referencedRelation: "goals"
-            referencedColumns: ["id"]
+            foreignKeyName: "milestones_goal_id_fkey";
+            columns: ["goal_id"];
+            isOneToOne: false;
+            referencedRelation: "goals";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       reading_trackers: {
         Row: {
-          created_at: string
-          id: number
-          latest_book_id: number | null
-          reward_per_page: number
-          user_id: string
-        }
+          created_at: string;
+          id: number;
+          latest_book_id: number | null;
+          reward_per_page: number;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          id?: number
-          latest_book_id?: number | null
-          reward_per_page?: number
-          user_id: string
-        }
+          created_at?: string;
+          id?: number;
+          latest_book_id?: number | null;
+          reward_per_page?: number;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          id?: number
-          latest_book_id?: number | null
-          reward_per_page?: number
-          user_id?: string
-        }
+          created_at?: string;
+          id?: number;
+          latest_book_id?: number | null;
+          reward_per_page?: number;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "reading_trackers_latest_book_id_fkey"
-            columns: ["latest_book_id"]
-            isOneToOne: false
-            referencedRelation: "books"
-            referencedColumns: ["id"]
+            foreignKeyName: "reading_trackers_latest_book_id_fkey";
+            columns: ["latest_book_id"];
+            isOneToOne: false;
+            referencedRelation: "books";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       reward_activities: {
         Row: {
-          color: string
-          created_at: string
-          icon: string
-          id: number
-          name: string
-          user_id: string
-        }
+          color: string;
+          created_at: string;
+          icon: string;
+          id: number;
+          name: string;
+          user_id: string;
+        };
         Insert: {
-          color: string
-          created_at?: string
-          icon: string
-          id?: number
-          name: string
-          user_id: string
-        }
+          color: string;
+          created_at?: string;
+          icon: string;
+          id?: number;
+          name: string;
+          user_id: string;
+        };
         Update: {
-          color?: string
-          created_at?: string
-          icon?: string
-          id?: number
-          name?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+          color?: string;
+          created_at?: string;
+          icon?: string;
+          id?: number;
+          name?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       rewards: {
         Row: {
-          created_at: string
-          duration: number | null
-          id: number
-          price: number
-          reward_activity_id: number
-          user_id: string
-        }
+          created_at: string;
+          duration: number | null;
+          id: number;
+          price: number;
+          reward_activity_id: number;
+          user_id: string;
+        };
         Insert: {
-          created_at?: string
-          duration?: number | null
-          id?: number
-          price: number
-          reward_activity_id: number
-          user_id: string
-        }
+          created_at?: string;
+          duration?: number | null;
+          id?: number;
+          price: number;
+          reward_activity_id: number;
+          user_id: string;
+        };
         Update: {
-          created_at?: string
-          duration?: number | null
-          id?: number
-          price?: number
-          reward_activity_id?: number
-          user_id?: string
-        }
+          created_at?: string;
+          duration?: number | null;
+          id?: number;
+          price?: number;
+          reward_activity_id?: number;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "rewards_reward_activity_id_fkey"
-            columns: ["reward_activity_id"]
-            isOneToOne: false
-            referencedRelation: "reward_activities"
-            referencedColumns: ["id"]
+            foreignKeyName: "rewards_reward_activity_id_fkey";
+            columns: ["reward_activity_id"];
+            isOneToOne: false;
+            referencedRelation: "reward_activities";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       user_data: {
         Row: {
-          created_at: string
-          id: number
-          points: number
-          user_id: string | null
-        }
+          created_at: string;
+          id: number;
+          points: number;
+          user_id: string | null;
+        };
         Insert: {
-          created_at?: string
-          id?: number
-          points?: number
-          user_id?: string | null
-        }
+          created_at?: string;
+          id?: number;
+          points?: number;
+          user_id?: string | null;
+        };
         Update: {
-          created_at?: string
-          id?: number
-          points?: number
-          user_id?: string | null
-        }
-        Relationships: []
-      }
+          created_at?: string;
+          id?: number;
+          points?: number;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
       user_goals: {
         Row: {
-          completed_count: number
-          completed_duration: number
-          completed_milestones: number[]
-          created_at: string
-          goal_id: number
-          id: number
-          started_at: string
-          user_id: string
-        }
+          completed_count: number;
+          completed_duration: number;
+          completed_milestones: number[];
+          created_at: string;
+          goal_id: number;
+          id: number;
+          started_at: string;
+          user_id: string;
+        };
         Insert: {
-          completed_count?: number
-          completed_duration?: number
-          completed_milestones?: number[]
-          created_at?: string
-          goal_id: number
-          id?: number
-          started_at: string
-          user_id: string
-        }
+          completed_count?: number;
+          completed_duration?: number;
+          completed_milestones?: number[];
+          created_at?: string;
+          goal_id: number;
+          id?: number;
+          started_at: string;
+          user_id: string;
+        };
         Update: {
-          completed_count?: number
-          completed_duration?: number
-          completed_milestones?: number[]
-          created_at?: string
-          goal_id?: number
-          id?: number
-          started_at?: string
-          user_id?: string
-        }
+          completed_count?: number;
+          completed_duration?: number;
+          completed_milestones?: number[];
+          created_at?: string;
+          goal_id?: number;
+          id?: number;
+          started_at?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "user_goals_goal_id_fkey"
-            columns: ["goal_id"]
-            isOneToOne: false
-            referencedRelation: "goals"
-            referencedColumns: ["id"]
+            foreignKeyName: "user_goals_goal_id_fkey";
+            columns: ["goal_id"];
+            isOneToOne: false;
+            referencedRelation: "goals";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       user_rewards: {
         Row: {
-          claimed_at: string | null
-          created_at: string
-          id: number
-          reward_id: number
-          user_id: string
-        }
+          claimed_at: string | null;
+          created_at: string;
+          id: number;
+          reward_id: number;
+          user_id: string;
+        };
         Insert: {
-          claimed_at?: string | null
-          created_at?: string
-          id?: number
-          reward_id: number
-          user_id: string
-        }
+          claimed_at?: string | null;
+          created_at?: string;
+          id?: number;
+          reward_id: number;
+          user_id: string;
+        };
         Update: {
-          claimed_at?: string | null
-          created_at?: string
-          id?: number
-          reward_id?: number
-          user_id?: string
-        }
+          claimed_at?: string | null;
+          created_at?: string;
+          id?: number;
+          reward_id?: number;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "user_rewards_reward_id_fkey"
-            columns: ["reward_id"]
-            isOneToOne: false
-            referencedRelation: "rewards"
-            referencedColumns: ["id"]
+            foreignKeyName: "user_rewards_reward_id_fkey";
+            columns: ["reward_id"];
+            isOneToOne: false;
+            referencedRelation: "rewards";
+            referencedColumns: ["id"];
           },
-        ]
-      }
-    }
+        ];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
       update_user_points: {
-        Args: { increment_amount: number }
-        Returns: number
-      }
-    }
+        Args: { increment_amount: number };
+        Returns: number;
+      };
+    };
     Enums: {
-      activity_type: "milestone" | "time" | "count"
-      goal_schedule: "none" | "daily" | "weekly" | "monthly" | "yearly"
-    }
+      activity_type: "milestone" | "time" | "count";
+      goal_schedule: "none" | "daily" | "weekly" | "monthly" | "yearly";
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">;
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+type DefaultSchema = DatabaseWithoutInternals[Extract<
+  keyof Database,
+  "public"
+>];
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
       DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
@@ -397,95 +400,95 @@ export type Tables<
         DefaultSchema["Views"])
     ? (DefaultSchema["Tables"] &
         DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
     ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
     ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof DatabaseWithoutInternals
+    schema: keyof DatabaseWithoutInternals;
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
-  schema: keyof DatabaseWithoutInternals
+  schema: keyof DatabaseWithoutInternals;
 }
   ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
     ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+    : never;
 
 export const Constants = {
   public: {
@@ -494,4 +497,4 @@ export const Constants = {
       goal_schedule: ["none", "daily", "weekly", "monthly", "yearly"],
     },
   },
-} as const
+} as const;

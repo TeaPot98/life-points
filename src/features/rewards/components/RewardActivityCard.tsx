@@ -1,30 +1,29 @@
 import { Text, View } from "@components/Themed";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IActivity } from "@local-types/activities";
+import { IRewardActivity } from "@local-types/rewards";
 import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
-type ActivityCardProps = {
-  activity: IActivity;
+type RewardActivityCardProps = {
+  rewardActivity: IRewardActivity;
 };
 
-export const ActivityCard = ({ activity }: ActivityCardProps) => {
+export const RewardActivityCard = ({
+  rewardActivity,
+}: RewardActivityCardProps) => {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
-        <View style={styles.iconContainer}>
-          <FontAwesome name={activity.icon} size={24} />
-        </View>
-        <Text>{activity.name}</Text>
+        <Text>{rewardActivity.name}</Text>
+        <Text>{rewardActivity.icon}</Text>
       </View>
       <Button
         onPress={() =>
           router.push({
-            pathname: "/goals/activities/[id]/edit",
-            params: { id: String(activity.id) },
+            pathname: "/rewards/edit-reward-activity/[id]",
+            params: { id: String(rewardActivity.id) },
           })
         }
       >

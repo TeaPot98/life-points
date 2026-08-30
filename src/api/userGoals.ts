@@ -33,6 +33,23 @@ const userGoals = {
 
     return data;
   },
+  async getById(userGoalId: number, userId: string) {
+    const { data, error } = await supabase
+      .from("user_goals")
+      .select("*, goal:goals (*, milestones:milestones (*))")
+      .eq("id", userGoalId)
+      .eq("user_id", userId)
+      .single();
+
+    console.log({ userId });
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  },
   async update(id: number, payload: UserGoalsUpdatePayload) {
     const { data, error } = await supabase
       .from("user_goals")

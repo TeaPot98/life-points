@@ -30,6 +30,21 @@ const rewardActivities = {
 
     return data;
   },
+  async getById(rewardActivityId: number, userId: string) {
+    const { data, error } = await supabase
+      .from("reward_activities")
+      .select()
+      .eq("id", rewardActivityId)
+      .eq("user_id", userId)
+      .single();
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  },
   async update(id: number, payload: RewardActivitiesUpdatePayload) {
     const { data, error } = await supabase
       .from("reward_activities")

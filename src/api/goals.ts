@@ -28,6 +28,21 @@ const goals = {
 
     return data;
   },
+  async getById(goalId: number, userId: string) {
+    const { data, error } = await supabase
+      .from("goals")
+      .select()
+      .eq("id", goalId)
+      .eq("user_id", userId)
+      .single();
+
+    if (error) {
+      console.error(error);
+      throw error;
+    }
+
+    return data;
+  },
   async update(id: number, payload: GoalsUpdatePayload) {
     const { data, error } = await supabase
       .from("goals")

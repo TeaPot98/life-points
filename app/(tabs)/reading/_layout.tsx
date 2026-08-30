@@ -17,7 +17,7 @@ export default function ReadingLayout() {
         options={{
           headerLeft: () => (
             <Pressable
-              onPress={() => router.push("/reading/manage-reading")}
+              onPress={() => router.push("/reading/manage")}
               style={{ backgroundColor: "#ccc" }}
             >
               <FontAwesome name="cog" size={24} />
@@ -25,9 +25,9 @@ export default function ReadingLayout() {
           ),
         }}
       />
-      <Stack.Screen name="manage-reading" />
-      <Stack.Screen name="create-book" />
-      <Stack.Screen name="edit-book/[id]" />
+      <Stack.Screen name="manage" />
+      <Stack.Screen name="books/create" />
+      <Stack.Screen name="books/[id]/edit" />
     </Stack>
   );
 }

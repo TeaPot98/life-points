@@ -4,59 +4,42 @@ import Api from "@api";
 import { FAB } from "@components/FAB";
 import { Text, View } from "@components/Themed";
 import { useUserContext } from "@context";
-import { UserRewardCard } from "@features/rewards/components/UserRewardCard";
+import { RewardActivityCard } from "@features/rewards/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Button } from "react-native-paper";
 
-export default function UserRewardsTabScreen() {
+export default function ManageRewardActivitiesScreen() {
   const router = useRouter();
   const isFocused = useIsFocused();
   const { user } = useUserContext();
 
-  const { data: userRewards } = useQuery({
-    queryKey: ["user-rewards"],
-    queryFn: () => Api.userRewards.getAll(user?.id ?? ""),
+  const { data: rewardActivities } = useQuery({
+    queryKey: ["reward-activities"],
+    queryFn: () => Api.rewardActivities.getAll(user?.id ?? ""),
   });
 
   return (
     <View style={styles.container}>
-      <Button
-        onPress={() => {
-          router.push("/rewards/reward-activities/manage");
-        }}
-      >
-        Manage Reward Activities
-      </Button>
-      <Text style={styles.title}>Rewards Tab</Text>
-      <Button
-        onPress={() => {
-          router.push("/rewards/shop");
-        }}
-      >
-        Buy Rewards
-      </Button>
+      <Text style={styles.title}>Manage Reward Activities</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      {userRewards?.map((userReward) => (
-        <UserRewardCard key={userReward.id} userReward={userReward} />
+      {rewardActivities?.map((rewardActivity) => (
+        <RewardActivityCard
+          key={rewardActivity.id}
+          rewardActivity={rewardActivity}
+        />
       ))}
       {isFocused && (
         <FAB
           actions={[
             {
               icon: "star",
-              label: "Activity Reward",
-              onPress: () => router.push("/rewards/reward-activities/create"),
-            },
-            {
-              icon: "star",
-              label: "Reward",
-              onPress: () => router.push("/rewards/create"),
+              label: "Reward Activity",
+              onPress: () => router.push("/goals/create-activity"),
             },
           ]}
         />

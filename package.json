@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "update-db-types": "npx supabase gen types typescripts --project-id tkpjxfdapjrfewwwnbyf > ./src/types/database.ts --lang typescript",
+    "update-db-types": "npx supabase gen types typescripts --project-id tkpjxfdapjrfewwwnbyf > ./src/types/database.ts --lang typescript && npx prettier --write ./src/types/database.ts",
     "lint": "expo lint",
     "test": "jest",
     "test:watch": "jest --watch"

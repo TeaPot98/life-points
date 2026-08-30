@@ -1,24 +1,32 @@
-import Api from "@api";
 import { ControlledTextInput } from "@components/ControlledTextInput";
 import { View } from "@components/Themed";
-import { useUserContext } from "@context";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
-type FormFieldValues = {
+export type ActivityFormValues = {
   name: string;
   icon: string;
   color: string;
 };
 
-export default function CreateActivityScreen() {
-  const { user } = useUserContext();
-  const { handleSubmit, control } = useForm<FormFieldValues>();
+type ActivityFormProps = {
+  defaultValues?: ActivityFormValues;
+  onSubmit: (values: ActivityFormValues) => void;
+};
 
-  const onSubmit = (values: FormFieldValues) => {
-    Api.activities.create({ ...values, user_id: user?.id ?? "" });
-  };
+export const ActivityForm = ({
+  onSubmit,
+  defaultValues,
+}: ActivityFormProps) => {
+  const { handleSubmit, control, reset } = useForm<ActivityFormValues>({
+    defaultValues,
+  });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   return (
     <View style={styles.container}>
@@ -42,7 +50,7 @@ export default function CreateActivityScreen() {
       </Button>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
