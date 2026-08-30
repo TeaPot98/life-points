@@ -5,6 +5,7 @@ import { IDraftMilestone, IMilestone } from "@local-types/goals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isNil } from "@utils";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { ScrollView } from "react-native";
 
 export default function UpdateGoalScreen() {
   const router = useRouter();
@@ -28,11 +29,6 @@ export default function UpdateGoalScreen() {
   const { mutateAsync: udpateMilestone } = useMutation({
     mutationFn: (milestone: Partial<IMilestone> & { id: number }) =>
       Api.milestones.update(milestone.id, milestone),
-  });
-
-  const { mutateAsync: deleteMilestones } = useMutation({
-    mutationFn: (milestoneId: number | number[]) =>
-      Api.milestones.delete(milestoneId),
   });
 
   const onSubmit = async ({
@@ -64,13 +60,6 @@ export default function UpdateGoalScreen() {
             console.error("The goal was not yet fetched");
             return;
           }
-
-          const removedMilestones = goal.milestones.filter(
-            (m) => !milestones?.some((mil) => mil.id === m.id),
-          );
-
-          if (removedMilestones)
-            deleteMilestones(removedMilestones.map((m) => m.id));
 
           if (!milestones) break;
 
@@ -113,5 +102,9 @@ export default function UpdateGoalScreen() {
     }
   };
 
-  return <GoalForm onSubmit={onSubmit} />;
+  return (
+    <ScrollView>
+      <GoalForm onSubmit={onSubmit} defaultValues={goal} />;
+    </ScrollView>
+  );
 }

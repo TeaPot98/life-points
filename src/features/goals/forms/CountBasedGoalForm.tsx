@@ -1,5 +1,5 @@
+import { ControlledNumericInput } from "@components/ControlledNumberInput";
 import { ControlledPicker } from "@components/ControlledPicker";
-import { ControlledTextInput } from "@components/ControlledTextInput";
 import { GOAL_SCHEDULE_OPTIONS } from "@constants";
 import { GoalSchedule } from "@local-types/goals";
 import { useFormContext } from "react-hook-form";
@@ -16,7 +16,7 @@ export const CountBasedGoalForm = () => {
 
   return (
     <>
-      <ControlledTextInput
+      <ControlledNumericInput
         control={control}
         name="goal_count"
         textInputPros={{ label: "Goal Count" }}
@@ -26,12 +26,12 @@ export const CountBasedGoalForm = () => {
         name="schedule"
         options={GOAL_SCHEDULE_OPTIONS}
       />
-      <ControlledTextInput
+      <ControlledNumericInput
         control={control}
         name="reward_per_item"
         textInputPros={{ label: "Reward per Item" }}
       />
-      <ControlledTextInput
+      <ControlledNumericInput
         control={control}
         name="reward"
         textInputPros={{ label: "Final Reward" }}

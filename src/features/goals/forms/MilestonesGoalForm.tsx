@@ -1,5 +1,6 @@
-import { ControlledTextInput } from "@components/ControlledTextInput";
+import { ControlledNumericInput } from "@components/ControlledNumberInput";
 import { IDraftMilestone } from "@local-types/goals";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { MilestonesInput } from "../components";
 
@@ -9,11 +10,17 @@ interface MilestonesFields {
 }
 
 export const MilestonesGoalForm = () => {
-  const { control } = useFormContext<MilestonesFields>();
+  const { control, watch } = useFormContext<MilestonesFields>();
+
+  const watchMilestones = watch("milestones");
+
+  useEffect(() => {
+    console.log({ watchMilestones });
+  }, [watchMilestones]);
 
   return (
     <>
-      <ControlledTextInput
+      <ControlledNumericInput
         control={control}
         name="reward"
         textInputPros={{ label: "Final Reward" }}

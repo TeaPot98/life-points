@@ -1,4 +1,3 @@
-import { isNil } from "@utils";
 import {
   Control,
   Controller,
@@ -6,7 +5,8 @@ import {
   FieldPathByValue,
   FieldValues,
 } from "react-hook-form";
-import { TextInput, TextInputProps } from "react-native-paper";
+import { TextInputProps } from "react-native-paper";
+import { NumberInput } from "./NumberInput";
 
 type NumericPath<T extends FieldValues> =
   | FieldPathByValue<T, number>
@@ -40,22 +40,7 @@ export const ControlledNumericInput = <
       name={name}
       {...controllerProps}
       render={({ field: { onChange, onBlur, value } }) => (
-        <TextInput
-          value={isNil(value) ? "" : String(value)}
-          onChangeText={(text) => {
-            if (text === "") {
-              onChange(undefined);
-              return;
-            }
-
-            const parsed = Number(text);
-
-            onChange(isNaN(parsed) ? undefined : parsed);
-          }}
-          onBlur={onBlur}
-          keyboardType="numeric"
-          {...textInputPros}
-        />
+        <NumberInput onChange={onChange} onBlur={onBlur} value={value} />
       )}
     />
   );

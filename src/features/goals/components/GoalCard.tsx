@@ -1,6 +1,8 @@
 import { Text, View } from "@components/Themed";
 import { IGoal } from "@local-types/goals";
+import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 
 type GoalCardProps = {
   goal: IGoal;
@@ -8,6 +10,7 @@ type GoalCardProps = {
 
 export const GoalCard = ({
   goal: {
+    id,
     name,
     type,
     duration,
@@ -18,6 +21,8 @@ export const GoalCard = ({
     schedule,
   },
 }: GoalCardProps) => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
       <View style={styles.rowContainer}>
@@ -33,6 +38,16 @@ export const GoalCard = ({
         <Text>{reward_per_item}</Text>
         <Text>{schedule}</Text>
       </View>
+      <Button
+        onPress={() =>
+          router.push({
+            pathname: "/goals/[id]/edit",
+            params: { id: String(id) },
+          })
+        }
+      >
+        Edit
+      </Button>
     </View>
   );
 };

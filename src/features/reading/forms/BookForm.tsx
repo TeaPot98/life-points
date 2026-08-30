@@ -1,4 +1,4 @@
-import { ControlledNumericInput } from "@components/ControlledNumericInput";
+import { ControlledNumericInput } from "@components/ControlledNumberInput";
 import { ControlledTextInput } from "@components/ControlledTextInput";
 import { View } from "@components/Themed";
 import { useEffect } from "react";

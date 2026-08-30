@@ -1,8 +1,9 @@
-import { View } from "@components/Themed";
+import { NumberInput } from "@components/NumberInput";
+import { Text, View } from "@components/Themed";
 import { IDraftMilestone } from "@local-types/goals";
 import { useState } from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 
 const EMPTY_MILESTONE = {
   name: "",
@@ -26,6 +27,9 @@ export const MilestonesInput = ({
   control,
   controllerProps,
 }: MilestonesInputProps) => {
+  // const [editMilestoneIndex, setEditMilestoneIndex] = useState<number | null>(
+  //   null,
+  // );
   const [newMilestone, setNewMilestone] = useState<IDraftMilestone | null>(
     null,
   );
@@ -41,41 +45,78 @@ export const MilestonesInput = ({
       {...controllerProps}
       render={({ field: { onChange, value = [] } }) => (
         <View>
-          {value.map((milestone, index) => (
+          {value?.map((milestone, index) => (
             <View key={index}>
-              <Text>{milestone.name}</Text>
-              <Text>{milestone.reward}</Text>
+              {/* {index === editMilestoneIndex ? (
+                <MilestoneInput
+                  name={milestone.name}
+                  reward={milestone.reward}
+                  onNameChange={(name) =>
+                    onChange(
+                      value?.map((prevMilestone, idx) =>
+                        idx === index
+                          ? {
+                              ...prevMilestone,
+                              name,
+                            }
+                          : prevMilestone,
+                      ),
+                    )
+                  }
+                  onRewardChange={(reward) =>
+                    onChange(
+                      value?.map((prevMilestone, idx) =>
+                        idx === index
+                          ? {
+                              ...prevMilestone,
+                              reward: Number(reward),
+                            }
+                          : prevMilestone,
+                      ),
+                    )
+                  }
+                  onSave={() => {
+                    setEditMilestoneIndex(null);
+                    setNewMilestone(null);
+                  }}
+                />
+              ) : ( */}
+              <View>
+                <Text>{milestone.name}</Text>
+                <Text>{milestone.reward}</Text>
+                {/* <Button
+                  onPress={() => {
+                    setNewMilestone(null);
+                    setEditMilestoneIndex(index);
+                  }}
+                >
+                  Edit
+                </Button> */}
+              </View>
+              {/* )} */}
             </View>
           ))}
           {newMilestone && (
-            <View>
-              <TextInput
-                value={newMilestone.name}
-                onChangeText={(name) =>
-                  setNewMilestone((prev) => ({
-                    reward: prev?.reward ?? 0,
-                    name,
-                  }))
-                }
-              />
-              <TextInput
-                value={newMilestone.reward.toString()}
-                onChangeText={(reward) =>
-                  setNewMilestone((prev) => ({
-                    name: prev?.name ?? "",
-                    reward: Number(reward),
-                  }))
-                }
-              />
-              <Button
-                onPress={() => {
-                  onChange([...value, newMilestone]);
-                  setNewMilestone(null);
-                }}
-              >
-                Save
-              </Button>
-            </View>
+            <MilestoneInput
+              name={newMilestone.name}
+              reward={newMilestone.reward}
+              onNameChange={(name) =>
+                setNewMilestone((prev) => ({
+                  reward: prev?.reward ?? 0,
+                  name,
+                }))
+              }
+              onRewardChange={(reward) =>
+                setNewMilestone((prev) => ({
+                  name: prev?.name ?? "",
+                  reward: Number(reward),
+                }))
+              }
+              onSave={() => {
+                onChange([...value, newMilestone]);
+                setNewMilestone(null);
+              }}
+            />
           )}
           {newMilestone === null && (
             <Button onPress={addNewMilestone}>Add new milestone</Button>
@@ -83,5 +124,32 @@ export const MilestonesInput = ({
         </View>
       )}
     />
+  );
+};
+
+type MilestoneInputProps = {
+  name: string;
+  reward: number;
+  onNameChange: (value: string) => void;
+  onRewardChange: (value: number) => void;
+  onSave: () => void;
+};
+
+const MilestoneInput = ({
+  name,
+  onNameChange,
+  onRewardChange,
+  onSave,
+  reward,
+}: MilestoneInputProps) => {
+  return (
+    <View>
+      <TextInput value={name} onChangeText={onNameChange} />
+      <NumberInput
+        value={reward}
+        onChange={(reward) => onRewardChange(reward)}
+      />
+      <Button onPress={onSave}>Save</Button>
+    </View>
   );
 };

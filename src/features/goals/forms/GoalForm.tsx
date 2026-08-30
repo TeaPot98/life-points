@@ -3,11 +3,6 @@ import { ControlledPicker } from "@components/ControlledPicker";
 import { ControlledTextInput } from "@components/ControlledTextInput";
 import { View } from "@components/Themed";
 import { useUserContext } from "@context";
-import {
-  CountBasedGoalForm,
-  MilestonesGoalForm,
-  TimeBasedGoalForm,
-} from "@features/goals";
 import { ActivityType } from "@local-types/activities";
 import { GoalSchedule, IDraftMilestone } from "@local-types/goals";
 import { useQuery } from "@tanstack/react-query";
@@ -15,13 +10,16 @@ import { useEffect, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
+import { CountBasedGoalForm } from "./CountBasedGoalForm";
+import { MilestonesGoalForm } from "./MilestonesGoalForm";
+import { TimeBasedGoalForm } from "./TimeBasedGoalForm";
 
 export type GoalFormValues = {
   activity_id: number;
   reward: number;
   type: ActivityType;
   name: string;
-  duration?: number;
+  duration?: number | null;
   reward_per_item?: number;
   schedule?: GoalSchedule;
   goal_count?: number;
@@ -56,6 +54,8 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
   const { handleSubmit, control, watch, reset } = form;
 
   useEffect(() => {
+    console.log("Reset form", { defaultValues });
+
     if (!defaultValues) return;
     reset(defaultValues);
   }, [defaultValues, reset]);
@@ -66,13 +66,13 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
   });
 
   useEffect(() => {
-    if (!isSuccess || !activities?.length) return;
+    if (defaultValues || !isSuccess || !activities?.length) return;
 
     reset((prev) => ({
       ...prev,
       activity_id: activities[0].id,
     }));
-  }, [activities, isSuccess, reset]);
+  }, [activities, defaultValues, isSuccess, reset]);
 
   const activitiesOptions = useMemo(
     () =>

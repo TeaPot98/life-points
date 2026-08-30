@@ -12,7 +12,7 @@ export default function UserGoalDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const { data: userGoal } = useQuery({
-    queryKey: ["goals"],
+    queryKey: ["user-goals", id],
     queryFn: () => Api.userGoals.getById(Number(id), user?.id ?? ""),
   });
 
