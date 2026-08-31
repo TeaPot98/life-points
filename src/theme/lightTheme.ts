@@ -3,6 +3,10 @@ import { MD3LightTheme } from "react-native-paper";
 
 export const CustomLightTheme = {
   ...MD3LightTheme,
+  colors: {
+    ...MD3LightTheme.colors,
+    outline: "#AAAAAA",
+  },
 };
 
 export const CustomNavigationLightTheme = {

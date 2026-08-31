@@ -1,3 +1,4 @@
+import { useCustomizationContext } from "@context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Stack, useRouter } from "expo-router";
 import { Pressable } from "react-native";
@@ -10,6 +11,7 @@ export const unstable_settings = {
 
 export default function ActivitiesLayout() {
   const router = useRouter();
+  const { colorScheme, toggleColorScheme } = useCustomizationContext();
 
   return (
     <Stack
@@ -18,6 +20,12 @@ export default function ActivitiesLayout() {
           <Appbar.Header>
             {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
             <Appbar.Content title={options.title ?? ""} />
+            <Appbar.Action
+              icon="theme"
+              onPress={() =>
+                toggleColorScheme(colorScheme === "light" ? "dark" : "light")
+              }
+            />
           </Appbar.Header>
         ),
       }}

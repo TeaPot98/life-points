@@ -21,7 +21,9 @@ const userGoals = {
   async getAll(userId: string) {
     const { data, error } = await supabase
       .from("user_goals")
-      .select("*, goal:goals (*, milestones:milestones (*))")
+      .select(
+        "*, goal:goals (*, milestones:milestones (*), activity:activities (*))",
+      )
       .eq("user_id", userId);
 
     console.log({ userId });
@@ -36,7 +38,9 @@ const userGoals = {
   async getById(userGoalId: number, userId: string) {
     const { data, error } = await supabase
       .from("user_goals")
-      .select("*, goal:goals (*, milestones:milestones (*))")
+      .select(
+        "*, goal:goals (*, milestones:milestones (*), activity:activities (*))",
+      )
       .eq("id", userGoalId)
       .eq("user_id", userId)
       .single();

@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
-import { FAB } from "@components/FAB";
+import { FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { UserGoalCard } from "@features/goals/components";
 import { useIsFocused } from "@react-navigation/native";
@@ -57,7 +57,9 @@ export default function GoalsTabScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
+    padding: 16,
+    gap: 8,
     justifyContent: "center",
   },
   title: {

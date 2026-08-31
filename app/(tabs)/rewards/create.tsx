@@ -1,6 +1,6 @@
 import Api from "@api";
-import { ControlledPicker } from "@components/ControlledPicker";
-import { ControlledTextInput } from "@components/ControlledTextInput";
+import { ControlledPicker, ControlledTextInput } from "@components/inputs";
+
 import { useUserContext } from "@context";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";

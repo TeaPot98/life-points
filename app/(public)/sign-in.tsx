@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 
-import { ControlledTextInput } from "@components/ControlledTextInput";
+import { ControlledTextInput } from "@components/inputs";
 import { useUserContext } from "@context";
 import { useForm } from "react-hook-form";
 import { Button } from "react-native-paper";

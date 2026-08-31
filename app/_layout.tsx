@@ -2,11 +2,15 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@components/useColorScheme";
-import { UserContextProvider } from "@context";
+import {
+  ColorScheme,
+  CustomizationContext,
+  UserContextProvider,
+} from "@context";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -60,30 +64,46 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useState<ColorScheme | "system">(
+    "light",
+  );
+  const systemColorScheme = useColorScheme();
 
-  console.log({ colorScheme });
+  const activeColorScheme =
+    colorScheme === "system" ? (systemColorScheme ?? "light") : colorScheme;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
-        <PaperProvider
-          theme={colorScheme === "dark" ? CustomDarkTheme : CustomLightTheme}
-        >
-          <ThemeProvider
-            value={
-              colorScheme === "dark"
-                ? CustomNavigationDarkTheme
-                : CustomNavigationLightTheme
+    <CustomizationContext
+      value={{
+        colorScheme: activeColorScheme,
+        toggleColorScheme: setColorScheme,
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <UserContextProvider>
+          <PaperProvider
+            theme={
+              activeColorScheme === "dark" ? CustomDarkTheme : CustomLightTheme
             }
           >
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-            </Stack>
-          </ThemeProvider>
-        </PaperProvider>
-      </UserContextProvider>
-    </QueryClientProvider>
+            <ThemeProvider
+              value={
+                activeColorScheme === "dark"
+                  ? CustomNavigationDarkTheme
+                  : CustomNavigationLightTheme
+              }
+            >
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                  name="modal"
+                  options={{ presentation: "modal" }}
+                />
+              </Stack>
+            </ThemeProvider>
+          </PaperProvider>
+        </UserContextProvider>
+      </QueryClientProvider>
+    </CustomizationContext>
   );
 }

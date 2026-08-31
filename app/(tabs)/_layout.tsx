@@ -2,8 +2,9 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
 
-import { useColorScheme } from "@components/useColorScheme";
 import Colors from "@constants/Colors";
+import { useCustomizationContext } from "@context";
+import { useAppTheme } from "@theme";
 import { BottomNavigation } from "react-native-paper";
 
 export const unstable_settings = {
@@ -19,7 +20,8 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { colorScheme } = useCustomizationContext();
+  const theme = useAppTheme();
 
   return (
     <Tabs
@@ -29,6 +31,17 @@ export default function TabLayout() {
       }}
       tabBar={({ navigation, state, descriptors, insets }) => (
         <BottomNavigation.Bar
+          compact
+          style={{
+            borderRadius: 80,
+            overflow: "hidden",
+            marginBottom: 50,
+            height: 80,
+            borderWidth: 2,
+            borderBottomWidth: 4,
+            borderRightWidth: 3,
+            borderColor: theme.colors.outlineVariant,
+          }}
           navigationState={state}
           safeAreaInsets={insets}
           onTabPress={({ route }) => navigation.navigate(route.name)}

@@ -1,4 +1,4 @@
-import { ControlledTextInput } from "@components/ControlledTextInput";
+import { ControlledTextInput } from "@components/inputs";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";

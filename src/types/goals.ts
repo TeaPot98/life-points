@@ -1,3 +1,4 @@
+import { IActivity } from "./activities";
 import { Database } from "./database";
 
 export type GoalSchedule = Database["public"]["Enums"]["goal_schedule"];
@@ -31,5 +32,5 @@ export type UserGoalsCreatePayload =
   Database["public"]["Tables"]["user_goals"]["Insert"];
 
 export type IUserGoal = Database["public"]["Tables"]["user_goals"]["Row"] & {
-  goal: IGoal & { milestones: IMilestone[] };
+  goal: IGoal & { milestones: IMilestone[]; activity: IActivity };
 };

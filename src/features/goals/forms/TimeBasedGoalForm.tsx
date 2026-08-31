@@ -1,5 +1,5 @@
-import { ControlledNumericInput } from "@components/ControlledNumberInput";
-import { ControlledPicker } from "@components/ControlledPicker";
+import { ControlledNumericInput, ControlledPicker } from "@components/inputs";
+
 import { GOAL_SCHEDULE_OPTIONS } from "@constants";
 import { GoalSchedule } from "@local-types/goals";
 import { useFormContext } from "react-hook-form";

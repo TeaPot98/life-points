@@ -104,7 +104,7 @@ export default function UpdateGoalScreen() {
 
   return (
     <ScrollView>
-      <GoalForm onSubmit={onSubmit} defaultValues={goal} />;
+      <GoalForm onSubmit={onSubmit} defaultValues={goal} />
     </ScrollView>
   );
 }

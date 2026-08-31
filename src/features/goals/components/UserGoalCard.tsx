@@ -1,10 +1,14 @@
+import { Card, IconWithBackground } from "@components";
 import { ProgressBar } from "@components/ProgressBar";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { ActivityType } from "@local-types/activities";
 import { IUserGoal } from "@local-types/goals";
 import { isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
 import { useRouter } from "expo-router";
+import { ComponentProps } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Card, Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 
 type UserGoalCardProps = {
   userGoal: IUserGoal;
@@ -24,6 +28,7 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
       reward_per_item,
       schedule,
       name,
+      activity,
     },
   } = userGoal;
 
@@ -39,11 +44,9 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
       <Card.Content>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            {/* <View style={styles.iconContainer}>
-          <FontAwesome name={icon} size={24} />
-        </View> */}
+            <IconWithBackground name={activity.icon} />
             <Text>{name}</Text>
-            <Text>{type}</Text>
+            <FontAwesome name={TYPE_ICONS[type]} size={16} />
             <Text>{duration}</Text>
             <Text>{goal_count}</Text>
             <Text>{activity_id}</Text>
@@ -57,28 +60,24 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
               style={{ alignSelf: "stretch" }}
             />
           )}
-          <Button>Edit</Button>
+          <Card.Actions>
+            <Button>Edit</Button>
+          </Card.Actions>
         </View>
       </Card.Content>
     </Card>
   );
 };
 
+const TYPE_ICONS = {
+  time: "clock-o",
+  count: "braille",
+  milestone: "share",
+} satisfies Record<ActivityType, ComponentProps<typeof FontAwesome>["name"]>;
+
 const styles = StyleSheet.create({
   container: {
-    borderColor: "#444",
-    borderWidth: 1,
-    borderRadius: 12,
-    overflow: "hidden",
     width: "100%",
   },
   rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
-  iconContainer: {
-    backgroundColor: "#ccc",
-    aspectRatio: 1,
-    width: 60,
-    borderRadius: "50%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });

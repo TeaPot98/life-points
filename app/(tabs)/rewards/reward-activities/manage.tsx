@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 
 import Api from "@api";
-import { FAB } from "@components/FAB";
+import { FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { RewardActivityCard } from "@features/rewards/components";
 import { useIsFocused } from "@react-navigation/native";

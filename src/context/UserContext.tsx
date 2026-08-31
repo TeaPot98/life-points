@@ -65,7 +65,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     mutationFn: Api.auth.signInWithPassword,
     onSuccess: (response) => {
       setUser(response.user);
-      router.replace("/");
+      router.replace("/(tabs)/goals");
     },
   });
 

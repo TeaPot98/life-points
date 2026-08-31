@@ -40,7 +40,6 @@ export const MilestoneUserGoalDetails = ({
 
   return (
     <View>
-      {" "}
       <View style={styles.rowContainer}>
         {/* <View style={styles.iconContainer}>
             <FontAwesome name={icon} size={24} />

@@ -1,4 +1,4 @@
-import { ControlledNumericInput } from "@components/ControlledNumberInput";
+import { ControlledNumericInput } from "@components/inputs";
 import { IDraftMilestone } from "@local-types/goals";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";

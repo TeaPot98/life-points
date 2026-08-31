@@ -1,5 +1,8 @@
-import { ControlledNumericInput } from "@components/ControlledNumberInput";
-import { ControlledTextInput } from "@components/ControlledTextInput";
+import {
+  ControlledNumericInput,
+  ControlledTextInput,
+} from "@components/inputs";
+
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
@@ -41,12 +44,12 @@ export const BookForm = ({ onSubmit, defaultValues }: BookFormProps) => {
       <ControlledNumericInput
         control={control}
         name="number_of_pages"
-        textInputPros={{ label: "Number of Pages" }}
+        inputProps={{ label: "Number of Pages" }}
       />
       <ControlledNumericInput
         control={control}
         name="read_pages"
-        textInputPros={{ label: "Read Pages (optional)" }}
+        inputProps={{ label: "Read Pages (optional)" }}
       />
       <Button icon="plus" onPress={handleSubmit(onSubmit)}>
         Save

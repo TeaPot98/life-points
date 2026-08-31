@@ -1,4 +1,4 @@
-import { NumberInput } from "@components/NumberInput";
+import { NumberInput } from "@components/inputs";
 import { IDraftMilestone } from "@local-types/goals";
 import { useState } from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
