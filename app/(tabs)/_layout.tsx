@@ -2,9 +2,9 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
 
-import { useClientOnlyValue } from "@components/useClientOnlyValue";
 import { useColorScheme } from "@components/useColorScheme";
 import Colors from "@constants/Colors";
+import { BottomNavigation } from "react-native-paper";
 
 export const unstable_settings = {
   initialRouteName: "goals",
@@ -25,10 +25,29 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false,
       }}
+      tabBar={({ navigation, state, descriptors, insets }) => (
+        <BottomNavigation.Bar
+          navigationState={state}
+          safeAreaInsets={insets}
+          onTabPress={({ route }) => navigation.navigate(route.name)}
+          renderIcon={({ route, focused, color }) =>
+            descriptors[route.key].options.tabBarIcon?.({
+              focused,
+              color,
+              size: 24,
+            }) ?? null
+          }
+          getLabelText={({ route }) => {
+            const options = descriptors[route.key].options;
+
+            return typeof options.tabBarLabel === "string"
+              ? options.tabBarLabel
+              : (options.title ?? route.name);
+          }}
+        />
+      )}
     >
       {/* <Tabs.Screen
         name="index"
