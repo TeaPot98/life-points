@@ -1,8 +1,10 @@
-import { CustomTheme, useAppTheme } from "@theme";
+import { useAppTheme } from "@theme";
+import { CustomTheme } from "@theme/types";
+import { ComponentProps } from "react";
 import { StyleSheet } from "react-native";
 import { Card as PaperCard } from "react-native-paper";
 
-type PaperCardProps = React.ComponentProps<typeof PaperCard>;
+type PaperCardProps = ComponentProps<typeof PaperCard>;
 
 export const Card = <T extends PaperCardProps>({
   mode,
@@ -30,7 +32,6 @@ const styles = (theme: CustomTheme) =>
       borderColor: theme.colors.outline,
       borderBottomWidth: 4,
       borderRightWidth: 3,
-      // borderWidth: 2,
     },
   });
 

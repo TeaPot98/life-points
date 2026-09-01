@@ -1,6 +1,4 @@
-import { MD3Theme, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
+import { CustomTheme } from "./types";
 
-interface CustomTheme extends MD3Theme {}
-
-// TODO: Add type for custom theme
 export const useAppTheme = () => useTheme<CustomTheme>();

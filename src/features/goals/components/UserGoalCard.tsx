@@ -1,14 +1,18 @@
 import { Card, IconWithBackground } from "@components";
+import { Button } from "@components/buttons";
+import { Chip } from "@components/Chip";
 import { ProgressBar } from "@components/ProgressBar";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ActivityType } from "@local-types/activities";
 import { IUserGoal } from "@local-types/goals";
-import { isNil } from "@utils";
+import { FontAwesomeName } from "@local-types/icons";
+import { useAppTheme } from "@theme";
+import { CustomTheme } from "@theme/types";
+import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
 import { useRouter } from "expo-router";
-import { ComponentProps } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 type UserGoalCardProps = {
   userGoal: IUserGoal;
@@ -16,6 +20,7 @@ type UserGoalCardProps = {
 
 export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
   const router = useRouter();
+  const theme = useAppTheme();
   const percentage = computeGoalCompletionPercentage(userGoal);
   const {
     id,
@@ -23,7 +28,6 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
       type,
       duration,
       goal_count,
-      activity_id,
       reward,
       reward_per_item,
       schedule,
@@ -31,6 +35,8 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
       activity,
     },
   } = userGoal;
+
+  const styles = getStyles(theme);
 
   return (
     <Card
@@ -45,14 +51,34 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             <IconWithBackground name={activity.icon} />
-            <Text>{name}</Text>
-            <FontAwesome name={TYPE_ICONS[type]} size={16} />
-            <Text>{duration}</Text>
-            <Text>{goal_count}</Text>
-            <Text>{activity_id}</Text>
-            <Text>{reward}</Text>
-            <Text>{reward_per_item}</Text>
-            <Text>{schedule}</Text>
+            <Text variant="titleMedium" style={styles.cardText}>
+              {name}
+            </Text>
+          </View>
+          <FontAwesome
+            name={TYPE_ICONS[type]}
+            size={24}
+            style={{ position: "absolute", top: 0, right: 0 }}
+            color={theme.colors.onSurfaceVariant}
+          />
+          <View style={styles.chipsContainer}>
+            {type === "time" && !isNil(duration) && (
+              <Chip icon="hourglass">
+                {fromSecondsToHumanReadable(duration)}
+              </Chip>
+            )}
+            {type === "count" && (
+              <>
+                <Chip>Goal Count: {goal_count}</Chip>
+                {!!reward_per_item && (
+                  <Chip icon="diamond">{reward_per_item} Per Item</Chip>
+                )}
+              </>
+            )}
+            <Chip icon="diamond">{reward}</Chip>
+            {schedule !== "none" && (
+              <Chip icon="clock-o">{capitalize(schedule)}</Chip>
+            )}
           </View>
           {!isNil(percentage) && (
             <ProgressBar
@@ -61,7 +87,9 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
             />
           )}
           <Card.Actions>
-            <Button>Edit</Button>
+            <Button color="secondary" icon="pencil">
+              Edit
+            </Button>
           </Card.Actions>
         </View>
       </Card.Content>
@@ -70,14 +98,25 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
 };
 
 const TYPE_ICONS = {
-  time: "clock-o",
-  count: "braille",
-  milestone: "share",
-} satisfies Record<ActivityType, ComponentProps<typeof FontAwesome>["name"]>;
+  time: "hourglass-2",
+  count: "outdent",
+  milestone: "flag",
+} satisfies Record<ActivityType, FontAwesomeName>;
 
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
-  rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
-});
+const getStyles = (theme: CustomTheme) =>
+  StyleSheet.create({
+    container: {
+      width: "100%",
+    },
+    chipsContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 4,
+      marginTop: 12,
+      marginBottom: 8,
+    },
+    rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
+    cardText: {
+      color: theme.colors.onSurfaceVariant,
+    },
+  });

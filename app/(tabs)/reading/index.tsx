@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
 import { FAB } from "@components/buttons";
@@ -26,35 +26,38 @@ export default function ReadingTabScreen() {
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Reading Tab</Text>
-      <View style={styles.separator} />
-      {!isNil(readingStatistics) && (
-        <ReadingStatistics readingStatistics={readingStatistics} />
-      )}
-      <View style={styles.separator} />
-      {books?.map((book) => (
-        <BookCard key={book.id} book={book} />
-      ))}
-      {isFocused && (
-        <FAB
-          actions={[
-            {
-              icon: "book",
-              label: "New Book",
-              onPress: () => router.push("/reading/books/create"),
-            },
-          ]}
-        />
-      )}
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <Text style={styles.title}>Reading Tab</Text>
+        <View style={styles.separator} />
+        {!isNil(readingStatistics) && (
+          <ReadingStatistics readingStatistics={readingStatistics} />
+        )}
+        <View style={styles.separator} />
+        {books?.map((book) => (
+          <BookCard key={book.id} book={book} />
+        ))}
+        {isFocused && (
+          <FAB
+            actions={[
+              {
+                icon: "book",
+                label: "New Book",
+                onPress: () => router.push("/reading/books/create"),
+              },
+            ]}
+          />
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    padding: 16,
+    gap: 8,
     justifyContent: "center",
   },
   title: {

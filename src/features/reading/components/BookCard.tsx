@@ -1,7 +1,11 @@
+import { Card } from "@components";
+import { Button } from "@components/buttons";
+import { ProgressBar } from "@components/ProgressBar";
 import { IBook } from "@local-types/books";
+import { useAppTheme } from "@theme";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 type BookCardProps = {
   book: IBook;
@@ -9,35 +13,53 @@ type BookCardProps = {
 
 export const BookCard = ({ book }: BookCardProps) => {
   const router = useRouter();
+  const theme = useAppTheme();
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>{book.author}</Text>
-        <Text>{book.title}</Text>
-        <Text>Total pages: {book.number_of_pages}</Text>
-        <Text>Read pages: {book.read_pages}</Text>
-      </View>
-      <Button
-        onPress={() =>
-          router.push({
-            pathname: "/reading/books/[id]/edit",
-            params: { id: String(book.id) },
-          })
-        }
-      >
-        Edit
-      </Button>
-    </View>
+    <Card>
+      <Card.Content>
+        <View style={styles.container}>
+          <View style={styles.titleContainer}>
+            <Text style={{ fontWeight: "700" }}>{book.title} </Text>
+            <Text>by {book.author}</Text>
+          </View>
+          <View style={styles.progressContainer}>
+            <ProgressBar value={book.read_pages / book.number_of_pages} />
+            <Text style={{ color: theme.colors.onSurfaceVariant }}>
+              {book.read_pages}/{book.number_of_pages}
+            </Text>
+          </View>
+        </View>
+      </Card.Content>
+      <Card.Actions>
+        <Button
+          icon="pencil"
+          color="secondary"
+          onPress={() =>
+            router.push({
+              pathname: "/reading/books/[id]/edit",
+              params: { id: String(book.id) },
+            })
+          }
+        >
+          Edit
+        </Button>
+      </Card.Actions>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: "#444",
-    borderWidth: 1,
-    borderRadius: 12,
-    overflow: "hidden",
     width: "100%",
+  },
+  titleContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: 8,
+  },
+  progressContainer: {
+    flexDirection: "row",
+    gap: 8,
   },
 });
