@@ -86,13 +86,13 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
               style={{ alignSelf: "stretch" }}
             />
           )}
-          <Card.Actions>
-            <Button color="secondary" icon="pencil">
-              Edit
-            </Button>
-          </Card.Actions>
         </View>
       </Card.Content>
+      <Card.Actions>
+        <Button color="secondary" icon="pencil">
+          Edit
+        </Button>
+      </Card.Actions>
     </Card>
   );
 };

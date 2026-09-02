@@ -37,6 +37,6 @@ const getStyles = (colors: { container: string; fill: string }) =>
     },
     fill: {
       backgroundColor: colors.fill,
-      height: "100%",
+      width: "100%",
     },
   });

@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
 import { FAB } from "@components/buttons";
@@ -7,7 +7,6 @@ import { RewardActivityCard } from "@features/rewards/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Text } from "react-native-paper";
 
 export default function ManageRewardActivitiesScreen() {
   const router = useRouter();
@@ -20,39 +19,35 @@ export default function ManageRewardActivitiesScreen() {
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Manage Reward Activities</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      {rewardActivities?.map((rewardActivity) => (
-        <RewardActivityCard
-          key={rewardActivity.id}
-          rewardActivity={rewardActivity}
-        />
-      ))}
-      {isFocused && (
-        <FAB
-          actions={[
-            {
-              icon: "star",
-              label: "Reward Activity",
-              onPress: () => router.push("/goals/activities/create"),
-            },
-          ]}
-        />
-      )}
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        {rewardActivities?.map((rewardActivity) => (
+          <RewardActivityCard
+            key={rewardActivity.id}
+            rewardActivity={rewardActivity}
+          />
+        ))}
+        {isFocused && (
+          <FAB
+            actions={[
+              {
+                icon: "star",
+                label: "Reward Activity",
+                onPress: () => router.push("/goals/activities/create"),
+              },
+            ]}
+          />
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 16,
+    gap: 8,
   },
   title: {
     fontSize: 20,

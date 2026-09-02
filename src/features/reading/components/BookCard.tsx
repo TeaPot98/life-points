@@ -1,4 +1,4 @@
-import { Card } from "@components";
+import { Card, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { ProgressBar } from "@components/ProgressBar";
 import { IBook } from "@local-types/books";
@@ -17,8 +17,9 @@ export const BookCard = ({ book }: BookCardProps) => {
 
   return (
     <Card>
-      <Card.Content>
-        <View style={styles.container}>
+      <Card.Content style={styles.cardContent}>
+        <IconWithBackground name="book" color="lightBlue" />
+        <View>
           <View style={styles.titleContainer}>
             <Text style={{ fontWeight: "700" }}>{book.title} </Text>
             <Text>by {book.author}</Text>
@@ -50,9 +51,6 @@ export const BookCard = ({ book }: BookCardProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
   titleContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -60,6 +58,13 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     flexDirection: "row",
+    width: "100%",
+    alignSelf: "stretch",
     gap: 8,
+  },
+  cardContent: {
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "flex-start",
   },
 });

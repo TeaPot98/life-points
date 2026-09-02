@@ -15,9 +15,9 @@ export const Card = <T extends PaperCardProps>({
 
   return (
     <PaperCard
+      {...props}
       mode="contained"
       style={[styles(theme).container, props.style]}
-      {...props}
     >
       {props.children}
     </PaperCard>

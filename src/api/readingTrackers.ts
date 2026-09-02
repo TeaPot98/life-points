@@ -64,7 +64,10 @@ const readingTracker = {
 
     if (isNil(readingTracker)) return;
 
-    return { ...readingTracker, total_books: totalBooks ?? 0 };
+    return {
+      ...readingTracker,
+      total_books: totalBooks ?? 0,
+    };
   },
   async update(id: number, payload: ReadingTrackerUpdatePayload) {
     const { data, error } = await supabase

@@ -1,4 +1,5 @@
 import Api from "@api";
+import { Button } from "@components/buttons";
 import { ControlledPicker, ControlledTextInput } from "@components/inputs";
 
 import { useUserContext } from "@context";
@@ -6,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
 
 type FormFieldValues = {
   name: string;
@@ -65,7 +65,7 @@ export default function CreateRewardScreen() {
         name="price"
         textInputPros={{ label: "Price" }}
       />
-      <Button icon="plus" onPress={handleSubmit(onSubmit)}>
+      <Button icon="check" onPress={handleSubmit(onSubmit)}>
         Save
       </Button>
     </View>
@@ -74,6 +74,7 @@ export default function CreateRewardScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    gap: 8,
+    padding: 16,
   },
 });

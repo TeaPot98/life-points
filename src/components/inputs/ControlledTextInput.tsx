@@ -5,6 +5,7 @@ import {
   FieldValues,
   Path,
 } from "react-hook-form";
+import { StyleSheet } from "react-native";
 import { TextInput, TextInputProps } from "react-native-paper";
 
 type ControlledTextInputProps<T extends FieldValues = FieldValues> = {
@@ -30,9 +31,20 @@ export const ControlledTextInput = <T extends FieldValues = FieldValues>({
           value={value}
           onChangeText={onChange}
           onBlur={onBlur}
+          mode="outlined"
+          outlineStyle={styles.outline}
           {...textInputPros}
         />
       )}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  outline: {
+    borderWidth: 2,
+    borderBottomWidth: 4,
+    borderRightWidth: 4,
+    borderRadius: 8,
+  },
+});

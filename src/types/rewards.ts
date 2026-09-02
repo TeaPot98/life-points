@@ -27,5 +27,5 @@ export type IReward = Database["public"]["Tables"]["rewards"]["Row"] & {
 
 export type IUserReward =
   Database["public"]["Tables"]["user_rewards"]["Row"] & {
-    reward: IReward & { activity: IRewardActivity };
+    reward: IReward;
   };

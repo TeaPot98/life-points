@@ -17,8 +17,8 @@ const THEME_OVERRIDE = {
     onPrimaryContainer: "#002B42",
     secondaryContainer: "#B2D5FF",
     onSecondaryContainer: "#004A7C",
-    tertiaryContainer: "#FFFA57",
-    onTertiaryContainer: "#615E00",
+    tertiaryContainer: "#FFB289",
+    onTertiaryContainer: "#633011",
     errorContainer: "#FB5151",
     onErrorContainer: "#570008",
     surface: "#F3F6FF",
@@ -41,12 +41,22 @@ export const CustomLightTheme = {
     ...THEME_OVERRIDE.colors,
     // outline: "#AAA",
     // primary: THEME_OVERRIDE.colors.primary,
-    shaded: {
-      // primary: {
-      //   main: THEME_OVERRIDE.colors.primary,
-      //   dark: "#0288D1",
-      //   contrastText: "#FFF",
-      // },
+    fixed: {
+      primary: {
+        main: "#00B0FD",
+        dark: "#002B42",
+        contrastText: "#002B42",
+      },
+      lightBlue: {
+        main: "#62cadf",
+        dark: "#0288D1",
+        contrastText: "#FFF",
+      },
+      red: {
+        main: "#DB073D",
+        dark: "#8F0A2B",
+        contrastText: "#FFF",
+      },
     } satisfies Record<string, ShadedColor>,
   },
 } as const;

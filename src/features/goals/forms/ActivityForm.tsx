@@ -1,8 +1,8 @@
+import { Button } from "@components/buttons";
 import { ControlledTextInput } from "@components/inputs";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
 
 export type ActivityFormValues = {
   name: string;
@@ -32,19 +32,19 @@ export const ActivityForm = ({
       <ControlledTextInput
         control={control}
         name="name"
-        textInputPros={{ label: "name" }}
+        textInputPros={{ label: "Name" }}
       />
       <ControlledTextInput
         control={control}
         name="icon"
-        textInputPros={{ label: "icon" }}
+        textInputPros={{ label: "Icon" }}
       />
       <ControlledTextInput
         control={control}
         name="color"
-        textInputPros={{ label: "color" }}
+        textInputPros={{ label: "Color" }}
       />
-      <Button icon="plus" onPress={handleSubmit(onSubmit)}>
+      <Button icon="check" onPress={handleSubmit(onSubmit)}>
         Save
       </Button>
     </View>
@@ -53,6 +53,9 @@ export const ActivityForm = ({
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: "center",
+    padding: 16,
+    gap: 8,
   },
 });

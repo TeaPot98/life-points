@@ -1,23 +1,32 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { CustomTheme, useAppTheme } from "@theme";
+import { useAppTheme } from "@theme";
+import { CustomTheme } from "@theme/types";
 import { ComponentProps } from "react";
 import { StyleSheet, View } from "react-native";
 
 type IconWithBackgroundProps = {
   name: ComponentProps<typeof FontAwesome>["name"];
+  color?: keyof CustomTheme["colors"]["fixed"];
 };
 
-export const IconWithBackground = ({ name }: IconWithBackgroundProps) => {
+export const IconWithBackground = ({
+  name,
+  color = "primary",
+}: IconWithBackgroundProps) => {
   const theme = useAppTheme();
+  const styles = getStyles(theme, color);
 
   return (
-    <View style={styles(theme).container}>
-      <FontAwesome name={name} size={24} style={styles(theme).icon} />
+    <View style={styles.container}>
+      <FontAwesome name={name} size={24} style={styles.icon} />
     </View>
   );
 };
 
-const styles = (theme: CustomTheme) =>
+const getStyles = (
+  theme: CustomTheme,
+  color: keyof CustomTheme["colors"]["fixed"],
+) =>
   StyleSheet.create({
     container: {
       aspectRatio: 1,
@@ -28,10 +37,10 @@ const styles = (theme: CustomTheme) =>
       borderWidth: 1,
       borderBottomWidth: 4,
       borderRightWidth: 3,
-      backgroundColor: "#DB073D",
-      borderColor: "#8F0A2B",
+      backgroundColor: theme.colors.fixed[color].main,
+      borderColor: theme.colors.fixed[color].dark,
     },
     icon: {
-      color: "#FFF",
+      color: theme.colors.fixed[color].contrastText,
     },
   });

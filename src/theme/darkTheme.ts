@@ -39,7 +39,23 @@ export const CustomDarkTheme = {
   colors: {
     ...MD3DarkTheme.colors,
     ...THEME_OVERRIDE.colors,
-    shaded: {},
+    fixed: {
+      primary: {
+        main: "#00B0FD",
+        dark: "#002B42",
+        contrastText: "#002B42",
+      },
+      lightBlue: {
+        main: "#62cadf",
+        dark: "#0288D1",
+        contrastText: "#FFF",
+      },
+      red: {
+        main: "#DB073D",
+        dark: "#8F0A2B",
+        contrastText: "#FFF",
+      },
+    },
   },
 } satisfies CustomTheme;
 

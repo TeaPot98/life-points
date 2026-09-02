@@ -8,7 +8,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { isNil } from "@utils";
 import { useRouter } from "expo-router";
-import { Text } from "react-native-paper";
+import { Divider } from "react-native-paper";
 
 export default function ReadingTabScreen() {
   const router = useRouter();
@@ -26,30 +26,30 @@ export default function ReadingTabScreen() {
   });
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Reading Tab</Text>
-        <View style={styles.separator} />
-        {!isNil(readingStatistics) && (
-          <ReadingStatistics readingStatistics={readingStatistics} />
-        )}
-        <View style={styles.separator} />
-        {books?.map((book) => (
-          <BookCard key={book.id} book={book} />
-        ))}
-        {isFocused && (
-          <FAB
-            actions={[
-              {
-                icon: "book",
-                label: "New Book",
-                onPress: () => router.push("/reading/books/create"),
-              },
-            ]}
-          />
-        )}
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      {!isNil(readingStatistics) && (
+        <ReadingStatistics readingStatistics={readingStatistics} />
+      )}
+      <Divider style={styles.divider} />
+      <ScrollView>
+        <View style={styles.booksContainer}>
+          {books?.map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
+        </View>
+      </ScrollView>
+      {isFocused && (
+        <FAB
+          actions={[
+            {
+              icon: "book",
+              label: "New Book",
+              onPress: () => router.push("/reading/books/create"),
+            },
+          ]}
+        />
+      )}
+    </View>
   );
 }
 
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingBottom: 0,
+  },
+  booksContainer: {
     gap: 8,
     justifyContent: "center",
   },
@@ -64,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  divider: { marginVertical: 8 },
   separator: {
     marginVertical: 30,
     height: 1,

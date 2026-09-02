@@ -1,6 +1,7 @@
 import Api from "@api";
 import { useUserContext } from "@context";
 import { ActivityForm, ActivityFormValues } from "@features/goals";
+import { ScrollView } from "react-native";
 
 export default function CreateActivityScreen() {
   const { user } = useUserContext();
@@ -9,5 +10,9 @@ export default function CreateActivityScreen() {
     Api.activities.create({ ...values, user_id: user?.id ?? "" });
   };
 
-  return <ActivityForm onSubmit={onSubmit} />;
+  return (
+    <ScrollView>
+      <ActivityForm onSubmit={onSubmit} />
+    </ScrollView>
+  );
 }

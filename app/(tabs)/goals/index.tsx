@@ -1,18 +1,22 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
-import { FAB } from "@components/buttons";
+import { Button, FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { UserGoalCard } from "@features/goals/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
+import { useAppTheme } from "@theme";
+import { CustomTheme } from "@theme/types";
 import { useRouter } from "expo-router";
-import { Button } from "react-native-paper";
 
 export default function GoalsTabScreen() {
   const router = useRouter();
+  const theme = useAppTheme();
   const { user } = useUserContext();
   const isFocused = useIsFocused();
+
+  const styles = getStyles(theme);
 
   const { data: userGoals } = useQuery({
     queryKey: ["user-goals"],
@@ -22,14 +26,26 @@ export default function GoalsTabScreen() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Button
-          onPress={() => {
-            router.push("/goals/activities/manage");
-          }}
-        >
-          Manage Activities
-        </Button>
-        <View style={styles.separator} />
+        <View style={styles.buttonsContainer}>
+          <Button
+            color="tertiary"
+            icon="cog"
+            onPress={() => {
+              router.push("/goals/activities/manage");
+            }}
+          >
+            Manage Goals
+          </Button>
+          <Button
+            icon="cog"
+            color="tertiary"
+            onPress={() => {
+              router.push("/goals/activities/manage");
+            }}
+          >
+            Manage Activities
+          </Button>
+        </View>
         {userGoals?.map((userGoal) => (
           <UserGoalCard key={userGoal.id} userGoal={userGoal} />
         ))}
@@ -54,21 +70,16 @@ export default function GoalsTabScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // alignItems: "center",
-    padding: 16,
-    gap: 8,
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const getStyles = (theme: CustomTheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 16,
+      gap: 8,
+      justifyContent: "center",
+    },
+    buttonsContainer: {
+      flexDirection: "row",
+      gap: 8,
+    },
+  });
