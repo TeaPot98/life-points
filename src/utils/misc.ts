@@ -24,3 +24,9 @@ export function fromSecondsToHumanReadable(duration: number) {
 
   return components.join(" ");
 }
+
+export function formatCamelCase(value: string) {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}

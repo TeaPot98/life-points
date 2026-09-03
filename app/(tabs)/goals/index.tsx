@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
 import { CustomTheme } from "@theme/types";
 import { useRouter } from "expo-router";
+import { Drawer } from "react-native-paper";
 
 export default function GoalsTabScreen() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function GoalsTabScreen() {
             color="tertiary"
             icon="cog"
             onPress={() => {
-              router.push("/goals/activities/manage");
+              router.push("/goals/manage");
             }}
           >
             Manage Goals
@@ -65,6 +66,9 @@ export default function GoalsTabScreen() {
             ]}
           />
         )}
+        <Drawer.Section>
+          <Drawer.Item label="Log out" />
+        </Drawer.Section>
       </View>
     </ScrollView>
   );

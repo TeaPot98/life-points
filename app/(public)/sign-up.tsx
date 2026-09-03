@@ -12,14 +12,14 @@ type FormFieldsType = {
   password: string;
 };
 
-export default function SignInScreen() {
+export default function SignUpScreen() {
   const router = useRouter();
-  const { signInWithPassword } = useUserContext();
+  const { signUpWithPassword } = useUserContext();
   const { handleSubmit, control } = useForm<FormFieldsType>();
 
   const onSubmit = (values: FormFieldsType) => {
     console.log({ values });
-    signInWithPassword(values);
+    signUpWithPassword(values);
   };
 
   const onInvalid = (arg: any) => {
@@ -39,11 +39,11 @@ export default function SignInScreen() {
         textInputPros={{ label: "Password" }}
       />
       <Button icon="plus" onPress={handleSubmit(onSubmit, onInvalid)}>
-        Log In
+        Sign Up
       </Button>
       <Text>OR</Text>
-      <Button onPress={() => router.replace("/(public)/sign-up")}>
-        Create New Account
+      <Button icon="plus" onPress={() => router.replace("/(public)/sign-in")}>
+        Use an existing account
       </Button>
     </View>
   );

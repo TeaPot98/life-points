@@ -2,10 +2,9 @@ import { Card, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { Chip } from "@components/Chip";
 import { ProgressBar } from "@components/ProgressBar";
+import { ACTIVITY_TYPE_ICONS } from "@constants";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { ActivityType } from "@local-types/activities";
 import { IUserGoal } from "@local-types/goals";
-import { FontAwesomeName } from "@local-types/icons";
 import { useAppTheme } from "@theme";
 import { CustomTheme } from "@theme/types";
 import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
@@ -50,13 +49,13 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
       <Card.Content>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <IconWithBackground name={activity.icon} />
+            <IconWithBackground name={activity.icon} color={activity.color} />
             <Text variant="titleMedium" style={styles.cardText}>
               {name}
             </Text>
           </View>
           <FontAwesome
-            name={TYPE_ICONS[type]}
+            name={ACTIVITY_TYPE_ICONS[type]}
             size={24}
             style={{ position: "absolute", top: 0, right: 0 }}
             color={theme.colors.onSurfaceVariant}
@@ -82,7 +81,7 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
           </View>
           {!isNil(percentage) && (
             <ProgressBar
-              percentage={percentage}
+              value={percentage / 100}
               style={{ alignSelf: "stretch" }}
             />
           )}
@@ -96,12 +95,6 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
     </Card>
   );
 };
-
-const TYPE_ICONS = {
-  time: "hourglass-2",
-  count: "outdent",
-  milestone: "flag",
-} satisfies Record<ActivityType, FontAwesomeName>;
 
 const getStyles = (theme: CustomTheme) =>
   StyleSheet.create({

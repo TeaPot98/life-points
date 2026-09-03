@@ -8,6 +8,6 @@ export interface ShadedColor {
 
 export type CustomTheme = typeof CustomLightTheme;
 
-export type ThemeShadedColor = keyof CustomTheme["colors"]["shaded"];
+export type FixedColor = keyof CustomTheme["colors"]["fixed"];
 
 export type CoreColor = "primary" | "secondary" | "tertiary" | "error";

@@ -11,7 +11,7 @@ type NumericPath<T extends FieldValues> =
   | FieldPathByValue<T, number>
   | FieldPathByValue<T, number | undefined>;
 
-type ControlledNumericInputProps<
+type ControlledNumberInputProps<
   T extends FieldValues,
   TName extends NumericPath<T>,
 > = {
@@ -24,7 +24,7 @@ type ControlledNumericInputProps<
   inputProps?: Omit<NumberInputProps, "value" | "onChange" | "onBlur">;
 };
 
-export const ControlledNumericInput = <
+export const ControlledNumberInput = <
   T extends FieldValues,
   TName extends NumericPath<T>,
 >({
@@ -32,7 +32,7 @@ export const ControlledNumericInput = <
   controllerProps,
   name,
   inputProps,
-}: ControlledNumericInputProps<T, TName>) => {
+}: ControlledNumberInputProps<T, TName>) => {
   return (
     <Controller
       control={control}

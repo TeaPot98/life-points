@@ -23,6 +23,7 @@ export type IDraftMilestone = Pick<IMilestone, "name" | "reward"> & {
 
 export type IGoal = Database["public"]["Tables"]["goals"]["Row"] & {
   milestones: IMilestone[];
+  activity: IActivity;
 };
 
 export type UserGoalsUpdatePayload =

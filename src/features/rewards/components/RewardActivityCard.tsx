@@ -19,7 +19,10 @@ export const RewardActivityCard = ({
       <Card.Content>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <IconWithBackground name={rewardActivity.icon} />
+            <IconWithBackground
+              name={rewardActivity.icon}
+              color={rewardActivity.color}
+            />
             <Text variant="titleMedium">{rewardActivity.name}</Text>
           </View>
         </View>

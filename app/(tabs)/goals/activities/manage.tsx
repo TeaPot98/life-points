@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
 import { FAB } from "@components/buttons";
@@ -7,7 +7,6 @@ import { ActivityCard } from "@features/goals/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Text } from "react-native-paper";
 
 export default function ManageActivitiesScreen() {
   const router = useRouter();
@@ -20,37 +19,38 @@ export default function ManageActivitiesScreen() {
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Manage Activities</Text>
-      <View style={styles.separator} />
-      {activities?.map((activity) => (
-        <ActivityCard key={activity.id} activity={activity} />
-      ))}
-      {isFocused && (
-        <FAB
-          actions={[
-            {
-              icon: "star",
-              label: "Activity",
-              onPress: () => router.push("/goals/activities/create"),
-            },
-            {
-              icon: "star",
-              label: "Goal",
-              onPress: () => router.push("/goals/create"),
-            },
-          ]}
-        />
-      )}
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        {activities?.map((activity) => (
+          <ActivityCard key={activity.id} activity={activity} />
+        ))}
+        {isFocused && (
+          <FAB
+            actions={[
+              {
+                icon: "star",
+                label: "Activity",
+                onPress: () => router.push("/goals/activities/create"),
+              },
+              {
+                icon: "star",
+                label: "Goal",
+                onPress: () => router.push("/goals/create"),
+              },
+            ]}
+          />
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    padding: 16,
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    gap: 8,
   },
   title: {
     fontSize: 20,

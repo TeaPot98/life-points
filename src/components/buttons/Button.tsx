@@ -19,8 +19,8 @@ export const Button = <T extends PaperButtonProps>({
     <PaperButton
       textColor={containerColors.onContainer}
       uppercase
-      style={[styles(containerColors).button, style]}
       {...props}
+      style={[styles(containerColors).button, style]}
     />
   );
 };

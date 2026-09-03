@@ -18,7 +18,7 @@ const goals = {
   async getAll(userId: string) {
     const { data, error } = await supabase
       .from("goals")
-      .select("*, milestones:milestones (*)")
+      .select("*, milestones:milestones (*), activity:activities (*)")
       .eq("user_id", userId);
 
     if (error) {

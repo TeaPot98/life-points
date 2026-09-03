@@ -1,25 +1,32 @@
-import { GoalSchedule } from "@local-types/goals";
-import { PickerItemProps } from "@react-native-picker/picker";
+import { SelectMenuOption } from "@components/inputs";
+import { ActivityType } from "@local-types/activities";
+import { FontAwesomeName } from "@local-types/icons";
 
 export const GOAL_SCHEDULE_OPTIONS = [
   {
-    label: "None",
+    title: "None",
     value: "none",
   },
   {
-    label: "Daily",
+    title: "Daily",
     value: "daily",
   },
   {
-    label: "Weekly",
+    title: "Weekly",
     value: "weekly",
   },
   {
-    label: "Monthly",
+    title: "Monthly",
     value: "monthly",
   },
   {
-    label: "Yearly",
+    title: "Yearly",
     value: "yearly",
   },
-] satisfies PickerItemProps<GoalSchedule>[];
+] satisfies SelectMenuOption[];
+
+export const ACTIVITY_TYPE_ICONS = {
+  time: "hourglass-2",
+  count: "outdent",
+  milestone: "flag",
+} satisfies Record<ActivityType, FontAwesomeName>;

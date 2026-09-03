@@ -3,6 +3,7 @@ import { useUserContext } from "@context";
 import { GoalForm, GoalFormValues } from "@features/goals";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import { ScrollView } from "react-native";
 
 export default function CreateGoalScreen() {
   const router = useRouter();
@@ -83,5 +84,9 @@ export default function CreateGoalScreen() {
     }
   };
 
-  return <GoalForm onSubmit={onSubmit} />;
+  return (
+    <ScrollView>
+      <GoalForm onSubmit={onSubmit} />
+    </ScrollView>
+  );
 }

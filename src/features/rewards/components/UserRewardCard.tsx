@@ -24,7 +24,10 @@ export const UserRewardCard = ({
       <Card.Content>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <IconWithBackground name={reward.activity.icon} />
+            <IconWithBackground
+              name={reward.activity.icon}
+              color={reward.activity.color}
+            />
             <Text variant="titleMedium" style={styles.cardText}>
               {reward.activity.name}
             </Text>

@@ -1,12 +1,9 @@
-import {
-  ControlledNumericInput,
-  ControlledTextInput,
-} from "@components/inputs";
+import { Button } from "@components/buttons";
+import { ControlledNumberInput, ControlledTextInput } from "@components/inputs";
 
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
 
 export type BookFormValues = {
   title: string;
@@ -41,12 +38,12 @@ export const BookForm = ({ onSubmit, defaultValues }: BookFormProps) => {
         name="author"
         textInputPros={{ label: "Author" }}
       />
-      <ControlledNumericInput
+      <ControlledNumberInput
         control={control}
         name="number_of_pages"
         inputProps={{ label: "Number of Pages" }}
       />
-      <ControlledNumericInput
+      <ControlledNumberInput
         control={control}
         name="read_pages"
         inputProps={{ label: "Read Pages (optional)" }}
@@ -61,5 +58,7 @@ export const BookForm = ({ onSubmit, defaultValues }: BookFormProps) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
+    padding: 16,
+    gap: 8,
   },
 });

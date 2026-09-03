@@ -1,8 +1,10 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Card, IconWithBackground } from "@components";
+import { Button } from "@components/buttons";
 import { IActivity } from "@local-types/activities";
+import { FixedColor } from "@theme/types";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 type ActivityCardProps = {
   activity: IActivity;
@@ -12,33 +14,36 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.rowContainer}>
-        <View style={styles.iconContainer}>
-          <FontAwesome name={activity.icon} size={24} />
+    <Card>
+      <Card.Content>
+        <View style={styles.container}>
+          <View style={styles.rowContainer}>
+            <IconWithBackground
+              name={activity.icon}
+              color={activity.color as FixedColor}
+            />
+            <Text variant="titleMedium">{activity.name}</Text>
+          </View>
         </View>
-        <Text>{activity.name}</Text>
-      </View>
-      <Button
-        onPress={() =>
-          router.push({
-            pathname: "/goals/activities/[id]/edit",
-            params: { id: String(activity.id) },
-          })
-        }
-      >
-        Edit
-      </Button>
-    </View>
+      </Card.Content>
+      <Card.Actions>
+        <Button
+          onPress={() =>
+            router.push({
+              pathname: "/goals/activities/[id]/edit",
+              params: { id: String(activity.id) },
+            })
+          }
+        >
+          Edit
+        </Button>
+      </Card.Actions>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: "#444",
-    borderWidth: 1,
-    borderRadius: 12,
-    overflow: "hidden",
     width: "100%",
   },
   rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },

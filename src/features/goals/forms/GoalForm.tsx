@@ -1,14 +1,21 @@
 import Api from "@api";
-import { ControlledPicker, ControlledTextInput } from "@components/inputs";
+import {
+  ControlledSelectMenu,
+  ControlledTextInput,
+  SelectMenuOption,
+} from "@components/inputs";
 
+import { IconWithBackground } from "@components";
+import { Button } from "@components/buttons";
 import { useUserContext } from "@context";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ActivityType } from "@local-types/activities";
 import { GoalSchedule, IDraftMilestone } from "@local-types/goals";
 import { useQuery } from "@tanstack/react-query";
+import { useAppTheme } from "@theme";
 import { useEffect, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
 import { CountBasedGoalForm } from "./CountBasedGoalForm";
 import { MilestonesGoalForm } from "./MilestonesGoalForm";
 import { TimeBasedGoalForm } from "./TimeBasedGoalForm";
@@ -25,21 +32,6 @@ export type GoalFormValues = {
   milestones?: IDraftMilestone[];
 };
 
-const activityTypeOptions = [
-  {
-    label: "Count",
-    value: "count",
-  },
-  {
-    label: "Time-based",
-    value: "time",
-  },
-  {
-    label: "Milestone",
-    value: "milestone",
-  },
-] satisfies { label: string; value: ActivityType }[];
-
 type GoalFormProps = {
   defaultValues?: GoalFormValues;
   onSubmit: (values: GoalFormValues) => void;
@@ -51,6 +43,8 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
     defaultValues: defaultValues ?? { schedule: "none", type: "time" },
   });
   const { handleSubmit, control, watch, reset } = form;
+
+  const activityTypeOptions = useActivityTypeOptions();
 
   useEffect(() => {
     console.log("Reset form", { defaultValues });
@@ -75,10 +69,20 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
 
   const activitiesOptions = useMemo(
     () =>
-      activities?.map((activity) => ({
-        label: activity.name,
-        value: activity.id,
-      })) ?? [],
+      activities?.map(
+        (activity) =>
+          ({
+            title: activity.name,
+            value: activity.id,
+            leadingIcon: ({ size }) => (
+              <IconWithBackground
+                name={activity.icon}
+                style={{ width: 40 }}
+                iconSize={size}
+              />
+            ),
+          }) satisfies SelectMenuOption<number>,
+      ) ?? [],
     [activities],
   );
 
@@ -90,17 +94,17 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
           name="name"
           textInputPros={{ label: "Name" }}
         />
-        <ControlledPicker
+        <ControlledSelectMenu
+          options={activitiesOptions}
           control={control}
           name="activity_id"
-          options={activitiesOptions}
-          pickerProps={{ enabled: !defaultValues }}
+          selectProps={{ label: "Activity" }}
         />
-        <ControlledPicker
+        <ControlledSelectMenu
           control={control}
           name="type"
           options={activityTypeOptions}
-          pickerProps={{ enabled: !defaultValues }}
+          selectProps={{ disabled: !!defaultValues, label: "Goal Type" }}
         />
         {watch("type") === "time" && <TimeBasedGoalForm />}
         {watch("type") === "count" && <CountBasedGoalForm />}
@@ -116,5 +120,43 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
+    padding: 16,
+    gap: 8,
   },
 });
+
+const useActivityTypeOptions = () => {
+  const theme = useAppTheme();
+
+  return useMemo(
+    () =>
+      [
+        {
+          title: "Count",
+          value: "count",
+          leadingIcon: ({ size }) => (
+            <FontAwesome size={size} name="list" color={theme.colors.outline} />
+          ),
+        },
+        {
+          title: "Time-based",
+          value: "time",
+          leadingIcon: ({ size }) => (
+            <FontAwesome
+              size={size}
+              name="hourglass"
+              color={theme.colors.outline}
+            />
+          ),
+        },
+        {
+          title: "Milestone",
+          value: "milestone",
+          leadingIcon: ({ size }) => (
+            <FontAwesome size={size} name="flag" color={theme.colors.outline} />
+          ),
+        },
+      ] satisfies SelectMenuOption[],
+    [theme.colors.outline],
+  );
+};

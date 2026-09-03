@@ -1,5 +1,10 @@
 import { Button } from "@components/buttons";
-import { ControlledTextInput } from "@components/inputs";
+import {
+  ControlledColorSelect,
+  ControlledIconSelect,
+  ControlledTextInput,
+} from "@components/inputs";
+
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
@@ -34,15 +39,15 @@ export const ActivityForm = ({
         name="name"
         textInputPros={{ label: "Name" }}
       />
-      <ControlledTextInput
+      <ControlledIconSelect
         control={control}
         name="icon"
-        textInputPros={{ label: "Icon" }}
+        selectProps={{ label: "Icon" }}
       />
-      <ControlledTextInput
+      <ControlledColorSelect
         control={control}
         name="color"
-        textInputPros={{ label: "Color" }}
+        selectProps={{ label: "Color" }}
       />
       <Button icon="check" onPress={handleSubmit(onSubmit)}>
         Save

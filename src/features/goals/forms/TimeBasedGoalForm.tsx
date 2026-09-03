@@ -1,4 +1,7 @@
-import { ControlledNumericInput, ControlledPicker } from "@components/inputs";
+import {
+  ControlledNumberInput,
+  ControlledSelectMenu,
+} from "@components/inputs";
 
 import { GOAL_SCHEDULE_OPTIONS } from "@constants";
 import { GoalSchedule } from "@local-types/goals";
@@ -15,17 +18,18 @@ export const TimeBasedGoalForm = () => {
 
   return (
     <>
-      <ControlledNumericInput
+      <ControlledNumberInput
         control={control}
         name="duration"
         inputProps={{ label: "Duration" }}
       />
-      <ControlledPicker
+      <ControlledSelectMenu
         control={control}
         name="schedule"
         options={GOAL_SCHEDULE_OPTIONS}
+        selectProps={{ label: "Schedule" }}
       />
-      <ControlledNumericInput
+      <ControlledNumberInput
         control={control}
         name="reward"
         inputProps={{ label: "Reward" }}

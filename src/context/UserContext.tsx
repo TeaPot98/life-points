@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "expo-router";
 import {
   createContext,
   PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -26,12 +27,29 @@ type UserContextValue = {
     },
     unknown
   >;
+  isSigningUp: boolean;
+  signUpWithPassword: UseMutateFunction<
+    {
+      user: User | null;
+      session: Session | null;
+    },
+    Error,
+    {
+      email: string;
+      password: string;
+    },
+    unknown
+  >;
+  logOut: () => void;
 };
 
 const UserContext = createContext<UserContextValue>({
   user: null,
   signInWithPassword: () => {},
   isSigningIn: false,
+  signUpWithPassword: () => {},
+  isSigningUp: false,
+  logOut: () => {},
 });
 
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
@@ -47,7 +65,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
 
       setUser(sessionUser);
 
-      if (!sessionUser && pathname !== "/sign-in") {
+      if (!sessionUser && !PUBLIC_PATHNAMES.includes(pathname)) {
         router.replace("/sign-in");
       }
     })();
@@ -61,6 +79,12 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     });
   }, [router]);
 
+  const logOut = useCallback(async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    router.replace("/sign-in");
+  }, [router]);
+
   const { mutate: signInWithPassword, isPending: isSigningIn } = useMutation({
     mutationFn: Api.auth.signInWithPassword,
     onSuccess: (response) => {
@@ -69,11 +93,30 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     },
   });
 
+  const { mutate: signUpWithPassword, isPending: isSigningUp } = useMutation({
+    mutationFn: Api.auth.signUpWithPassword,
+    onSuccess: (response) => {
+      setUser(response.user);
+      router.replace("/(tabs)/goals");
+    },
+  });
+
   return (
-    <UserContext value={{ user, signInWithPassword, isSigningIn }}>
+    <UserContext
+      value={{
+        user,
+        signInWithPassword,
+        isSigningIn,
+        signUpWithPassword,
+        isSigningUp,
+        logOut,
+      }}
+    >
       {children}
     </UserContext>
   );
 };
 
 export const useUserContext = () => useContext(UserContext);
+
+const PUBLIC_PATHNAMES = ["/sign-in", "/sign-up"];

@@ -1,5 +1,5 @@
 import { isNil } from "@utils";
-import { TextInput, TextInputProps } from "react-native-paper";
+import { TextInput, TextInputProps } from "./TextInput";
 
 export interface NumberInputProps extends Omit<
   TextInputProps,

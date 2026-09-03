@@ -1,8 +1,12 @@
-import { ControlledTextInput } from "@components/inputs";
+import { Button } from "@components/buttons";
+import {
+  ControlledColorSelect,
+  ControlledIconSelect,
+  ControlledTextInput,
+} from "@components/inputs";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
 
 export type RewardActivityFormValues = {
   name: string;
@@ -32,17 +36,17 @@ export const RewardActivityForm = ({
       <ControlledTextInput
         control={control}
         name="name"
-        textInputPros={{ label: "name" }}
+        textInputPros={{ label: "Name" }}
       />
-      <ControlledTextInput
+      <ControlledIconSelect
         control={control}
         name="icon"
-        textInputPros={{ label: "icon" }}
+        selectProps={{ label: "Icon" }}
       />
-      <ControlledTextInput
+      <ControlledColorSelect
         control={control}
         name="color"
-        textInputPros={{ label: "color" }}
+        selectProps={{ label: "Color" }}
       />
       <Button icon="plus" onPress={handleSubmit(onSubmit)}>
         Save
@@ -54,5 +58,7 @@ export const RewardActivityForm = ({
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
+    padding: 16,
+    gap: 8,
   },
 });
