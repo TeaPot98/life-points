@@ -15,7 +15,7 @@ type ControlledSelectMenuProps<
   name: Path<T>;
   controllerProps?: Omit<ControllerProps<T>, "name" | "control" | "render">;
   options: SelectMenuOption<V>[];
-  selectProps?: SelectMenuProps<V>;
+  selectProps?: Partial<SelectMenuProps<V>>;
 };
 
 export const ControlledSelectMenu = <

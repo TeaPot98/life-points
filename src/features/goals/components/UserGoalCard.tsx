@@ -3,6 +3,7 @@ import { Button } from "@components/buttons";
 import { Chip } from "@components/Chip";
 import { ProgressBar } from "@components/ProgressBar";
 import { ACTIVITY_TYPE_ICONS } from "@constants";
+import { useGoalsContext } from "@context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IUserGoal } from "@local-types/goals";
 import { useAppTheme } from "@theme";
@@ -10,16 +11,22 @@ import { CustomTheme } from "@theme/types";
 import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
 import { useRouter } from "expo-router";
+import { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 type UserGoalCardProps = {
   userGoal: IUserGoal;
+  hidePlusButton?: boolean;
 };
 
-export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
+export const UserGoalCard = ({
+  userGoal,
+  hidePlusButton = false,
+}: UserGoalCardProps) => {
   const router = useRouter();
   const theme = useAppTheme();
+  const { setGoalToEdit, setCountGoalModalOpen } = useGoalsContext();
   const percentage = computeGoalCompletionPercentage(userGoal);
   const {
     id,
@@ -37,15 +44,27 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
 
   const styles = getStyles(theme);
 
-  return (
-    <Card
-      onPress={() =>
+  const onPlusClick = useCallback(() => {
+    switch (type) {
+      case "milestone":
         router.push({
           pathname: "/(tabs)/goals/user-goals/[id]",
           params: { id },
-        })
-      }
-    >
+        });
+        break;
+      case "count":
+        setGoalToEdit(userGoal);
+        setCountGoalModalOpen(true);
+        break;
+      case "time":
+        break;
+      default:
+        break;
+    }
+  }, [id, router, setCountGoalModalOpen, setGoalToEdit, type, userGoal]);
+
+  return (
+    <Card>
       <Card.Content>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
@@ -88,9 +107,18 @@ export const UserGoalCard = ({ userGoal }: UserGoalCardProps) => {
         </View>
       </Card.Content>
       <Card.Actions>
-        <Button color="secondary" icon="pencil">
-          Edit
-        </Button>
+        {(type === "count" || type === "milestone") && !hidePlusButton && (
+          <Button onPress={onPlusClick} color="secondary">
+            <FontAwesome name="plus" />
+          </Button>
+        )}
+        {percentage === 100 ? (
+          <Chip icon="check">Completed</Chip>
+        ) : (
+          <Button>
+            <FontAwesome name="check" />
+          </Button>
+        )}
       </Card.Actions>
     </Card>
   );

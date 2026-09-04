@@ -1,11 +1,14 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
 import { useUserContext } from "@context";
-import { MilestoneUserGoalDetails } from "@features/goals/components";
+import {
+  MilestoneUserGoalDetails,
+  UserGoalCard,
+} from "@features/goals/components";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
-import { Text } from "react-native-paper";
+import { Divider, Text } from "react-native-paper";
 
 export default function UserGoalDetailsScreen() {
   const { user } = useUserContext();
@@ -19,22 +22,27 @@ export default function UserGoalDetailsScreen() {
   if (!userGoal) return;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Goal Details</Text>
-      <View style={styles.separator} />
-      {userGoal.goal.type === "milestone" && (
-        <MilestoneUserGoalDetails userGoal={userGoal} />
-      )}
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        <UserGoalCard userGoal={userGoal} hidePlusButton />
+        <Text style={styles.milestonesLabel}>Milestones</Text>
+        <Divider style={styles.divider} />
+        {userGoal.goal.type === "milestone" && (
+          <MilestoneUserGoalDetails userGoal={userGoal} />
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    padding: 16,
   },
+  milestonesLabel: { marginTop: 8 },
+  divider: { marginBottom: 8 },
   title: {
     fontSize: 20,
     fontWeight: "bold",

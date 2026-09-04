@@ -1,3 +1,4 @@
+import { TabHeader } from "@components";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Stack, useRouter } from "expo-router";
 import { Pressable } from "react-native";
@@ -11,7 +12,17 @@ export default function ReadingLayout() {
   const router = useRouter();
 
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        header: ({ navigation, options, back }) => (
+          <TabHeader
+            canGoBack={!!back}
+            title={options.title}
+            onGoBack={navigation.goBack}
+          />
+        ),
+      }}
+    >
       <Stack.Screen
         name="index"
         options={{

@@ -109,9 +109,7 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
         {watch("type") === "time" && <TimeBasedGoalForm />}
         {watch("type") === "count" && <CountBasedGoalForm />}
         {watch("type") === "milestone" && <MilestonesGoalForm />}
-        <Button icon="plus" onPress={handleSubmit(onSubmit)}>
-          Save
-        </Button>
+        <Button onPress={handleSubmit(onSubmit)}>Save</Button>
       </View>
     </FormProvider>
   );

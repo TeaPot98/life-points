@@ -20,72 +20,76 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const { colorScheme } = useCustomizationContext();
   const theme = useAppTheme();
+  const { colorScheme } = useCustomizationContext();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
-      }}
-      tabBar={({ navigation, state, descriptors, insets }) => (
-        <BottomNavigation.Bar
-          compact
-          style={{
-            borderRadius: 80,
-            overflow: "hidden",
-            marginBottom: 50,
-            marginHorizontal: 10,
-            height: 80,
-            borderWidth: 2,
-            borderBottomWidth: 4,
-            borderRightWidth: 3,
-            borderColor: theme.colors.outlineVariant,
-          }}
-          navigationState={state}
-          safeAreaInsets={insets}
-          onTabPress={({ route }) => navigation.navigate(route.name)}
-          renderIcon={({ route, focused, color }) =>
-            descriptors[route.key].options.tabBarIcon?.({
-              focused,
-              color,
-              size: 24,
-            }) ?? null
-          }
-          getLabelText={({ route }) => {
-            const options = descriptors[route.key].options;
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+          headerShown: false,
+        }}
+        tabBar={({ navigation, state, descriptors, insets }) => (
+          <BottomNavigation.Bar
+            compact
+            style={{
+              borderRadius: 80,
+              overflow: "hidden",
+              marginBottom: 50,
+              marginHorizontal: 10,
+              height: 80,
+              borderWidth: 2,
+              borderBottomWidth: 4,
+              borderRightWidth: 3,
+              borderColor: theme.colors.outlineVariant,
+            }}
+            navigationState={state}
+            safeAreaInsets={insets}
+            onTabPress={({ route }) => navigation.navigate(route.name)}
+            renderIcon={({ route, focused, color }) =>
+              descriptors[route.key].options.tabBarIcon?.({
+                focused,
+                color,
+                size: 24,
+              }) ?? null
+            }
+            getLabelText={({ route }) => {
+              const options = descriptors[route.key].options;
 
-            return typeof options.tabBarLabel === "string"
-              ? options.tabBarLabel
-              : (options.title ?? route.name);
+              return typeof options.tabBarLabel === "string"
+                ? options.tabBarLabel
+                : (options.title ?? route.name);
+            }}
+          />
+        )}
+      >
+        <Tabs.Screen
+          name="goals"
+          options={{
+            title: "Goals",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="flag-checkered" color={color} />
+            ),
           }}
         />
-      )}
-    >
-      <Tabs.Screen
-        name="goals"
-        options={{
-          title: "Goals",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="flag-checkered" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="reading"
-        options={{
-          title: "Reading",
-          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="rewards"
-        options={{
-          title: "Rewards",
-          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
-        }}
-      />
-    </Tabs>
+        <Tabs.Screen
+          name="reading"
+          options={{
+            title: "Reading",
+            tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="rewards"
+          options={{
+            title: "Rewards",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="heart" color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+    </>
   );
 }

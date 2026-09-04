@@ -1,9 +1,11 @@
-import { NumberInput } from "@components/inputs";
+import { Card, Chip } from "@components";
+import { Button } from "@components/buttons";
+import { NumberInput, TextInput } from "@components/inputs";
 import { IDraftMilestone } from "@local-types/goals";
 import { useState } from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
-import { View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { Divider, Text } from "react-native-paper";
 
 const EMPTY_MILESTONE = {
   name: "",
@@ -44,7 +46,13 @@ export const MilestonesInput = ({
       control={control}
       {...controllerProps}
       render={({ field: { onChange, value = [] } }) => (
-        <View>
+        <View style={styles.container}>
+          {value?.length && (
+            <View>
+              <Text>Milestones</Text>
+              <Divider />
+            </View>
+          )}
           {value?.map((milestone, index) => (
             <View key={index}>
               {/* {index === editMilestoneIndex ? (
@@ -81,9 +89,17 @@ export const MilestonesInput = ({
                   }}
                 />
               ) : ( */}
-              <View>
-                <Text>{milestone.name}</Text>
-                <Text>{milestone.reward}</Text>
+              <Card>
+                <Card.Content
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text variant="bodyLarge">{milestone.name}</Text>
+                  <Chip icon="diamond">{milestone.reward}</Chip>
+                </Card.Content>
                 {/* <Button
                   onPress={() => {
                     setNewMilestone(null);
@@ -92,7 +108,7 @@ export const MilestonesInput = ({
                 >
                   Edit
                 </Button> */}
-              </View>
+              </Card>
               {/* )} */}
             </View>
           ))}
@@ -119,7 +135,9 @@ export const MilestonesInput = ({
             />
           )}
           {newMilestone === null && (
-            <Button onPress={addNewMilestone}>Add new milestone</Button>
+            <Button icon="plus" color="secondary" onPress={addNewMilestone}>
+              Add new milestone
+            </Button>
           )}
         </View>
       )}
@@ -131,7 +149,7 @@ type MilestoneInputProps = {
   name: string;
   reward: number;
   onNameChange: (value: string) => void;
-  onRewardChange: (value: number) => void;
+  onRewardChange: (value: number | "") => void;
   onSave: () => void;
 };
 
@@ -143,13 +161,28 @@ const MilestoneInput = ({
   reward,
 }: MilestoneInputProps) => {
   return (
-    <View>
-      <TextInput value={name} onChangeText={onNameChange} />
+    <View style={styles.milestoneInput}>
+      <View>
+        <Text>New Milestone</Text>
+        <Divider />
+      </View>
+      <TextInput label="Name" value={name} onChangeText={onNameChange} />
       <NumberInput
+        label="Reward"
         value={reward}
         onChange={(reward) => onRewardChange(reward)}
       />
-      <Button onPress={onSave}>Save</Button>
+      <Button onPress={onSave}>Add Milestone</Button>
+      <Divider />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 8,
+  },
+  milestoneInput: {
+    gap: 8,
+  },
+});

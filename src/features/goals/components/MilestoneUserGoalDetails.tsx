@@ -1,12 +1,13 @@
 import Api from "@api";
-import { ProgressBar } from "@components/ProgressBar";
+import { Card, Chip } from "@components";
+import { Button } from "@components/buttons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IMilestone, IUserGoal } from "@local-types/goals";
 import { useMutation } from "@tanstack/react-query";
 import { isNil } from "@utils";
-import { computeGoalCompletionPercentage } from "@utils/goals";
 import dayjs from "dayjs";
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 type MilestoneUserGoalDetailsProps = {
   userGoal: IUserGoal;
@@ -15,19 +16,8 @@ type MilestoneUserGoalDetailsProps = {
 export const MilestoneUserGoalDetails = ({
   userGoal,
 }: MilestoneUserGoalDetailsProps) => {
-  const percentage = computeGoalCompletionPercentage(userGoal);
   const {
-    goal: {
-      type,
-      duration,
-      goal_count,
-      activity_id,
-      reward,
-      reward_per_item,
-      schedule,
-      name,
-      milestones,
-    },
+    goal: { milestones },
   } = userGoal;
 
   const { mutate: markMilestoneAsComplete } = useMutation({
@@ -39,56 +29,38 @@ export const MilestoneUserGoalDetails = ({
   });
 
   return (
-    <View>
-      <View style={styles.rowContainer}>
-        {/* <View style={styles.iconContainer}>
-            <FontAwesome name={icon} size={24} />
-          </View> */}
-        <Text>{name}</Text>
-        <Text>{type}</Text>
-        <Text>{duration}</Text>
-        <Text>{goal_count}</Text>
-        <Text>{activity_id}</Text>
-        <Text>{reward}</Text>
-        <Text>{reward_per_item}</Text>
-        <Text>{schedule}</Text>
-      </View>
-      <View>
-        {milestones.map((milestone) => (
-          <View key={milestone.id}>
-            <Text>{milestone.name}</Text>
-            <Text>{milestone.reward}</Text>
-            <Text>
-              Compl: {!isNil(milestone.completed_at) ? "true" : "false"}
-            </Text>
-            <Button onPress={() => markMilestoneAsComplete(milestone)}>
-              Mark as complete
-            </Button>
-          </View>
-        ))}
-      </View>
-      {!isNil(percentage) && (
-        <ProgressBar percentage={percentage} style={{ alignSelf: "stretch" }} />
-      )}
+    <View style={styles.container}>
+      {milestones.map((milestone) => {
+        const isCompleted = !isNil(milestone.completed_at);
+
+        return (
+          <Card key={milestone.id}>
+            <Card.Content style={styles.cardContent}>
+              <View style={styles.titleContainer}>
+                <Text variant="bodyLarge">{milestone.name}</Text>
+                <Chip icon="diamond">{milestone.reward}</Chip>
+              </View>
+              {isCompleted ? (
+                <Chip icon="check">Completed</Chip>
+              ) : (
+                <Button onPress={() => markMilestoneAsComplete(milestone)}>
+                  <FontAwesome name="check" />
+                </Button>
+              )}
+            </Card.Content>
+          </Card>
+        );
+      })}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderColor: "#444",
-    borderWidth: 1,
-    borderRadius: 12,
-    overflow: "hidden",
-    width: "100%",
-  },
-  rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
-  iconContainer: {
-    backgroundColor: "#ccc",
-    aspectRatio: 1,
-    width: 60,
-    borderRadius: "50%",
-    justifyContent: "center",
-    alignItems: "center",
+  container: { gap: 8 },
+  titleContainer: { alignItems: "flex-start", gap: 4 },
+  cardContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
   },
 });

@@ -1,4 +1,4 @@
-import { ControlledNumericInput } from "@components/inputs";
+import { ControlledNumberInput } from "@components/inputs";
 import { IDraftMilestone } from "@local-types/goals";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
@@ -20,7 +20,7 @@ export const MilestonesGoalForm = () => {
 
   return (
     <>
-      <ControlledNumericInput
+      <ControlledNumberInput
         control={control}
         name="reward"
         inputProps={{ label: "Final Reward" }}
