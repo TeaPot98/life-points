@@ -8,8 +8,9 @@ import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 import { Button } from "@components/buttons";
+import { FontAwesomeName } from "@local-types/icons";
 import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { CustomTheme, FixedColor } from "@theme/types";
 import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
 
 type GoalCardProps = {
@@ -39,7 +40,10 @@ export const GoalCard = ({
       <Card.Content>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <IconWithBackground name={activity.icon} color={activity.color} />
+            <IconWithBackground
+              name={activity.icon as FontAwesomeName}
+              color={activity.color as FixedColor}
+            />
             <Text variant="titleMedium" style={styles.cardText}>
               {name}
             </Text>

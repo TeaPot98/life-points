@@ -126,7 +126,6 @@ export type Database = {
       };
       milestones: {
         Row: {
-          completed_at: string | null;
           created_at: string;
           goal_id: number;
           id: number;
@@ -135,7 +134,6 @@ export type Database = {
           user_id: string;
         };
         Insert: {
-          completed_at?: string | null;
           created_at?: string;
           goal_id: number;
           id?: number;
@@ -144,7 +142,6 @@ export type Database = {
           user_id: string;
         };
         Update: {
-          completed_at?: string | null;
           created_at?: string;
           goal_id?: number;
           id?: number;

@@ -1,3 +1,4 @@
+import { useMarkUserGoalAsCompleted } from "@api-hooks";
 import { Card, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { Chip } from "@components/Chip";
@@ -6,8 +7,9 @@ import { ACTIVITY_TYPE_ICONS } from "@constants";
 import { useGoalsContext } from "@context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IUserGoal } from "@local-types/goals";
+import { FontAwesomeName } from "@local-types/icons";
 import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { CustomTheme, FixedColor } from "@theme/types";
 import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
 import { useRouter } from "expo-router";
@@ -43,6 +45,9 @@ export const UserGoalCard = ({
   } = userGoal;
 
   const styles = getStyles(theme);
+  const isCompleted = percentage === 100;
+
+  const markUserGoalAsCompleted = useMarkUserGoalAsCompleted(userGoal);
 
   const onPlusClick = useCallback(() => {
     switch (type) {
@@ -68,7 +73,10 @@ export const UserGoalCard = ({
       <Card.Content>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            <IconWithBackground name={activity.icon} color={activity.color} />
+            <IconWithBackground
+              name={activity.icon as FontAwesomeName}
+              color={activity.color as FixedColor}
+            />
             <Text variant="titleMedium" style={styles.cardText}>
               {name}
             </Text>
@@ -106,20 +114,22 @@ export const UserGoalCard = ({
           )}
         </View>
       </Card.Content>
-      <Card.Actions>
-        {(type === "count" || type === "milestone") && !hidePlusButton && (
-          <Button onPress={onPlusClick} color="secondary">
-            <FontAwesome name="plus" />
-          </Button>
-        )}
-        {percentage === 100 ? (
+      <View style={styles.actionsContainer}>
+        {(type === "count" || type === "milestone") &&
+          !hidePlusButton &&
+          !isCompleted && (
+            <Button onPress={onPlusClick} color="secondary">
+              <FontAwesome name="plus" />
+            </Button>
+          )}
+        {isCompleted ? (
           <Chip icon="check">Completed</Chip>
         ) : (
-          <Button>
+          <Button onPress={markUserGoalAsCompleted}>
             <FontAwesome name="check" />
           </Button>
         )}
-      </Card.Actions>
+      </View>
     </Card>
   );
 };
@@ -139,5 +149,11 @@ const getStyles = (theme: CustomTheme) =>
     rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
     cardText: {
       color: theme.colors.onSurfaceVariant,
+    },
+    actionsContainer: {
+      flexDirection: "row",
+      padding: 8,
+      justifyContent: "flex-end",
+      gap: 6,
     },
   });

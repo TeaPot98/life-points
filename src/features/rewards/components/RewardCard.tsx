@@ -2,10 +2,11 @@ import Api from "@api";
 import { Card, Chip, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { useUserContext } from "@context";
+import { FontAwesomeName } from "@local-types/icons";
 import { IReward } from "@local-types/rewards";
 import { useMutation } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { CustomTheme, FixedColor } from "@theme/types";
 import { fromSecondsToHumanReadable, isNil } from "@utils";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
@@ -35,8 +36,8 @@ export const RewardCard = ({ reward }: RewardCardProps) => {
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             <IconWithBackground
-              name={reward.activity.icon}
-              color={reward.activity.color}
+              name={reward.activity.icon as FontAwesomeName}
+              color={reward.activity.color as FixedColor}
             />
             <Text variant="titleMedium" style={styles.cardText}>
               {reward.activity.name}

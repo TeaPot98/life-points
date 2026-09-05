@@ -1,6 +1,8 @@
 import { Card, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
+import { FontAwesomeName } from "@local-types/icons";
 import { IRewardActivity } from "@local-types/rewards";
+import { FixedColor } from "@theme/types";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
@@ -20,8 +22,8 @@ export const RewardActivityCard = ({
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             <IconWithBackground
-              name={rewardActivity.icon}
-              color={rewardActivity.color}
+              name={rewardActivity.icon as FontAwesomeName}
+              color={rewardActivity.color as FixedColor}
             />
             <Text variant="titleMedium">{rewardActivity.name}</Text>
           </View>

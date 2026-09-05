@@ -11,6 +11,7 @@ import { useUserContext } from "@context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { ActivityType } from "@local-types/activities";
 import { GoalSchedule, IDraftMilestone } from "@local-types/goals";
+import { FontAwesomeName } from "@local-types/icons";
 import { useQuery } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
 import { useEffect, useMemo } from "react";
@@ -76,7 +77,7 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
             value: activity.id,
             leadingIcon: ({ size }) => (
               <IconWithBackground
-                name={activity.icon}
+                name={activity.icon as FontAwesomeName}
                 style={{ width: 40 }}
                 iconSize={size}
               />

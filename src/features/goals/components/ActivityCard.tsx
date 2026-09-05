@@ -1,6 +1,7 @@
 import { Card, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { IActivity } from "@local-types/activities";
+import { FontAwesomeName } from "@local-types/icons";
 import { FixedColor } from "@theme/types";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
@@ -19,7 +20,7 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             <IconWithBackground
-              name={activity.icon}
+              name={activity.icon as FontAwesomeName}
               color={activity.color as FixedColor}
             />
             <Text variant="titleMedium">{activity.name}</Text>

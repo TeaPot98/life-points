@@ -32,7 +32,9 @@ const milestones = {
     const { data, error } = await supabase
       .from("milestones")
       .update(payload)
-      .eq("id", id);
+      .eq("id", id)
+      .select()
+      .single();
 
     if (error) {
       console.error(error);
