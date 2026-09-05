@@ -19,13 +19,24 @@ export default function EditActivityScreen() {
     queryFn: () => Api.activities.getById(Number(id), userId),
   });
 
-  const { mutate: updateActivity } = useMutation({
+  const { mutateAsync: updateActivity } = useMutation({
     mutationFn: (payload: Partial<IActivity> & { id: number }) =>
       Api.activities.update(payload.id, payload),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: queryKeyStore.activities.getAll,
-      }),
+    onSuccess: (_, { id }) =>
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.activities.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.activities.getById(id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.goals.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userGoals.getAll,
+        }),
+      ]),
   });
 
   const onSubmit = async (values: ActivityFormValues) => {

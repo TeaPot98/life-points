@@ -18,12 +18,7 @@ export default function SignInScreen() {
   const { handleSubmit, control } = useForm<FormFieldsType>();
 
   const onSubmit = (values: FormFieldsType) => {
-    console.log({ values });
     signInWithPassword(values);
-  };
-
-  const onInvalid = (arg: any) => {
-    console.log({ arg });
   };
 
   return (
@@ -38,7 +33,7 @@ export default function SignInScreen() {
         name="password"
         textInputPros={{ label: "Password", secureTextEntry: true }}
       />
-      <Button icon="plus" onPress={handleSubmit(onSubmit, onInvalid)}>
+      <Button icon="plus" onPress={handleSubmit(onSubmit)}>
         Log In
       </Button>
       <Text>OR</Text>

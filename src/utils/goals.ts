@@ -27,7 +27,10 @@ export function computeGoalCompletionPercentage(userGoal: IUserGoal) {
           return 100;
       }
 
-      return (userGoal.completed_count * 100) / userGoal.goal.goal_count;
+      return Math.min(
+        100,
+        (userGoal.completed_count * 100) / userGoal.goal.goal_count,
+      );
 
     case "time":
       if (isNil(userGoal.started_at) || isNil(userGoal.goal.duration))
@@ -42,9 +45,10 @@ export function computeGoalCompletionPercentage(userGoal: IUserGoal) {
     case "milestone":
       if (!userGoal.goal.milestones.length) return 0;
 
-      return (
+      return Math.min(
+        100,
         (userGoal.completed_milestones.length * 100) /
-        userGoal.goal.milestones.length
+          userGoal.goal.milestones.length,
       );
     default:
       return null;

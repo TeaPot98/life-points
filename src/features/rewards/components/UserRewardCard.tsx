@@ -30,9 +30,14 @@ export const UserRewardCard = ({ userReward }: UserRewardCardProps) => {
     mutationFn: (payload: Partial<IUserReward> & { id: number }) =>
       Api.userRewards.update(payload.id, payload),
     onSuccess: (_, { id }) =>
-      queryClient.invalidateQueries({
-        queryKey: queryKeyStore.userRewards.getById(id),
-      }),
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userRewards.getById(id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userRewards.getAll,
+        }),
+      ]),
   });
 
   const onClaimPress = useCallback(

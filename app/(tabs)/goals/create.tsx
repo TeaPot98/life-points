@@ -23,9 +23,17 @@ export default function CreateGoalScreen() {
   const { mutateAsync: createMilestones } = useMutation({
     mutationFn: Api.milestones.create,
     onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: queryKeyStore.milestones.getAll,
-      }),
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.milestones.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.goals.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.usreGoals.getAll,
+        }),
+      ]),
   });
 
   const onSubmit = async ({

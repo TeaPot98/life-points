@@ -45,27 +45,32 @@ export const CountGoalModal = () => {
       prevGoal: IUserGoal;
       goalIncrement: number;
     }) => {
-      const resultingPoints = prevGoal.completed_count + goalIncrement;
+      const resultingCount = prevGoal.completed_count + goalIncrement;
 
-      if (resultingPoints >= prevGoal.goal.goal_count) {
+      if (resultingCount >= prevGoal.goal.goal_count) {
         await markGoalAsCompleted(prevGoal);
       } else {
         await Api.userGoals.update(prevGoal.id, {
-          completed_count: resultingPoints,
+          completed_count: resultingCount,
         });
-        const gainedPoints = resultingPoints - prevGoal.completed_count;
+        const gainedPoints =
+          (resultingCount - prevGoal.completed_count) *
+          prevGoal.goal.reward_per_item;
         await Api.userData.updatePoints(gainedPoints);
       }
     },
-    onSuccess: async (_, { prevGoal }) => {
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.userGoals.getById(prevGoal.id),
-      });
-
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.userGoals.getAll,
-      });
-    },
+    onSuccess: (_, { prevGoal }) =>
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userGoals.getById(prevGoal.id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userGoals.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userData.get,
+        }),
+      ]),
   });
 
   const onSubmit = async ({ incrementWith }: FormFieldsType) => {

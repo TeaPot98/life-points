@@ -1,5 +1,5 @@
 import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
+import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "@api-hooks";
 import { Card, Chip } from "@components";
 import { Button } from "@components/buttons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -20,14 +20,22 @@ export const MilestoneUserGoalDetails = ({
   } = userGoal;
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const markGoalAsCompleted = useMarkUserGoalAsCompleted();
 
   const { mutate: markMilestoneAsComplete } = useMutation({
-    mutationFn: (id: number) =>
-      Api.userGoals.update(userGoal.id, {
-        completed_milestones: Array.from(
-          new Set(userGoal.completed_milestones.concat(id)),
-        ),
-      }),
+    mutationFn: async (id: number) => {
+      const completedMilestones = Array.from(
+        new Set(userGoal.completed_milestones.concat(id)),
+      );
+
+      if (completedMilestones.length >= milestones.length) {
+        await markGoalAsCompleted(userGoal);
+      } else {
+        await Api.userGoals.update(userGoal.id, {
+          completed_milestones: completedMilestones,
+        });
+      }
+    },
     onSuccess: async (_, id) => {
       await queryClient.invalidateQueries({
         queryKey: queryKeyStore.userGoals.getById(id),

@@ -23,14 +23,18 @@ export default function UpdateGoalScreen() {
 
   const { mutateAsync: updateGoal } = useMutation({
     mutationFn: (goal: GoalFormValues) => Api.goals.update(Number(id), goal),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.goals.getAll,
-      });
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.goals.getById(Number(id)),
-      });
-    },
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.goals.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.goals.getById(Number(id)),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userGoals.getAll,
+        }),
+      ]),
   });
 
   const { mutateAsync: createMilestones } = useMutation({

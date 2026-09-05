@@ -25,15 +25,18 @@ export default function CreateBookScreen() {
 
   const { mutateAsync: createReadingTracker } = useMutation({
     mutationFn: Api.readingTracker.create,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.readingTracker.tracker,
-      });
-
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.readingTracker.readingStatistics,
-      });
-    },
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.readingTracker.tracker,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.readingTracker.readingStatistics,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.books.getAll,
+        }),
+      ]),
   });
 
   const onSubmit = async ({

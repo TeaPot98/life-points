@@ -23,18 +23,24 @@ export default function EditRewardActivityScreen() {
       queryFn: () => Api.rewardActivities.getById(Number(id), userId),
     });
 
-  const { mutate: udpateRewardActivity } = useMutation({
+  const { mutateAsync: udpateRewardActivity } = useMutation({
     mutationFn: (payload: Partial<IRewardActivity> & { id: number }) =>
       Api.rewardActivities.update(payload.id, payload),
-    onSuccess: async (_, { id }) => {
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.rewardActivities.getAll,
-      });
-
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.rewardActivities.getById(id),
-      });
-    },
+    onSuccess: (_, { id }) =>
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.rewardActivities.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.rewardActivities.getById(id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userRewards.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.rewards.getAll,
+        }),
+      ]),
   });
 
   const onSubmit = async (values: RewardActivityFormValues) => {

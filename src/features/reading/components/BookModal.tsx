@@ -61,15 +61,18 @@ export const BookModal = () => {
         );
       }
     },
-    onSuccess: async (_, { book }) => {
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.books.getById(book.id),
-      });
-
-      await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.books.getAll,
-      });
-    },
+    onSuccess: async (_, { book }) =>
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.books.getById(book.id),
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.books.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.userData.get,
+        }),
+      ]),
   });
 
   const onSubmit = async ({ incrementWith }: FormFieldsType) => {
