@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { RewardCard } from "@features/rewards/components";
@@ -12,9 +13,10 @@ export default function RewardsShopScreen() {
   const router = useRouter();
   const isFocused = useIsFocused();
   const { user } = useUserContext();
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: rewards } = useQuery({
-    queryKey: ["rewards"],
+    queryKey: queryKeyStore.rewards.getAll,
     queryFn: () => Api.rewards.getAll(user?.id ?? ""),
   });
 

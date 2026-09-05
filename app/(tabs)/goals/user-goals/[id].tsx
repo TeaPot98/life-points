@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { useUserContext } from "@context";
 import {
   MilestoneUserGoalDetails,
@@ -13,9 +14,10 @@ import { Divider, Text } from "react-native-paper";
 export default function UserGoalDetailsScreen() {
   const { user } = useUserContext();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: userGoal } = useQuery({
-    queryKey: ["user-goals", id],
+    queryKey: queryKeyStore.userGoals.getById(Number(id)),
     queryFn: () => Api.userGoals.getById(Number(id), user?.id ?? ""),
   });
 

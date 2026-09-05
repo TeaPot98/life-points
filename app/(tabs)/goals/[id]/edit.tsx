@@ -1,8 +1,9 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { useUserContext } from "@context";
 import { GoalForm, GoalFormValues } from "@features/goals";
 import { IDraftMilestone, IMilestone } from "@local-types/goals";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { isNil } from "@utils";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ScrollView } from "react-native";
@@ -12,23 +13,37 @@ export default function UpdateGoalScreen() {
   const { user } = useUserContext();
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = user?.id ?? "";
+  const queryKeyStore = useQueryKeyStore();
+  const queryClient = useQueryClient();
 
   const { data: goal } = useQuery({
-    queryKey: ["goal", id],
+    queryKey: queryKeyStore.goals.getById(Number(id)),
     queryFn: () => Api.goals.getById(Number(id), userId),
   });
 
   const { mutateAsync: updateGoal } = useMutation({
     mutationFn: (goal: GoalFormValues) => Api.goals.update(Number(id), goal),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.goals.getAll,
+      }),
   });
 
   const { mutateAsync: createMilestones } = useMutation({
     mutationFn: Api.milestones.create,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.milestones.getAll,
+      }),
   });
 
   const { mutateAsync: udpateMilestone } = useMutation({
     mutationFn: (milestone: Partial<IMilestone> & { id: number }) =>
       Api.milestones.update(milestone.id, milestone),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.milestones.getAll,
+      }),
   });
 
   const onSubmit = async ({
@@ -96,6 +111,9 @@ export default function UpdateGoalScreen() {
           break;
       }
 
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.goals.getById(Number(id)),
+      });
       router.back();
     } catch (error) {
       console.error("An error occured while creating a goal", error);

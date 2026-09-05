@@ -1,4 +1,5 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { useUserContext } from "@context";
 import { ActivityForm, ActivityFormValues } from "@features/goals";
 import { useQuery } from "@tanstack/react-query";
@@ -9,9 +10,10 @@ export default function EditActivityScreen() {
   const { user } = useUserContext();
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = user?.id ?? "";
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: activity, isFetching: isActivityFetching } = useQuery({
-    queryKey: ["activity", id],
+    queryKey: queryKeyStore.activities.getById(Number(id)),
     queryFn: () => Api.activities.getById(Number(id), userId),
   });
 

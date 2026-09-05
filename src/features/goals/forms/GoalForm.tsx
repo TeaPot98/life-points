@@ -5,6 +5,7 @@ import {
   SelectMenuOption,
 } from "@components/inputs";
 
+import { useQueryKeyStore } from "@api-hooks";
 import { IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { useUserContext } from "@context";
@@ -45,6 +46,7 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
   });
   const { handleSubmit, control, watch, reset } = form;
 
+  const queryKeyStore = useQueryKeyStore();
   const activityTypeOptions = useActivityTypeOptions();
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
   }, [defaultValues, reset]);
 
   const { data: activities, isSuccess } = useQuery({
-    queryKey: ["activities"],
+    queryKey: queryKeyStore.activities.getAll,
     queryFn: () => Api.activities.getAll(user?.id ?? ""),
   });
 

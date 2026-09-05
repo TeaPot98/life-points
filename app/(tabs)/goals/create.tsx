@@ -1,20 +1,31 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { useUserContext } from "@context";
 import { GoalForm, GoalFormValues } from "@features/goals";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { ScrollView } from "react-native";
 
 export default function CreateGoalScreen() {
   const router = useRouter();
   const { user } = useUserContext();
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
 
   const { mutateAsync: createGoal } = useMutation({
     mutationFn: Api.goals.create,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.goals.getAll,
+      }),
   });
 
   const { mutateAsync: createMilestones } = useMutation({
     mutationFn: Api.milestones.create,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.milestones.getAll,
+      }),
   });
 
   const onSubmit = async ({

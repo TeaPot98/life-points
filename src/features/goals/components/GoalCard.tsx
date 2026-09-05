@@ -7,8 +7,12 @@ import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
+import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { Button } from "@components/buttons";
+import { useUserContext } from "@context";
 import { FontAwesomeName } from "@local-types/icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
 import { CustomTheme, FixedColor } from "@theme/types";
 import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
@@ -32,8 +36,20 @@ export const GoalCard = ({
 }: GoalCardProps) => {
   const router = useRouter();
   const theme = useAppTheme();
+  const { user } = useUserContext();
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
 
   const styles = getStyles(theme);
+
+  const { mutate: activateGoal } = useMutation({
+    mutationFn: (id: number) =>
+      Api.userGoals.create({ goal_id: id, user_id: user?.id ?? "" }),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getAll,
+      }),
+  });
 
   return (
     <Card>
@@ -84,6 +100,9 @@ export const GoalCard = ({
           }
         >
           Edit
+        </Button>
+        <Button icon="check" onPress={() => activateGoal(id)}>
+          Activate
         </Button>
       </Card.Actions>
     </Card>

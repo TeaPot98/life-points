@@ -1,21 +1,31 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { useUserContext } from "@context";
 import { BookForm, BookFormValues } from "@features/reading";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function CreateBookScreen() {
   const { user } = useUserContext();
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
 
   const userId = user?.id ?? "";
 
   const { mutateAsync: fetchReadingTracker } = useMutation({
-    mutationKey: ["fetch", "readingTracker", userId],
     mutationFn: () => Api.readingTracker.getByUserId(user?.id ?? ""),
   });
 
   const { mutateAsync: createReadingTracker } = useMutation({
-    mutationKey: ["create", "redingTracker", userId],
     mutationFn: Api.readingTracker.create,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.readingTracker.tracker,
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.readingTracker.readingStatistics,
+      });
+    },
   });
 
   const onSubmit = async ({

@@ -1,4 +1,5 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { useUserContext } from "@context";
 import {
   RewardActivityForm,
@@ -12,10 +13,11 @@ export default function EditRewardActivityScreen() {
   const { user } = useUserContext();
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = user?.id ?? "";
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: rewardActivity, isFetching: isRewardActivityFetching } =
     useQuery({
-      queryKey: ["activity-reward", id],
+      queryKey: queryKeyStore.rewardActivities.getById(Number(id)),
       queryFn: () => Api.rewardActivities.getById(Number(id), userId),
     });
 

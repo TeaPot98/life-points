@@ -1,17 +1,34 @@
 import Api from "@api";
 import { IUserGoal } from "@local-types/goals";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useCallback } from "react";
+import { useQueryKeyStore } from "./userQueryKeys";
 
 export function useMarkUserGoalAsCompleted(userGoal: IUserGoal) {
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
+
   const { mutateAsync: updateUserGoal } = useMutation({
     mutationFn: (payload: Partial<IUserGoal>) =>
       Api.userGoals.update(userGoal.id, payload),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getById(userGoal.id),
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getAll,
+      });
+    },
   });
 
   const { mutateAsync: updateUserPoints } = useMutation({
     mutationFn: Api.userData.updatePoints,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userData.get,
+      }),
   });
 
   return useCallback(async () => {

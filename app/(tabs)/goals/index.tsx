@@ -1,4 +1,5 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { Button, FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { UserGoalCard } from "@features/goals/components";
@@ -17,11 +18,12 @@ export default function GoalsTabScreen() {
   const theme = useAppTheme();
   const { user } = useUserContext();
   const isFocused = useIsFocused();
+  const queryKeyStore = useQueryKeyStore();
 
   const styles = getStyles(theme);
 
   const { data: userGoals } = useQuery({
-    queryKey: ["user-goals", user?.id],
+    queryKey: queryKeyStore.userGoals.getAll,
     queryFn: () => Api.userGoals.getAll(user?.id ?? ""),
   });
 

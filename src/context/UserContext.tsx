@@ -1,4 +1,5 @@
 import Api, { supabase } from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { IUserData } from "@local-types/user";
 import { Session, User, WeakPassword } from "@supabase/supabase-js";
 import {
@@ -62,9 +63,10 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: userData } = useQuery({
-    queryKey: ["user-data", user?.id],
+    queryKey: queryKeyStore.userData.get,
     queryFn: () => Api.userData.getByUserId(user?.id ?? ""),
   });
 

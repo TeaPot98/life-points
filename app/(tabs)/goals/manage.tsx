@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { GoalCard } from "@features/goals/components";
@@ -12,9 +13,10 @@ export default function ManageGoalsScreen() {
   const router = useRouter();
   const isFocused = useIsFocused();
   const { user } = useUserContext();
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: goals } = useQuery({
-    queryKey: ["goals"],
+    queryKey: queryKeyStore.goals.getAll,
     queryFn: () => Api.goals.getAll(user?.id ?? ""),
   });
 

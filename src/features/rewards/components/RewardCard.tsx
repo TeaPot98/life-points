@@ -1,10 +1,11 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { Card, Chip, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { useUserContext } from "@context";
 import { FontAwesomeName } from "@local-types/icons";
 import { IReward } from "@local-types/rewards";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
 import { CustomTheme, FixedColor } from "@theme/types";
 import { fromSecondsToHumanReadable, isNil } from "@utils";
@@ -17,8 +18,10 @@ type RewardCardProps = {
 
 export const RewardCard = ({ reward }: RewardCardProps) => {
   const theme = useAppTheme();
-  const { user } = useUserContext();
+  const { user, userData } = useUserContext();
   const userId = user?.id ?? "";
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
 
   const styles = getStyles(theme);
 
@@ -27,6 +30,14 @@ export const RewardCard = ({ reward }: RewardCardProps) => {
       await Api.userData.updatePoints(-reward.price);
 
       return Api.userRewards.create({ reward_id: rewardId, user_id: userId });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userData.get,
+      });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userRewards.getAll,
+      });
     },
   });
 
@@ -54,7 +65,12 @@ export const RewardCard = ({ reward }: RewardCardProps) => {
         </View>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={() => buyReward(reward.id)}>Buy</Button>
+        <Button
+          disabled={reward.price > (userData?.points ?? Infinity)}
+          onPress={() => buyReward(reward.id)}
+        >
+          Buy
+        </Button>
       </Card.Actions>
     </Card>
   );

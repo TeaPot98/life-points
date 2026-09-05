@@ -1,4 +1,5 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { Button } from "@components/buttons";
 import { ControlledPicker, ControlledTextInput } from "@components/inputs";
 
@@ -18,9 +19,10 @@ type FormFieldValues = {
 export default function CreateRewardScreen() {
   const { user } = useUserContext();
   const { handleSubmit, control, reset } = useForm<FormFieldValues>();
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: rewardActivities, isSuccess } = useQuery({
-    queryKey: ["reward-activities"],
+    queryKey: queryKeyStore.rewardActivities.getAll,
     queryFn: () => Api.rewardActivities.getAll(user?.id ?? ""),
   });
 

@@ -1,4 +1,5 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { IBook, IReadingTracker } from "@local-types/books";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
@@ -31,9 +32,10 @@ export const BooksContextProvider = ({ children }: PropsWithChildren) => {
   const [isBookModalOpen, setBookModalOpen] = useState(false);
   const [isReadingTrackerModalOpen, setReadingTrackerModalOpen] =
     useState(false);
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: readingTracker } = useQuery({
-    queryKey: ["reading-tracker", user?.id],
+    queryKey: queryKeyStore.readingTracker.tracker,
     queryFn: () => Api.readingTracker.getByUserId(user?.id ?? ""),
   });
 

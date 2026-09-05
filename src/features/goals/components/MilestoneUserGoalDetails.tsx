@@ -1,9 +1,10 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { Card, Chip } from "@components";
 import { Button } from "@components/buttons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IUserGoal } from "@local-types/goals";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
@@ -17,6 +18,8 @@ export const MilestoneUserGoalDetails = ({
   const {
     goal: { milestones },
   } = userGoal;
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
 
   const { mutate: markMilestoneAsComplete } = useMutation({
     mutationFn: (id: number) =>
@@ -25,6 +28,15 @@ export const MilestoneUserGoalDetails = ({
           new Set(userGoal.completed_milestones.concat(id)),
         ),
       }),
+    onSuccess: async (_, id) => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getById(id),
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getAll,
+      });
+    },
   });
 
   return (

@@ -1,9 +1,10 @@
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { Button } from "@components/buttons";
 import { ControlledNumberInput } from "@components/inputs";
 import { useGoalsContext } from "@context";
 import { IUserGoal } from "@local-types/goals";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 
@@ -12,6 +13,9 @@ type FormFieldsType = {
 };
 
 export const CountGoalModal = () => {
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
+
   const {
     goalToEdit,
     isCountGoalModalOpen: isOpen,
@@ -42,6 +46,15 @@ export const CountGoalModal = () => {
       Api.userGoals.update(prevGoal.id, {
         completed_count: prevGoal.completed_count + goalIncrement,
       }),
+    onSuccess: async (_, { prevGoal }) => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getById(prevGoal.id),
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getAll,
+      });
+    },
   });
 
   const onSubmit = async ({ incrementWith }: FormFieldsType) => {

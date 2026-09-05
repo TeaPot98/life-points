@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { BookCard, ReadingStatistics } from "@features/reading/components";
@@ -14,14 +15,15 @@ export default function ReadingTabScreen() {
   const router = useRouter();
   const { user } = useUserContext();
   const isFocused = useIsFocused();
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: readingStatistics } = useQuery({
-    queryKey: ["reading-statistics", user?.id],
+    queryKey: queryKeyStore.readingTracker.readingStatistics,
     queryFn: () => Api.readingTracker.getStatistics(user?.id ?? ""),
   });
 
   const { data: books } = useQuery({
-    queryKey: ["books"],
+    queryKey: queryKeyStore.books.getAll,
     queryFn: () => Api.books.getAll(user?.id ?? ""),
   });
 

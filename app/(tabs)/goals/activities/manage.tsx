@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { FAB } from "@components/buttons";
 import { useUserContext } from "@context";
 import { ActivityCard } from "@features/goals/components";
@@ -12,9 +13,10 @@ export default function ManageActivitiesScreen() {
   const router = useRouter();
   const isFocused = useIsFocused();
   const { user } = useUserContext();
+  const queryKeyStore = useQueryKeyStore();
 
   const { data: activities } = useQuery({
-    queryKey: ["activities"],
+    queryKey: queryKeyStore.activities.getAll,
     queryFn: () => Api.activities.getAll(user?.id ?? ""),
   });
 

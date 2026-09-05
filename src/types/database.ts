@@ -294,7 +294,7 @@ export type Database = {
           created_at?: string;
           goal_id: number;
           id?: number;
-          started_at: string;
+          started_at?: string;
           user_id: string;
         };
         Update: {
