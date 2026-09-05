@@ -25,13 +25,19 @@ export const ControlledTextInput = <T extends FieldValues = FieldValues>({
       control={control}
       name={name}
       {...controllerProps}
-      render={({ field: { onChange, onBlur, value } }) => (
-        <TextInput
-          value={value}
-          onChangeText={onChange}
-          onBlur={onBlur}
-          {...textInputPros}
-        />
+      render={({
+        field: { onChange, onBlur, value },
+        fieldState: { error },
+      }) => (
+        <>
+          <TextInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            errorMessage={error?.message}
+            {...textInputPros}
+          />
+        </>
       )}
     />
   );

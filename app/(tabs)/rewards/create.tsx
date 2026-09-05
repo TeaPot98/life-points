@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 
 type FormFieldValues = {
-  name: string;
   reward_activity_id: number;
   duration?: number;
   price: number;
@@ -60,11 +59,6 @@ export default function CreateRewardScreen() {
         control={control}
         name="reward_activity_id"
         options={rewardActivitiesOptions}
-      />
-      <ControlledTextInput
-        control={control}
-        name="name"
-        textInputPros={{ label: "Name" }}
       />
       <ControlledTextInput
         control={control}

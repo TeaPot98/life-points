@@ -3,7 +3,7 @@ import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "@api-hooks";
 import { Card, Chip } from "@components";
 import { Button } from "@components/buttons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IUserGoal } from "@local-types/goals";
+import { IMilestone, IUserGoal } from "@local-types/goals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
@@ -22,10 +22,16 @@ export const MilestoneUserGoalDetails = ({
   const queryKeyStore = useQueryKeyStore();
   const markGoalAsCompleted = useMarkUserGoalAsCompleted();
 
+  const { mutateAsync: updateUserPoints } = useMutation({
+    mutationFn: Api.userData.updatePoints,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: queryKeyStore.userData.get }),
+  });
+
   const { mutate: markMilestoneAsComplete } = useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (milestone: IMilestone) => {
       const completedMilestones = Array.from(
-        new Set(userGoal.completed_milestones.concat(id)),
+        new Set(userGoal.completed_milestones.concat(milestone.id)),
       );
 
       if (completedMilestones.length >= milestones.length) {
@@ -34,9 +40,10 @@ export const MilestoneUserGoalDetails = ({
         await Api.userGoals.update(userGoal.id, {
           completed_milestones: completedMilestones,
         });
+        await updateUserPoints(milestone.reward);
       }
     },
-    onSuccess: async (_, id) => {
+    onSuccess: async (_, { id }) => {
       await queryClient.invalidateQueries({
         queryKey: queryKeyStore.userGoals.getById(id),
       });
@@ -64,7 +71,7 @@ export const MilestoneUserGoalDetails = ({
               {isCompleted ? (
                 <Chip icon="check">Completed</Chip>
               ) : (
-                <Button onPress={() => markMilestoneAsComplete(milestone.id)}>
+                <Button onPress={() => markMilestoneAsComplete(milestone)}>
                   <FontAwesome name="check" />
                 </Button>
               )}

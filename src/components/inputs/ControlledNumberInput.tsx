@@ -38,11 +38,15 @@ export const ControlledNumberInput = <
       control={control}
       name={name}
       {...controllerProps}
-      render={({ field: { onChange, onBlur, value } }) => (
+      render={({
+        field: { onChange, onBlur, value },
+        fieldState: { error },
+      }) => (
         <NumberInput
           onChange={onChange}
           onBlur={onBlur}
           value={value}
+          errorMessage={error?.message}
           {...inputProps}
         />
       )}

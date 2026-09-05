@@ -18,9 +18,14 @@ export default function CreateBookScreen() {
   const { mutateAsync: createBook } = useMutation({
     mutationFn: Api.books.create,
     onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: queryKeyStore.books.getAll,
-      }),
+      Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.books.getAll,
+        }),
+        queryClient.invalidateQueries({
+          queryKey: queryKeyStore.readingTracker.readingStatistics,
+        }),
+      ]),
   });
 
   const { mutateAsync: createReadingTracker } = useMutation({

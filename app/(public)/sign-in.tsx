@@ -27,11 +27,31 @@ export default function SignInScreen() {
         control={control}
         name="email"
         textInputPros={{ label: "Email" }}
+        controllerProps={{
+          rules: {
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <ControlledTextInput
         control={control}
         name="password"
         textInputPros={{ label: "Password", secureTextEntry: true }}
+        controllerProps={{
+          rules: {
+            minLength: {
+              value: 6,
+              message: "Password should have 6 minimum characters",
+            },
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <Button icon="plus" onPress={handleSubmit(onSubmit)}>
         Log In

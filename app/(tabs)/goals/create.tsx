@@ -31,7 +31,7 @@ export default function CreateGoalScreen() {
           queryKey: queryKeyStore.goals.getAll,
         }),
         queryClient.invalidateQueries({
-          queryKey: queryKeyStore.usreGoals.getAll,
+          queryKey: queryKeyStore.userGoals.getAll,
         }),
       ]),
   });
