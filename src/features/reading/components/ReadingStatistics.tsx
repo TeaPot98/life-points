@@ -30,12 +30,11 @@ export const ReadingStatistics = ({
           </Text>
           <Text>Last book: {readingStatistics?.last_book?.title}</Text>
         </View>
-        <Button color="secondary">
-          <FontAwesome
-            name="cog"
-            size={16}
-            onPress={() => setReadingTrackerModalOpen(true)}
-          />
+        <Button
+          color="secondary"
+          onPress={() => setReadingTrackerModalOpen(true)}
+        >
+          <FontAwesome name="cog" size={16} />
         </Button>
       </Card.Content>
     </Card>

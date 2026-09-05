@@ -48,7 +48,7 @@ export default function CreateBookScreen() {
         await createReadingTracker({ user_id: userId });
       }
 
-      createBook({
+      await createBook({
         number_of_pages: Number(number_of_pages),
         read_pages: Number(read_pages),
         ...values,

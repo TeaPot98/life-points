@@ -283,7 +283,7 @@ export type Database = {
           created_at: string;
           goal_id: number;
           id: number;
-          started_at: string;
+          started_at: string | null;
           user_id: string;
         };
         Insert: {
@@ -294,7 +294,7 @@ export type Database = {
           created_at?: string;
           goal_id: number;
           id?: number;
-          started_at?: string;
+          started_at?: string | null;
           user_id: string;
         };
         Update: {
@@ -305,7 +305,7 @@ export type Database = {
           created_at?: string;
           goal_id?: number;
           id?: number;
-          started_at?: string;
+          started_at?: string | null;
           user_id?: string;
         };
         Relationships: [

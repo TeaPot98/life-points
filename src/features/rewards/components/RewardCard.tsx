@@ -66,7 +66,7 @@ export const RewardCard = ({ reward }: RewardCardProps) => {
       </Card.Content>
       <Card.Actions>
         <Button
-          disabled={reward.price > (userData?.points ?? Infinity)}
+          disabled={reward.price > (userData?.points ?? 0)}
           onPress={() => buyReward(reward.id)}
         >
           Buy

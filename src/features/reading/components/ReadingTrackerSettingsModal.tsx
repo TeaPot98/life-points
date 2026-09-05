@@ -5,6 +5,7 @@ import { ControlledNumberInput } from "@components/inputs";
 import { useBooksContext } from "@context";
 import { IReadingTracker } from "@local-types/books";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 
@@ -20,7 +21,7 @@ export const ReadingTrackerSettingsModal = () => {
     isReadingTrackerModalOpen: isOpen,
     setReadingTrackerModalOpen: setIsOpen,
   } = useBooksContext();
-  const { control, handleSubmit } = useForm<FormFieldsType>({
+  const { control, handleSubmit, reset } = useForm<FormFieldsType>({
     validate: async ({ formValues }) => {
       if (formValues.rewardPerPage < 0)
         return {
@@ -33,6 +34,12 @@ export const ReadingTrackerSettingsModal = () => {
       return true;
     },
   });
+
+  useEffect(() => {
+    if (!readingTracker) return;
+
+    reset({ rewardPerPage: readingTracker?.reward_per_page });
+  }, [readingTracker, readingTracker?.reward_per_page, reset]);
 
   const { mutateAsync: updateReatingTracker } = useMutation({
     mutationFn: async ({
