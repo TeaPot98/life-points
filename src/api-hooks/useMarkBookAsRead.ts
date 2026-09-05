@@ -15,10 +15,10 @@ export function useMarkBookAsRead() {
       Api.books.update(book.id, book),
     onSuccess: async (_, book) => {
       await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.goals.getById(book.id),
+        queryKey: queryKeyStore.books.getById(book.id),
       });
       await queryClient.invalidateQueries({
-        queryKey: queryKeyStore.goals.getAll,
+        queryKey: queryKeyStore.books.getAll,
       });
     },
   });
@@ -40,9 +40,8 @@ export function useMarkBookAsRead() {
         read_pages: book.number_of_pages,
       });
       await updateUserPoints(
-        readingTracker?.reward_per_page +
-          (book.number_of_pages - book.read_pages) *
-            readingTracker?.reward_per_page,
+        (book.number_of_pages - book.read_pages) *
+          readingTracker?.reward_per_page,
       );
     },
     [readingTracker, updateBook, updateUserPoints],

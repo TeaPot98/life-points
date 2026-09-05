@@ -1,10 +1,10 @@
 import Api from "@api";
-import { useMarkBookAsRead } from "@api-hooks";
+import { useMarkBookAsRead, useQueryKeyStore } from "@api-hooks";
 import { Button } from "@components/buttons";
 import { ControlledNumberInput } from "@components/inputs";
 import { useBooksContext } from "@context";
 import { IBook } from "@local-types/books";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 
@@ -13,12 +13,17 @@ type FormFieldsType = {
 };
 
 export const BookModal = () => {
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
+  const markBookAsRead = useMarkBookAsRead();
+
   const {
     bookToEdit,
+    readingTracker,
     isBookModalOpen: isOpen,
     setBookModalOpen: setIsOpen,
   } = useBooksContext();
-  const markBookAsRead = useMarkBookAsRead();
+
   const { control, handleSubmit } = useForm<FormFieldsType>({
     validate: async ({ formValues }) => {
       if (formValues.incrementWith <= 0)
@@ -41,6 +46,8 @@ export const BookModal = () => {
       book: IBook;
       goalIncrement: number;
     }) => {
+      if (!readingTracker) return;
+
       const resultingPages = book.read_pages + goalIncrement;
 
       if (resultingPages >= book.number_of_pages) {
@@ -49,7 +56,19 @@ export const BookModal = () => {
         await Api.books.update(book.id, {
           read_pages: book.read_pages + goalIncrement,
         });
+        await Api.userData.updatePoints(
+          goalIncrement * readingTracker.reward_per_page,
+        );
       }
+    },
+    onSuccess: async (_, { book }) => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.books.getById(book.id),
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.books.getAll,
+      });
     },
   });
 

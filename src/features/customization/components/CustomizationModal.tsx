@@ -36,7 +36,13 @@ export const CustomizationModal = () => {
             Change theme
           </Button>
 
-          <Button icon="logout" onPress={() => logOut()}>
+          <Button
+            icon="logout"
+            onPress={async () => {
+              await logOut();
+              setCustomizationModalOpen(false);
+            }}
+          >
             Log out
           </Button>
         </Surface>

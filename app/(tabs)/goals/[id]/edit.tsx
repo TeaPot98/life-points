@@ -23,10 +23,14 @@ export default function UpdateGoalScreen() {
 
   const { mutateAsync: updateGoal } = useMutation({
     mutationFn: (goal: GoalFormValues) => Api.goals.update(Number(id), goal),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: queryKeyStore.goals.getAll,
-      }),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.goals.getById(Number(id)),
+      });
+    },
   });
 
   const { mutateAsync: createMilestones } = useMutation({
@@ -40,10 +44,14 @@ export default function UpdateGoalScreen() {
   const { mutateAsync: udpateMilestone } = useMutation({
     mutationFn: (milestone: Partial<IMilestone> & { id: number }) =>
       Api.milestones.update(milestone.id, milestone),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
+    onSuccess: async (_, { id: milestoneId }) => {
+      await queryClient.invalidateQueries({
         queryKey: queryKeyStore.milestones.getAll,
-      }),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.milestones.getById(Number(milestoneId)),
+      });
+    },
   });
 
   const onSubmit = async ({
@@ -75,6 +83,13 @@ export default function UpdateGoalScreen() {
             console.error("The goal was not yet fetched");
             return;
           }
+
+          await updateGoal({
+            activity_id,
+            name,
+            type,
+            reward,
+          });
 
           if (!milestones) break;
 

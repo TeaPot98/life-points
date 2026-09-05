@@ -9,6 +9,9 @@ export function computeGoalCompletionPercentage(userGoal: IUserGoal) {
     case "count":
       if (isNil(userGoal.completed_count)) return null;
 
+      if (userGoal.goal.schedule === "none" && userGoal.completed_at)
+        return 100;
+
       if (userGoal.goal.schedule !== "none" && userGoal.completed_at) {
         const isSameDay = dayjs().isSame(userGoal.completed_at, "day");
         const isSameWeek = dayjs().isSame(userGoal.completed_at, "week");

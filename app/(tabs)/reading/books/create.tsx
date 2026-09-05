@@ -15,6 +15,14 @@ export default function CreateBookScreen() {
     mutationFn: () => Api.readingTracker.getByUserId(user?.id ?? ""),
   });
 
+  const { mutateAsync: createBook } = useMutation({
+    mutationFn: Api.books.create,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.books.getAll,
+      }),
+  });
+
   const { mutateAsync: createReadingTracker } = useMutation({
     mutationFn: Api.readingTracker.create,
     onSuccess: async () => {
@@ -40,7 +48,7 @@ export default function CreateBookScreen() {
         await createReadingTracker({ user_id: userId });
       }
 
-      Api.books.create({
+      createBook({
         number_of_pages: Number(number_of_pages),
         read_pages: Number(read_pages),
         ...values,

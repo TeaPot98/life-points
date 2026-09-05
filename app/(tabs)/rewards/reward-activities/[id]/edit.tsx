@@ -5,7 +5,8 @@ import {
   RewardActivityForm,
   RewardActivityFormValues,
 } from "@features/rewards";
-import { useQuery } from "@tanstack/react-query";
+import { IRewardActivity } from "@local-types/rewards";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function EditRewardActivityScreen() {
@@ -13,6 +14,7 @@ export default function EditRewardActivityScreen() {
   const { user } = useUserContext();
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = user?.id ?? "";
+  const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
 
   const { data: rewardActivity, isFetching: isRewardActivityFetching } =
@@ -21,6 +23,20 @@ export default function EditRewardActivityScreen() {
       queryFn: () => Api.rewardActivities.getById(Number(id), userId),
     });
 
+  const { mutate: udpateRewardActivity } = useMutation({
+    mutationFn: (payload: Partial<IRewardActivity> & { id: number }) =>
+      Api.rewardActivities.update(payload.id, payload),
+    onSuccess: async (_, { id }) => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.rewardActivities.getAll,
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.rewardActivities.getById(id),
+      });
+    },
+  });
+
   const onSubmit = async (values: RewardActivityFormValues) => {
     try {
       if (!rewardActivity) {
@@ -28,7 +44,8 @@ export default function EditRewardActivityScreen() {
         return;
       }
 
-      await Api.rewardActivities.update(rewardActivity.id, {
+      await udpateRewardActivity({
+        id: rewardActivity.id,
         ...values,
         user_id: userId,
       });

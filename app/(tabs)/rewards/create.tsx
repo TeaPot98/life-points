@@ -4,7 +4,7 @@ import { Button } from "@components/buttons";
 import { ControlledPicker, ControlledTextInput } from "@components/inputs";
 
 import { useUserContext } from "@context";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
@@ -19,7 +19,16 @@ type FormFieldValues = {
 export default function CreateRewardScreen() {
   const { user } = useUserContext();
   const { handleSubmit, control, reset } = useForm<FormFieldValues>();
+  const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+
+  const { mutate: createReward } = useMutation({
+    mutationFn: Api.rewards.create,
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.rewards.getAll,
+      }),
+  });
 
   const { data: rewardActivities, isSuccess } = useQuery({
     queryKey: queryKeyStore.rewardActivities.getAll,
@@ -33,7 +42,7 @@ export default function CreateRewardScreen() {
   }, [isSuccess, reset, rewardActivities]);
 
   const onSubmit = (values: FormFieldValues) => {
-    Api.rewards.create({ ...values, user_id: user?.id ?? "" });
+    createReward({ ...values, user_id: user?.id ?? "" });
   };
 
   const rewardActivitiesOptions = useMemo(

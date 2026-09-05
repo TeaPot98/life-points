@@ -1,10 +1,15 @@
+import Api from "@api";
+import { useQueryKeyStore } from "@api-hooks";
 import { Card, Chip, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { FontAwesomeName } from "@local-types/icons";
 import { IUserReward } from "@local-types/rewards";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
 import { CustomTheme, FixedColor } from "@theme/types";
 import { fromSecondsToHumanReadable, isNil } from "@utils";
+import dayjs from "dayjs";
+import { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
@@ -12,13 +17,32 @@ type UserRewardCardProps = {
   userReward: IUserReward;
 };
 
-export const UserRewardCard = ({
-  userReward: { reward, claimed_at },
-}: UserRewardCardProps) => {
+export const UserRewardCard = ({ userReward }: UserRewardCardProps) => {
+  const { reward, claimed_at } = userReward;
   const theme = useAppTheme();
   const styles = getStyles(theme);
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
 
   const isClaimed = !isNil(claimed_at);
+
+  const { mutate: updateUserReward } = useMutation({
+    mutationFn: (payload: Partial<IUserReward> & { id: number }) =>
+      Api.userRewards.update(payload.id, payload),
+    onSuccess: (_, { id }) =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userRewards.getById(id),
+      }),
+  });
+
+  const onClaimPress = useCallback(
+    () =>
+      updateUserReward({
+        id: userReward.id,
+        claimed_at: dayjs().toISOString(),
+      }),
+    [updateUserReward, userReward.id],
+  );
 
   return (
     <Card style={styles.container}>
@@ -48,6 +72,7 @@ export const UserRewardCard = ({
           color={isClaimed ? "error" : "secondary"}
           icon="check"
           disabled={isClaimed}
+          onPress={onClaimPress}
         >
           {isClaimed ? "Claimed" : "Claim"}
         </Button>

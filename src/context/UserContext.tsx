@@ -1,5 +1,4 @@
 import Api, { supabase } from "@api";
-import { useQueryKeyStore } from "@api-hooks";
 import { IUserData } from "@local-types/user";
 import { Session, User, WeakPassword } from "@supabase/supabase-js";
 import {
@@ -46,7 +45,7 @@ type UserContextValue = {
     },
     unknown
   >;
-  logOut: () => void;
+  logOut: () => Promise<void>;
   userData?: IUserData;
 };
 
@@ -56,17 +55,18 @@ const UserContext = createContext<UserContextValue>({
   isSigningIn: false,
   signUpWithPassword: () => {},
   isSigningUp: false,
-  logOut: () => {},
+  logOut: async () => {},
 });
 
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
-  const queryKeyStore = useQueryKeyStore();
 
   const { data: userData } = useQuery({
-    queryKey: queryKeyStore.userData.get,
+    // Cannot use key store here, because it uses user id from the context itself
+    // Hardcoding it here makes the reset of the implementations simpler
+    queryKey: ["user-data", user?.id ?? ""],
     queryFn: () => Api.userData.getByUserId(user?.id ?? ""),
   });
 

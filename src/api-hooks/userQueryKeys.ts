@@ -30,6 +30,7 @@ export function useQueryKeyStore() {
         },
         milestones: {
           getAll: ["milestones", user?.id],
+          getById: (id: number) => ["milestones", user?.id, id],
         },
         activities: {
           getAll: ["activities", user?.id],

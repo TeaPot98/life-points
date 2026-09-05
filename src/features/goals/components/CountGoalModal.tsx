@@ -1,5 +1,5 @@
 import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
+import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "@api-hooks";
 import { Button } from "@components/buttons";
 import { ControlledNumberInput } from "@components/inputs";
 import { useGoalsContext } from "@context";
@@ -15,12 +15,14 @@ type FormFieldsType = {
 export const CountGoalModal = () => {
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const markGoalAsCompleted = useMarkUserGoalAsCompleted();
 
   const {
     goalToEdit,
     isCountGoalModalOpen: isOpen,
     setCountGoalModalOpen: setIsOpen,
   } = useGoalsContext();
+
   const { control, handleSubmit } = useForm<FormFieldsType>({
     validate: async ({ formValues }) => {
       if (formValues.incrementWith <= 0)
@@ -36,16 +38,25 @@ export const CountGoalModal = () => {
   });
 
   const { mutateAsync: incrementGoal } = useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       goalIncrement,
       prevGoal,
     }: {
       prevGoal: IUserGoal;
       goalIncrement: number;
-    }) =>
-      Api.userGoals.update(prevGoal.id, {
-        completed_count: prevGoal.completed_count + goalIncrement,
-      }),
+    }) => {
+      const resultingPoints = prevGoal.completed_count + goalIncrement;
+
+      if (resultingPoints >= prevGoal.goal.goal_count) {
+        await markGoalAsCompleted(prevGoal);
+      } else {
+        await Api.userGoals.update(prevGoal.id, {
+          completed_count: resultingPoints,
+        });
+        const gainedPoints = resultingPoints - prevGoal.completed_count;
+        await Api.userData.updatePoints(gainedPoints);
+      }
+    },
     onSuccess: async (_, { prevGoal }) => {
       await queryClient.invalidateQueries({
         queryKey: queryKeyStore.userGoals.getById(prevGoal.id),

@@ -36,7 +36,7 @@ export default function SignUpScreen() {
       <ControlledTextInput
         control={control}
         name="password"
-        textInputPros={{ label: "Password" }}
+        textInputPros={{ label: "Password", secureTextEntry: true }}
       />
       <Button icon="plus" onPress={handleSubmit(onSubmit, onInvalid)}>
         Sign Up

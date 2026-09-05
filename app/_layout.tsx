@@ -10,6 +10,7 @@ import {
   CustomizationContextProvider,
   UserContextProvider,
 } from "@context";
+import { CustomizationModal } from "@features/customization";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -91,6 +92,7 @@ function RootLayoutNav() {
                       options={{ presentation: "modal" }}
                     />
                   </Stack>
+                  <CustomizationModal />
                 </ThemeProvider>
               </PaperProvider>
             )}

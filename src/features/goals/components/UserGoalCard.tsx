@@ -1,4 +1,5 @@
-import { useMarkUserGoalAsCompleted } from "@api-hooks";
+import Api from "@api";
+import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "@api-hooks";
 import { Card, IconWithBackground } from "@components";
 import { Button } from "@components/buttons";
 import { Chip } from "@components/Chip";
@@ -8,10 +9,12 @@ import { useGoalsContext } from "@context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { IUserGoal } from "@local-types/goals";
 import { FontAwesomeName } from "@local-types/icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
 import { CustomTheme, FixedColor } from "@theme/types";
 import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
 import { computeGoalCompletionPercentage } from "@utils/goals";
+import dayjs from "dayjs";
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
@@ -30,6 +33,9 @@ export const UserGoalCard = ({
   const theme = useAppTheme();
   const { setGoalToEdit, setCountGoalModalOpen } = useGoalsContext();
   const percentage = computeGoalCompletionPercentage(userGoal);
+  const queryClient = useQueryClient();
+  const queryKeyStore = useQueryKeyStore();
+
   const {
     id,
     goal: {
@@ -47,7 +53,20 @@ export const UserGoalCard = ({
   const styles = getStyles(theme);
   const isCompleted = percentage === 100;
 
-  const markUserGoalAsCompleted = useMarkUserGoalAsCompleted(userGoal);
+  const { mutate: updateUserGoal } = useMutation({
+    mutationFn: (payload: Partial<IUserGoal> & { id: number }) =>
+      Api.userGoals.update(payload.id, payload),
+    onSuccess: async (_, { id }) => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getById(id),
+      });
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.userGoals.getAll,
+      });
+    },
+  });
+
+  const markUserGoalAsCompleted = useMarkUserGoalAsCompleted();
 
   const onPlusClick = useCallback(() => {
     switch (type) {
@@ -67,6 +86,10 @@ export const UserGoalCard = ({
         break;
     }
   }, [id, router, setCountGoalModalOpen, setGoalToEdit, type, userGoal]);
+
+  const onPlayClick = useCallback(() => {
+    updateUserGoal({ id, started_at: dayjs().toISOString() });
+  }, [id, updateUserGoal]);
 
   return (
     <Card>
@@ -115,6 +138,11 @@ export const UserGoalCard = ({
         </View>
       </Card.Content>
       <View style={styles.actionsContainer}>
+        {type === "time" && !isCompleted && !userGoal.completed_at && (
+          <Button onPress={onPlayClick} color="secondary">
+            <FontAwesome name="play" />
+          </Button>
+        )}
         {(type === "count" || type === "milestone") &&
           !hidePlusButton &&
           !isCompleted && (
@@ -125,7 +153,7 @@ export const UserGoalCard = ({
         {isCompleted ? (
           <Chip icon="check">Completed</Chip>
         ) : (
-          <Button onPress={markUserGoalAsCompleted}>
+          <Button onPress={() => markUserGoalAsCompleted(userGoal)}>
             <FontAwesome name="check" />
           </Button>
         )}

@@ -2,7 +2,8 @@ import Api from "@api";
 import { useQueryKeyStore } from "@api-hooks";
 import { useUserContext } from "@context";
 import { ActivityForm, ActivityFormValues } from "@features/goals";
-import { useQuery } from "@tanstack/react-query";
+import { IActivity } from "@local-types/activities";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function EditActivityScreen() {
@@ -10,11 +11,21 @@ export default function EditActivityScreen() {
   const { user } = useUserContext();
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = user?.id ?? "";
+  const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
 
   const { data: activity, isFetching: isActivityFetching } = useQuery({
     queryKey: queryKeyStore.activities.getById(Number(id)),
     queryFn: () => Api.activities.getById(Number(id), userId),
+  });
+
+  const { mutate: updateActivity } = useMutation({
+    mutationFn: (payload: Partial<IActivity> & { id: number }) =>
+      Api.activities.update(payload.id, payload),
+    onSuccess: () =>
+      queryClient.invalidateQueries({
+        queryKey: queryKeyStore.activities.getAll,
+      }),
   });
 
   const onSubmit = async (values: ActivityFormValues) => {
@@ -24,10 +35,7 @@ export default function EditActivityScreen() {
         return;
       }
 
-      await Api.activities.update(activity.id, {
-        ...values,
-        user_id: userId,
-      });
+      await updateActivity({ id: activity.id, ...values, user_id: userId });
 
       router.back();
     } catch (error) {
