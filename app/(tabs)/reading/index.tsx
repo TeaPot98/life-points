@@ -16,7 +16,7 @@ export default function ReadingTabScreen() {
   const isFocused = useIsFocused();
 
   const { data: readingStatistics } = useQuery({
-    queryKey: ["reading-statistics"],
+    queryKey: ["reading-statistics", user?.id],
     queryFn: () => Api.readingTracker.getStatistics(user?.id ?? ""),
   });
 

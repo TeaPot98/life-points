@@ -276,6 +276,7 @@ export type Database = {
       };
       user_goals: {
         Row: {
+          completed_at: string | null;
           completed_count: number;
           completed_duration: number;
           completed_milestones: number[];
@@ -286,6 +287,7 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          completed_at?: string | null;
           completed_count?: number;
           completed_duration?: number;
           completed_milestones?: number[];
@@ -296,6 +298,7 @@ export type Database = {
           user_id: string;
         };
         Update: {
+          completed_at?: string | null;
           completed_count?: number;
           completed_duration?: number;
           completed_milestones?: number[];

@@ -8,7 +8,7 @@ const userData = {
   async create(payload: UserDataCreatePayload) {
     const { data, error } = await supabase
       .from("user_data")
-      .insert(payload)
+      .upsert(payload, { onConflict: "user_id", ignoreDuplicates: true })
       .select();
 
     if (error) {
@@ -22,7 +22,8 @@ const userData = {
     const { data, error } = await supabase
       .from("user_data")
       .select()
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .single();
 
     if (error) {
       console.error(error);

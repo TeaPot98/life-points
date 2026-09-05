@@ -9,7 +9,7 @@ const readingTracker = {
   async create(payload: ReadingTrackerCreatePayload) {
     const { data, error } = await supabase
       .from("reading_trackers")
-      .insert(payload)
+      .upsert(payload, { onConflict: "user_id", ignoreDuplicates: true })
       .select();
 
     if (error) {
@@ -23,7 +23,8 @@ const readingTracker = {
     const { data, error } = await supabase
       .from("reading_trackers")
       .select()
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .single();
 
     if (error) {
       console.error(error);

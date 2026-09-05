@@ -1,6 +1,11 @@
 import Api, { supabase } from "@api";
+import { IUserData } from "@local-types/user";
 import { Session, User, WeakPassword } from "@supabase/supabase-js";
-import { UseMutateFunction, useMutation } from "@tanstack/react-query";
+import {
+  UseMutateFunction,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import { usePathname, useRouter } from "expo-router";
 import {
   createContext,
@@ -41,6 +46,7 @@ type UserContextValue = {
     unknown
   >;
   logOut: () => void;
+  userData?: IUserData;
 };
 
 const UserContext = createContext<UserContextValue>({
@@ -56,6 +62,11 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
+
+  const { data: userData } = useQuery({
+    queryKey: ["user-data", user?.id],
+    queryFn: () => Api.userData.getByUserId(user?.id ?? ""),
+  });
 
   useEffect(() => {
     (async () => {
@@ -94,10 +105,17 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
   });
 
   const { mutate: signUpWithPassword, isPending: isSigningUp } = useMutation({
-    mutationFn: Api.auth.signUpWithPassword,
-    onSuccess: (response) => {
-      setUser(response.user);
-      router.replace("/(tabs)/goals");
+    mutationFn: async (credentials: { email: string; password: string }) => {
+      const signUpResponse = await Api.auth.signUpWithPassword(credentials);
+      if (signUpResponse.user) {
+        await Api.userData.create({ user_id: signUpResponse.user.id });
+        await Api.readingTracker.create({ user_id: signUpResponse.user.id });
+      }
+
+      return signUpResponse;
+    },
+    onSuccess: () => {
+      router.replace("/(public)/sign-in");
     },
   });
 
@@ -110,6 +128,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
         signUpWithPassword,
         isSigningUp,
         logOut,
+        userData,
       }}
     >
       {children}

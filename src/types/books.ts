@@ -14,8 +14,10 @@ export type ReadingTrackerCreatePayload =
 
 export type IBook = Database["public"]["Tables"]["books"]["Row"];
 
-export type IReadingStatistics =
-  Database["public"]["Tables"]["reading_trackers"]["Row"] & {
-    last_book: IBook | null;
-    total_books: number;
-  };
+export type IReadingTracker =
+  Database["public"]["Tables"]["reading_trackers"]["Row"];
+
+export type IReadingStatistics = IReadingTracker & {
+  last_book: IBook | null;
+  total_books: number;
+};

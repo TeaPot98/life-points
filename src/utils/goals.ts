@@ -9,7 +9,23 @@ export function computeGoalCompletionPercentage(userGoal: IUserGoal) {
     case "count":
       if (isNil(userGoal.completed_count)) return null;
 
+      if (userGoal.goal.schedule !== "none" && userGoal.completed_at) {
+        const isSameDay = dayjs().isSame(userGoal.completed_at, "day");
+        const isSameWeek = dayjs().isSame(userGoal.completed_at, "week");
+        const isSameMonth = dayjs().isSame(userGoal.completed_at, "month");
+        const isSameYear = dayjs().isSame(userGoal.completed_at, "year");
+
+        if (
+          (isSameDay && userGoal.goal.schedule === "daily") ||
+          (isSameWeek && userGoal.goal.schedule === "weekly") ||
+          (isSameMonth && userGoal.goal.schedule === "monthly") ||
+          (isSameYear && userGoal.goal.schedule === "yearly")
+        )
+          return 100;
+      }
+
       return (userGoal.completed_count * 100) / userGoal.goal.goal_count;
+
     case "time":
       if (isNil(userGoal.started_at) || isNil(userGoal.goal.duration))
         return null;

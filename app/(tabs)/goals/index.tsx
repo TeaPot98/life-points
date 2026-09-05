@@ -1,5 +1,3 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-
 import Api from "@api";
 import { Button, FAB } from "@components/buttons";
 import { useUserContext } from "@context";
@@ -8,7 +6,11 @@ import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useAppTheme } from "@theme";
 import { CustomTheme } from "@theme/types";
+import { computeGoalCompletionPercentage } from "@utils/goals";
 import { useRouter } from "expo-router";
+import { useMemo } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Divider, Text } from "react-native-paper";
 
 export default function GoalsTabScreen() {
   const router = useRouter();
@@ -19,9 +21,22 @@ export default function GoalsTabScreen() {
   const styles = getStyles(theme);
 
   const { data: userGoals } = useQuery({
-    queryKey: ["user-goals"],
+    queryKey: ["user-goals", user?.id],
     queryFn: () => Api.userGoals.getAll(user?.id ?? ""),
   });
+
+  const inProgressGoals = useMemo(
+    () =>
+      userGoals?.filter((g) => (computeGoalCompletionPercentage(g) ?? 0) < 100),
+    [userGoals],
+  );
+  const completedGoals = useMemo(
+    () =>
+      userGoals?.filter(
+        (g) => (computeGoalCompletionPercentage(g) ?? 0) === 100,
+      ),
+    [userGoals],
+  );
 
   return (
     <ScrollView>
@@ -46,7 +61,16 @@ export default function GoalsTabScreen() {
             Manage Activities
           </Button>
         </View>
-        {userGoals?.map((userGoal) => (
+        {inProgressGoals?.map((userGoal) => (
+          <UserGoalCard key={userGoal.id} userGoal={userGoal} />
+        ))}
+        {completedGoals?.length && (
+          <View>
+            <Text>Completed</Text>
+            <Divider />
+          </View>
+        )}
+        {completedGoals?.map((userGoal) => (
           <UserGoalCard key={userGoal.id} userGoal={userGoal} />
         ))}
         {isFocused && (
