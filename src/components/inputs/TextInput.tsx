@@ -1,11 +1,11 @@
-import { useAppTheme } from "../../theme";
-import { CustomTheme } from "../../theme/types";
 import { StyleSheet, View } from "react-native";
 import {
   TextInput as PaperTextInput,
   TextInputProps as PaperTextInputProps,
   Text,
 } from "react-native-paper";
+import { useAppTheme } from "../../theme";
+import { CustomTheme } from "../../theme/types";
 
 export type TextInputProps = Omit<PaperTextInputProps, "mode"> & {
   errorMessage?: string;
@@ -17,7 +17,7 @@ export const TextInput = ({
   ...props
 }: TextInputProps) => {
   const theme = useAppTheme();
-  const styles = getStyles(theme);
+  const styles = getStyles(theme, !!errorMessage);
 
   return (
     <View>
@@ -31,15 +31,18 @@ export const TextInput = ({
   );
 };
 
-const getStyles = (theme: CustomTheme) =>
+const getStyles = (theme: CustomTheme, hasError: boolean) =>
   StyleSheet.create({
     outline: {
       borderWidth: 2,
       borderBottomWidth: 4,
       borderRightWidth: 4,
       borderRadius: 8,
+      ...(hasError ? { borderColor: theme.colors.error } : {}),
     },
     errorMessage: {
       color: theme.colors.error,
+      fontSize: 12,
+      marginLeft: 6,
     },
   });

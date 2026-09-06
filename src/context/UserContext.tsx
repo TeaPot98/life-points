@@ -1,8 +1,6 @@
-import Api, { supabase } from "../api";
-import { IUserData } from "../types/user";
 import { Session, User, WeakPassword } from "@supabase/supabase-js";
 import {
-  UseMutateFunction,
+  UseMutateAsyncFunction,
   useMutation,
   useQuery,
 } from "@tanstack/react-query";
@@ -15,11 +13,13 @@ import {
   useEffect,
   useState,
 } from "react";
+import Api, { supabase } from "../api";
+import { IUserData } from "../types/user";
 
 type UserContextValue = {
   user: User | null;
   isSigningIn: boolean;
-  signInWithPassword: UseMutateFunction<
+  signInWithPassword: UseMutateAsyncFunction<
     {
       user: User;
       session: Session;
@@ -33,7 +33,7 @@ type UserContextValue = {
     unknown
   >;
   isSigningUp: boolean;
-  signUpWithPassword: UseMutateFunction<
+  signUpWithPassword: UseMutateAsyncFunction<
     {
       user: User | null;
       session: Session | null;
@@ -51,9 +51,11 @@ type UserContextValue = {
 
 const UserContext = createContext<UserContextValue>({
   user: null,
-  signInWithPassword: () => {},
+  // @ts-ignore
+  signInWithPassword: async () => {},
   isSigningIn: false,
-  signUpWithPassword: () => {},
+  // @ts-ignore
+  signUpWithPassword: async () => {},
   isSigningUp: false,
   logOut: async () => {},
 });
@@ -98,28 +100,30 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     router.replace("/sign-in");
   }, [router]);
 
-  const { mutate: signInWithPassword, isPending: isSigningIn } = useMutation({
-    mutationFn: Api.auth.signInWithPassword,
-    onSuccess: (response) => {
-      setUser(response.user);
-      router.replace("/(tabs)/goals");
-    },
-  });
+  const { mutateAsync: signInWithPassword, isPending: isSigningIn } =
+    useMutation({
+      mutationFn: Api.auth.signInWithPassword,
+      onSuccess: (response) => {
+        setUser(response.user);
+        router.replace("/(tabs)/goals");
+      },
+    });
 
-  const { mutate: signUpWithPassword, isPending: isSigningUp } = useMutation({
-    mutationFn: async (credentials: { email: string; password: string }) => {
-      const signUpResponse = await Api.auth.signUpWithPassword(credentials);
-      if (signUpResponse.user) {
-        await Api.userData.create({ user_id: signUpResponse.user.id });
-        await Api.readingTracker.create({ user_id: signUpResponse.user.id });
-      }
+  const { mutateAsync: signUpWithPassword, isPending: isSigningUp } =
+    useMutation({
+      mutationFn: async (credentials: { email: string; password: string }) => {
+        const signUpResponse = await Api.auth.signUpWithPassword(credentials);
+        if (signUpResponse.user) {
+          await Api.userData.create({ user_id: signUpResponse.user.id });
+          await Api.readingTracker.create({ user_id: signUpResponse.user.id });
+        }
 
-      return signUpResponse;
-    },
-    onSuccess: () => {
-      router.replace("/(public)/sign-in");
-    },
-  });
+        return signUpResponse;
+      },
+      onSuccess: () => {
+        router.replace("/(public)/sign-in");
+      },
+    });
 
   return (
     <UserContext
