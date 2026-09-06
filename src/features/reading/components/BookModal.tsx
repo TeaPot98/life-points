@@ -1,9 +1,9 @@
-import Api from "@api";
-import { useMarkBookAsRead, useQueryKeyStore } from "@api-hooks";
-import { Button } from "@components/buttons";
-import { ControlledNumberInput } from "@components/inputs";
-import { useBooksContext } from "@context";
-import { IBook } from "@local-types/books";
+import Api from "../../../api";
+import { useMarkBookAsRead, useQueryKeyStore } from "../../../api-hooks";
+import { Button } from "../../../components/buttons";
+import { ControlledNumberInput } from "../../../components/inputs";
+import { useBooksContext } from "../../../context";
+import { IBook } from "../../../types/books";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";

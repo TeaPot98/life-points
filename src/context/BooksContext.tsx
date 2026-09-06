@@ -1,6 +1,6 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { IBook, IReadingTracker } from "@local-types/books";
+import Api from "../api";
+import { useQueryKeyStore } from "../api-hooks";
+import { IBook, IReadingTracker } from "../types/books";
 import { useQuery } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { useUserContext } from "./UserContext";

@@ -1,7 +1,7 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { FontAwesomeName } from "@local-types/icons";
-import { getContainerColors, useAppTheme } from "@theme";
-import { CoreColor, CustomTheme } from "@theme/types";
+import { FontAwesomeName } from "../types/icons";
+import { getContainerColors, useAppTheme } from "../theme";
+import { CoreColor, CustomTheme } from "../theme/types";
 import { ComponentProps } from "react";
 import { StyleSheet } from "react-native";
 import { Chip as PaperChip } from "react-native-paper";

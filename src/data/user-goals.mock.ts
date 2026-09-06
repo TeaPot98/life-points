@@ -1,4 +1,4 @@
-import { IUserGoal } from "@local-types/goals";
+import { IUserGoal } from "../types/goals";
 
 export const countUserGoal = {
   id: 1,
@@ -6,6 +6,7 @@ export const countUserGoal = {
   user_id: "user-1",
   created_at: "2026-08-20T08:00:00.000Z",
   started_at: "2026-08-29T07:00:00.000Z",
+  completed_at: null,
 
   completed_count: 6,
   completed_duration: 0,
@@ -14,6 +15,14 @@ export const countUserGoal = {
   goal: {
     id: 101,
     activity_id: 1,
+    activity: {
+      id: 1,
+      user_id: "user-1",
+      created_at: "2026-08-15T10:00:00.000Z",
+      name: "Reading",
+      icon: "book",
+      color: "#2563eb",
+    },
     user_id: "user-1",
     created_at: "2026-08-15T10:00:00.000Z",
 
@@ -37,6 +46,7 @@ export const timeUserGoal = {
   user_id: "user-1",
   created_at: "2026-08-21T08:00:00.000Z",
   started_at: "2026-08-29T06:30:00.000Z",
+  completed_at: null,
 
   completed_count: 0,
   completed_duration: 25,
@@ -45,6 +55,14 @@ export const timeUserGoal = {
   goal: {
     id: 102,
     activity_id: 2,
+    activity: {
+      id: 2,
+      user_id: "user-1",
+      created_at: "2026-08-16T10:00:00.000Z",
+      name: "Guitar practice",
+      icon: "music",
+      color: "#16a34a",
+    },
     user_id: "user-1",
     created_at: "2026-08-16T10:00:00.000Z",
 
@@ -68,6 +86,7 @@ export const milestoneUserGoal = {
   user_id: "user-1",
   created_at: "2026-08-22T08:00:00.000Z",
   started_at: "2026-08-25T09:00:00.000Z",
+  completed_at: null,
 
   completed_count: 0,
   completed_duration: 0,
@@ -76,6 +95,14 @@ export const milestoneUserGoal = {
   goal: {
     id: 103,
     activity_id: 3,
+    activity: {
+      id: 3,
+      user_id: "user-1",
+      created_at: "2026-08-17T10:00:00.000Z",
+      name: "Learning TypeScript",
+      icon: "graduation-cap",
+      color: "#9333ea",
+    },
     user_id: "user-1",
     created_at: "2026-08-17T10:00:00.000Z",
 
@@ -95,7 +122,6 @@ export const milestoneUserGoal = {
         goal_id: 103,
         user_id: "user-1",
         created_at: "2026-08-17T10:05:00.000Z",
-        completed_at: "2026-08-25T12:00:00.000Z",
         name: "Finish fundamentals module",
         reward: 50,
       },
@@ -104,7 +130,6 @@ export const milestoneUserGoal = {
         goal_id: 103,
         user_id: "user-1",
         created_at: "2026-08-17T10:06:00.000Z",
-        completed_at: "2026-08-27T14:00:00.000Z",
         name: "Build first project",
         reward: 75,
       },
@@ -113,7 +138,6 @@ export const milestoneUserGoal = {
         goal_id: 103,
         user_id: "user-1",
         created_at: "2026-08-17T10:07:00.000Z",
-        completed_at: null,
         name: "Finish advanced types module",
         reward: 125,
       },

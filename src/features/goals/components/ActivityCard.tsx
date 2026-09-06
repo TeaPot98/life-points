@@ -1,8 +1,8 @@
-import { Card, IconWithBackground } from "@components";
-import { Button } from "@components/buttons";
-import { IActivity } from "@local-types/activities";
-import { FontAwesomeName } from "@local-types/icons";
-import { FixedColor } from "@theme/types";
+import { Card, IconWithBackground } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { IActivity } from "../../../types/activities";
+import { FontAwesomeName } from "../../../types/icons";
+import { FixedColor } from "../../../theme/types";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";

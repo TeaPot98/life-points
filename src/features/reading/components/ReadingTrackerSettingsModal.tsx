@@ -1,9 +1,9 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { Button } from "@components/buttons";
-import { ControlledNumberInput } from "@components/inputs";
-import { useBooksContext } from "@context";
-import { IReadingTracker } from "@local-types/books";
+import Api from "../../../api";
+import { useQueryKeyStore } from "../../../api-hooks";
+import { Button } from "../../../components/buttons";
+import { ControlledNumberInput } from "../../../components/inputs";
+import { useBooksContext } from "../../../context";
+import { IReadingTracker } from "../../../types/books";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

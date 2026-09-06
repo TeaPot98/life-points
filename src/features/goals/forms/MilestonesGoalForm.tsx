@@ -1,5 +1,5 @@
-import { ControlledNumberInput } from "@components/inputs";
-import { IDraftMilestone } from "@local-types/goals";
+import { ControlledNumberInput } from "../../../components/inputs";
+import { IDraftMilestone } from "../../../types/goals";
 import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { MilestonesInput } from "../components";

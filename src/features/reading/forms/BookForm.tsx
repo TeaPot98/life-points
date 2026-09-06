@@ -1,5 +1,5 @@
-import { Button } from "@components/buttons";
-import { ControlledNumberInput, ControlledTextInput } from "@components/inputs";
+import { Button } from "../../../components/buttons";
+import { ControlledNumberInput, ControlledTextInput } from "../../../components/inputs";
 
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

@@ -1,4 +1,4 @@
-import { useColorScheme } from "@components/useColorScheme";
+import { useColorScheme } from "../components/useColorScheme";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 export type ColorScheme = "light" | "dark";

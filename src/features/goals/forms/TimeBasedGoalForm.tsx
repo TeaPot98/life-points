@@ -1,10 +1,10 @@
 import {
   ControlledNumberInput,
   ControlledSelectMenu,
-} from "@components/inputs";
+} from "../../../components/inputs";
 
-import { GOAL_SCHEDULE_OPTIONS } from "@constants";
-import { GoalSchedule } from "@local-types/goals";
+import { GOAL_SCHEDULE_OPTIONS } from "../../../constants";
+import { GoalSchedule } from "../../../types/goals";
 import { useFormContext } from "react-hook-form";
 
 interface TimeBasedFields {

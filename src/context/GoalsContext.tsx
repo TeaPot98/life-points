@@ -1,4 +1,4 @@
-import { IUserGoal } from "@local-types/goals";
+import { IUserGoal } from "../types/goals";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
 type GoalsContextValue = {

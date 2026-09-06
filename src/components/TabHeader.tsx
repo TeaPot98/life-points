@@ -1,4 +1,4 @@
-import { useCustomizationContext, useUserContext } from "@context";
+import { useCustomizationContext, useUserContext } from "../context";
 import { Appbar } from "react-native-paper";
 import { Chip } from "./Chip";
 

@@ -1,7 +1,7 @@
 import {
   ActivitiesCreatePayload,
   ActivitiesUpdatePayload,
-} from "@local-types/activities";
+} from "../types/activities";
 import { supabase } from "./supabase";
 
 const activities = {

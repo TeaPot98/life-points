@@ -1,8 +1,8 @@
 import { StyleSheet, View } from "react-native";
 
-import { Button } from "@components/buttons";
-import { ControlledTextInput } from "@components/inputs";
-import { useUserContext } from "@context";
+import { Button } from "../../src/components/buttons";
+import { ControlledTextInput } from "../../src/components/inputs";
+import { useUserContext } from "../../src/context";
 import { useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { Text } from "react-native-paper";

@@ -1,5 +1,5 @@
-import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { useAppTheme } from "../../theme";
+import { CustomTheme } from "../../theme/types";
 import { StyleSheet, View } from "react-native";
 import {
   TextInput as PaperTextInput,

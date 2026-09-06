@@ -1,7 +1,7 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { useUserContext } from "@context";
-import { GoalForm, GoalFormValues } from "@features/goals";
+import Api from "../../../src/api";
+import { useQueryKeyStore } from "../../../src/api-hooks";
+import { useUserContext } from "../../../src/context";
+import { GoalForm, GoalFormValues } from "../../../src/features/goals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { ScrollView } from "react-native";

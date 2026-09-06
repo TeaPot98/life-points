@@ -1,7 +1,7 @@
-import { Card, Chip } from "@components";
-import { Button } from "@components/buttons";
-import { NumberInput, TextInput } from "@components/inputs";
-import { IDraftMilestone } from "@local-types/goals";
+import { Card, Chip } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { NumberInput, TextInput } from "../../../components/inputs";
+import { IDraftMilestone } from "../../../types/goals";
 import { useState } from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
 import { StyleSheet, View } from "react-native";

@@ -1,7 +1,7 @@
-import { IconWithBackground } from "@components/IconWithBackground";
-import { useAppTheme } from "@theme";
-import { FixedColor } from "@theme/types";
-import { formatCamelCase } from "@utils";
+import { IconWithBackground } from "../IconWithBackground";
+import { useAppTheme } from "../../theme";
+import { FixedColor } from "../../theme/types";
+import { formatCamelCase } from "../../utils";
 import { useMemo } from "react";
 import { SelectMenu, SelectMenuOption, SelectMenuProps } from "./SelectMenu";
 

@@ -1,7 +1,7 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { useUserContext } from "@context";
-import { BookForm, BookFormValues } from "@features/reading";
+import Api from "../../../../src/api";
+import { useQueryKeyStore } from "../../../../src/api-hooks";
+import { useUserContext } from "../../../../src/context";
+import { BookForm, BookFormValues } from "../../../../src/features/reading";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function CreateBookScreen() {

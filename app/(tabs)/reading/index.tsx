@@ -1,13 +1,13 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { FAB } from "@components/buttons";
-import { useUserContext } from "@context";
-import { BookCard, ReadingStatistics } from "@features/reading/components";
+import Api from "../../../src/api";
+import { useQueryKeyStore } from "../../../src/api-hooks";
+import { FAB } from "../../../src/components/buttons";
+import { useUserContext } from "../../../src/context";
+import { BookCard, ReadingStatistics } from "../../../src/features/reading/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
-import { isNil } from "@utils";
+import { isNil } from "../../../src/utils";
 import { useRouter } from "expo-router";
 import { Divider } from "react-native-paper";
 

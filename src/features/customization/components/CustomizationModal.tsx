@@ -1,5 +1,5 @@
-import { Button } from "@components/buttons";
-import { useCustomizationContext, useUserContext } from "@context";
+import { Button } from "../../../components/buttons";
+import { useCustomizationContext, useUserContext } from "../../../context";
 import { Modal, Portal, Surface } from "react-native-paper";
 
 export const CustomizationModal = () => {

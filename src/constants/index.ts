@@ -1,6 +1,6 @@
-import { SelectMenuOption } from "@components/inputs";
-import { ActivityType } from "@local-types/activities";
-import { FontAwesomeName } from "@local-types/icons";
+import { SelectMenuOption } from "../components/inputs";
+import { ActivityType } from "../types/activities";
+import { FontAwesomeName } from "../types/icons";
 
 export const GOAL_SCHEDULE_OPTIONS = [
   {

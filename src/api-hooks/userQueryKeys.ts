@@ -1,5 +1,5 @@
-import Api from "@api";
-import { useUserContext } from "@context";
+import Api from "../api";
+import { useUserContext } from "../context";
 import { QueryKey } from "@tanstack/react-query";
 import { useMemo } from "react";
 

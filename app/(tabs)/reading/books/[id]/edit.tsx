@@ -1,8 +1,8 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { useUserContext } from "@context";
-import { BookForm, BookFormValues } from "@features/reading";
-import { IBook } from "@local-types/books";
+import Api from "../../../../../src/api";
+import { useQueryKeyStore } from "../../../../../src/api-hooks";
+import { useUserContext } from "../../../../../src/context";
+import { BookForm, BookFormValues } from "../../../../../src/features/reading";
+import { IBook } from "../../../../../src/types/books";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 

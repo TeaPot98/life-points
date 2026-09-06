@@ -1,10 +1,10 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { useUserContext } from "@context";
+import Api from "../../../../src/api";
+import { useQueryKeyStore } from "../../../../src/api-hooks";
+import { useUserContext } from "../../../../src/context";
 import {
   RewardActivityForm,
   RewardActivityFormValues,
-} from "@features/rewards";
+} from "../../../../src/features/rewards";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function CreateRewardActivityScreen() {

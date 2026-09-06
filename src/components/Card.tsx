@@ -1,5 +1,5 @@
-import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { useAppTheme } from "../theme";
+import { CustomTheme } from "../theme/types";
 import { ComponentProps } from "react";
 import { StyleSheet } from "react-native";
 import { Card as PaperCard } from "react-native-paper";

@@ -3,8 +3,8 @@ import {
   PickerItemProps,
   PickerProps,
 } from "@react-native-picker/picker";
-import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { useAppTheme } from "../../theme";
+import { CustomTheme } from "../../theme/types";
 import {
   Control,
   Controller,

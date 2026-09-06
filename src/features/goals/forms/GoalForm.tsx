@@ -1,20 +1,20 @@
-import Api from "@api";
+import Api from "../../../api";
 import {
   ControlledSelectMenu,
   ControlledTextInput,
   SelectMenuOption,
-} from "@components/inputs";
+} from "../../../components/inputs";
 
-import { useQueryKeyStore } from "@api-hooks";
-import { IconWithBackground } from "@components";
-import { Button } from "@components/buttons";
-import { useUserContext } from "@context";
+import { useQueryKeyStore } from "../../../api-hooks";
+import { IconWithBackground } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { useUserContext } from "../../../context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { ActivityType } from "@local-types/activities";
-import { GoalSchedule, IDraftMilestone } from "@local-types/goals";
-import { FontAwesomeName } from "@local-types/icons";
+import { ActivityType } from "../../../types/activities";
+import { GoalSchedule, IDraftMilestone } from "../../../types/goals";
+import { FontAwesomeName } from "../../../types/icons";
 import { useQuery } from "@tanstack/react-query";
-import { useAppTheme } from "@theme";
+import { useAppTheme } from "../../../theme";
 import { useEffect, useMemo } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";

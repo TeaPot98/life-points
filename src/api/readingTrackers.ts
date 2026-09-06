@@ -1,8 +1,8 @@
 import {
   ReadingTrackerCreatePayload,
   ReadingTrackerUpdatePayload,
-} from "@local-types/books";
-import { isNil } from "@utils";
+} from "../types/books";
+import { isNil } from "../utils";
 import { supabase } from "./supabase";
 
 const readingTracker = {

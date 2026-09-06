@@ -1,9 +1,9 @@
-import { Button } from "@components/buttons";
+import { Button } from "../../../components/buttons";
 import {
   ControlledColorSelect,
   ControlledIconSelect,
   ControlledTextInput,
-} from "@components/inputs";
+} from "../../../components/inputs";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";

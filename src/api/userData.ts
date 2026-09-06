@@ -1,7 +1,7 @@
 import {
   UserDataCreatePayload,
   UserDataUpdatePayload,
-} from "@local-types/user";
+} from "../types/user";
 import { supabase } from "./supabase";
 
 const userData = {

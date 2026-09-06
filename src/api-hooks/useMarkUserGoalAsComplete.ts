@@ -1,5 +1,5 @@
-import Api from "@api";
-import { IUserGoal } from "@local-types/goals";
+import Api from "../api";
+import { IUserGoal } from "../types/goals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useCallback } from "react";

@@ -1,11 +1,11 @@
-import { useMarkBookAsRead } from "@api-hooks";
-import { Card, Chip, IconWithBackground } from "@components";
-import { Button } from "@components/buttons";
-import { ProgressBar } from "@components/ProgressBar";
-import { useBooksContext } from "@context";
+import { useMarkBookAsRead } from "../../../api-hooks";
+import { Card, Chip, IconWithBackground } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { ProgressBar } from "../../../components/ProgressBar";
+import { useBooksContext } from "../../../context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IBook } from "@local-types/books";
-import { useAppTheme } from "@theme";
+import { IBook } from "../../../types/books";
+import { useAppTheme } from "../../../theme";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";

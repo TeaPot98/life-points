@@ -1,4 +1,4 @@
-import { IUserGoal } from "@local-types/goals";
+import { IUserGoal } from "../types/goals";
 import dayjs from "dayjs";
 import { isNil } from "./misc";
 

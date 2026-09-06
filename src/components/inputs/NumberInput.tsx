@@ -1,4 +1,4 @@
-import { isNil } from "@utils";
+import { isNil } from "../../utils";
 import { TextInput, TextInputProps } from "./TextInput";
 
 export interface NumberInputProps extends Omit<

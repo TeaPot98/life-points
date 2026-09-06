@@ -2,9 +2,9 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
 
-import Colors from "@constants/Colors";
-import { useCustomizationContext } from "@context";
-import { useAppTheme } from "@theme";
+import Colors from "../../src/constants/Colors";
+import { useCustomizationContext } from "../../src/context";
+import { useAppTheme } from "../../src/theme";
 import { BottomNavigation } from "react-native-paper";
 
 export const unstable_settings = {

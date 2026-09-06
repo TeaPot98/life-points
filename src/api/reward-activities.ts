@@ -1,7 +1,7 @@
 import {
   RewardActivitiesCreatePayload,
   RewardActivitiesUpdatePayload,
-} from "@local-types/rewards";
+} from "../types/rewards";
 import { supabase } from "./supabase";
 
 const rewardActivities = {

@@ -1,5 +1,5 @@
-import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { useAppTheme } from "../../theme";
+import { CustomTheme } from "../../theme/types";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { FABGroupProps, Portal, FAB as VanillaFAB } from "react-native-paper";

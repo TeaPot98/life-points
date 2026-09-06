@@ -1,7 +1,7 @@
 import {
   UserGoalsCreatePayload,
   UserGoalsUpdatePayload,
-} from "@local-types/goals";
+} from "../types/goals";
 import { supabase } from "./supabase";
 
 const userGoals = {

@@ -1,9 +1,9 @@
-import Api from "@api";
-import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "@api-hooks";
-import { Button } from "@components/buttons";
-import { ControlledNumberInput } from "@components/inputs";
-import { useGoalsContext } from "@context";
-import { IUserGoal } from "@local-types/goals";
+import Api from "../../../api";
+import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "../../../api-hooks";
+import { Button } from "../../../components/buttons";
+import { ControlledNumberInput } from "../../../components/inputs";
+import { useGoalsContext } from "../../../context";
+import { IUserGoal } from "../../../types/goals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";

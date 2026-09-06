@@ -1,5 +1,5 @@
-import Api, { supabase } from "@api";
-import { IUserData } from "@local-types/user";
+import Api, { supabase } from "../api";
+import { IUserData } from "../types/user";
 import { Session, User, WeakPassword } from "@supabase/supabase-js";
 import {
   UseMutateFunction,

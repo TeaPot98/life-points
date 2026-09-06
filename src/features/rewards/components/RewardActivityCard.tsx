@@ -1,8 +1,8 @@
-import { Card, IconWithBackground } from "@components";
-import { Button } from "@components/buttons";
-import { FontAwesomeName } from "@local-types/icons";
-import { IRewardActivity } from "@local-types/rewards";
-import { FixedColor } from "@theme/types";
+import { Card, IconWithBackground } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { FontAwesomeName } from "../../../types/icons";
+import { IRewardActivity } from "../../../types/rewards";
+import { FixedColor } from "../../../theme/types";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";

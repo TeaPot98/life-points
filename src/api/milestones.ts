@@ -1,7 +1,7 @@
 import {
   MilestonesCreatePayload,
   MilestonesUpdatePayload,
-} from "@local-types/goals";
+} from "../types/goals";
 import { supabase } from "./supabase";
 
 const milestones = {

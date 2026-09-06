@@ -1,4 +1,4 @@
-import { TabHeader } from "@components";
+import { TabHeader } from "../../../src/components";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 

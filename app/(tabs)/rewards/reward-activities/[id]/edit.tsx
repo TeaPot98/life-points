@@ -1,11 +1,11 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { useUserContext } from "@context";
+import Api from "../../../../../src/api";
+import { useQueryKeyStore } from "../../../../../src/api-hooks";
+import { useUserContext } from "../../../../../src/context";
 import {
   RewardActivityForm,
   RewardActivityFormValues,
-} from "@features/rewards";
-import { IRewardActivity } from "@local-types/rewards";
+} from "../../../../../src/features/rewards";
+import { IRewardActivity } from "../../../../../src/types/rewards";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 

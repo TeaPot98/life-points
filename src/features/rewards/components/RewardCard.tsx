@@ -1,14 +1,14 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { Card, Chip, IconWithBackground } from "@components";
-import { Button } from "@components/buttons";
-import { useUserContext } from "@context";
-import { FontAwesomeName } from "@local-types/icons";
-import { IReward } from "@local-types/rewards";
+import Api from "../../../api";
+import { useQueryKeyStore } from "../../../api-hooks";
+import { Card, Chip, IconWithBackground } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { useUserContext } from "../../../context";
+import { FontAwesomeName } from "../../../types/icons";
+import { IReward } from "../../../types/rewards";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAppTheme } from "@theme";
-import { CustomTheme, FixedColor } from "@theme/types";
-import { fromSecondsToHumanReadable, isNil } from "@utils";
+import { useAppTheme } from "../../../theme";
+import { CustomTheme, FixedColor } from "../../../theme/types";
+import { fromSecondsToHumanReadable, isNil } from "../../../utils";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 

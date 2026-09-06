@@ -1,10 +1,10 @@
-import { TabHeader } from "@components";
-import { BooksContextProvider } from "@context";
+import { TabHeader } from "../../../src/components";
+import { BooksContextProvider } from "../../../src/context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import {
   BookModal,
   ReadingTrackerSettingsModal,
-} from "@features/reading/components";
+} from "../../../src/features/reading/components";
 import { Stack, useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import "react-native-reanimated";

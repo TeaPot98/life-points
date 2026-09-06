@@ -1,5 +1,5 @@
-import MockData from "@data";
-import { computeGoalCompletionPercentage } from "@utils/goals";
+import MockData from "../data";
+import { computeGoalCompletionPercentage } from "../utils/goals";
 import dayjs from "dayjs";
 
 describe("computeGoalCompletionPercentage", () => {

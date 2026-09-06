@@ -9,8 +9,8 @@ import {
   CustomizationContext,
   CustomizationContextProvider,
   UserContextProvider,
-} from "@context";
-import { CustomizationModal } from "@features/customization";
+} from "../src/context";
+import { CustomizationModal } from "../src/features/customization";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -18,7 +18,7 @@ import {
   CustomLightTheme,
   CustomNavigationDarkTheme,
   CustomNavigationLightTheme,
-} from "@theme";
+} from "../src/theme";
 import { PaperProvider } from "react-native-paper";
 
 export {

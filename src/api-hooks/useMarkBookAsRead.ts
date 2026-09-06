@@ -1,6 +1,6 @@
-import Api from "@api";
-import { useBooksContext } from "@context";
-import { IBook } from "@local-types/books";
+import Api from "../api";
+import { useBooksContext } from "../context";
+import { IBook } from "../types/books";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { useQueryKeyStore } from "./userQueryKeys";

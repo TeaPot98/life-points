@@ -1,4 +1,4 @@
-import { GoalsCreatePayload, GoalsUpdatePayload } from "@local-types/goals";
+import { GoalsCreatePayload, GoalsUpdatePayload } from "../types/goals";
 import { supabase } from "./supabase";
 
 const goals = {

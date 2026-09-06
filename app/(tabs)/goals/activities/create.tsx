@@ -1,7 +1,7 @@
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { useUserContext } from "@context";
-import { ActivityForm, ActivityFormValues } from "@features/goals";
+import Api from "../../../../src/api";
+import { useQueryKeyStore } from "../../../../src/api-hooks";
+import { useUserContext } from "../../../../src/context";
+import { ActivityForm, ActivityFormValues } from "../../../../src/features/goals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ScrollView } from "react-native";
 

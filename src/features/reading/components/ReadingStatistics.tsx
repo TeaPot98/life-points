@@ -1,10 +1,10 @@
-import { Card } from "@components";
-import { Button } from "@components/buttons";
-import { useBooksContext } from "@context";
+import { Card } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { useBooksContext } from "../../../context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IReadingStatistics } from "@local-types/books";
-import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { IReadingStatistics } from "../../../types/books";
+import { useAppTheme } from "../../../theme";
+import { CustomTheme } from "../../../theme/types";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 

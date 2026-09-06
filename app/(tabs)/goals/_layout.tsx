@@ -1,7 +1,7 @@
-import { TabHeader } from "@components";
-import { GoalsContextProvider } from "@context";
+import { TabHeader } from "../../../src/components";
+import { GoalsContextProvider } from "../../../src/context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { CountGoalModal } from "@features/goals/components";
+import { CountGoalModal } from "../../../src/features/goals/components";
 import { Stack, useRouter } from "expo-router";
 import { Pressable } from "react-native";
 import "react-native-reanimated";

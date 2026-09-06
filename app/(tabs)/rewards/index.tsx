@@ -1,10 +1,10 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { Button, FAB } from "@components/buttons";
-import { useUserContext } from "@context";
-import { UserRewardCard } from "@features/rewards/components/UserRewardCard";
+import Api from "../../../src/api";
+import { useQueryKeyStore } from "../../../src/api-hooks";
+import { Button, FAB } from "../../../src/components/buttons";
+import { useUserContext } from "../../../src/context";
+import { UserRewardCard } from "../../../src/features/rewards/components/UserRewardCard";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";

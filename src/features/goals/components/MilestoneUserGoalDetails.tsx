@@ -1,9 +1,9 @@
-import Api from "@api";
-import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "@api-hooks";
-import { Card, Chip } from "@components";
-import { Button } from "@components/buttons";
+import Api from "../../../api";
+import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "../../../api-hooks";
+import { Card, Chip } from "../../../components";
+import { Button } from "../../../components/buttons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IMilestone, IUserGoal } from "@local-types/goals";
+import { IMilestone, IUserGoal } from "../../../types/goals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";

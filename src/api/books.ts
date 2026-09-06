@@ -1,4 +1,4 @@
-import { BooksCreatePayload, BooksUpdatePayload } from "@local-types/books";
+import { BooksCreatePayload, BooksUpdatePayload } from "../types/books";
 import { supabase } from "./supabase";
 
 const books = {

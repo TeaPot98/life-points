@@ -1,12 +1,12 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { useUserContext } from "@context";
+import Api from "../../../../src/api";
+import { useQueryKeyStore } from "../../../../src/api-hooks";
+import { useUserContext } from "../../../../src/context";
 import {
   MilestoneUserGoalDetails,
   UserGoalCard,
-} from "@features/goals/components";
+} from "../../../../src/features/goals/components";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import { Divider, Text } from "react-native-paper";

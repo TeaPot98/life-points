@@ -1,5 +1,5 @@
-import { useContainerColors } from "@theme";
-import { CoreColor } from "@theme/types";
+import { useContainerColors } from "../theme";
+import { CoreColor } from "../theme/types";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { ProgressBar as PaperProgressBar } from "react-native-paper";
 

@@ -1,7 +1,7 @@
-import { Button } from "@components/buttons";
+import { Button } from "../buttons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useAppTheme } from "@theme";
-import { CustomTheme } from "@theme/types";
+import { useAppTheme } from "../../theme";
+import { CustomTheme } from "../../theme/types";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 

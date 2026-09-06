@@ -1,21 +1,21 @@
-import { Card, IconWithBackground } from "@components";
-import { Chip } from "@components/Chip";
-import { ACTIVITY_TYPE_ICONS } from "@constants";
+import { Card, IconWithBackground } from "../../../components";
+import { Chip } from "../../../components/Chip";
+import { ACTIVITY_TYPE_ICONS } from "../../../constants";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IGoal } from "@local-types/goals";
+import { IGoal } from "../../../types/goals";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-import Api from "@api";
-import { useQueryKeyStore } from "@api-hooks";
-import { Button } from "@components/buttons";
-import { useUserContext } from "@context";
-import { FontAwesomeName } from "@local-types/icons";
+import Api from "../../../api";
+import { useQueryKeyStore } from "../../../api-hooks";
+import { Button } from "../../../components/buttons";
+import { useUserContext } from "../../../context";
+import { FontAwesomeName } from "../../../types/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAppTheme } from "@theme";
-import { CustomTheme, FixedColor } from "@theme/types";
-import { capitalize, fromSecondsToHumanReadable, isNil } from "@utils";
+import { useAppTheme } from "../../../theme";
+import { CustomTheme, FixedColor } from "../../../theme/types";
+import { capitalize, fromSecondsToHumanReadable, isNil } from "../../../utils";
 
 type GoalCardProps = {
   goal: IGoal;

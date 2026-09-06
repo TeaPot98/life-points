@@ -1,5 +1,5 @@
-import { IconWithBackground } from "@components/IconWithBackground";
-import { FontAwesomeName } from "@local-types/icons";
+import { IconWithBackground } from "../IconWithBackground";
+import { FontAwesomeName } from "../../types/icons";
 import { useMemo } from "react";
 import { SelectMenu, SelectMenuOption, SelectMenuProps } from "./SelectMenu";
 
