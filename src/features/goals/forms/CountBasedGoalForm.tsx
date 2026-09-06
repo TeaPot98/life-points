@@ -3,9 +3,9 @@ import {
   ControlledSelectMenu,
 } from "../../../components/inputs";
 
+import { useFormContext } from "react-hook-form";
 import { GOAL_SCHEDULE_OPTIONS } from "../../../constants";
 import { GoalSchedule } from "../../../types/goals";
-import { useFormContext } from "react-hook-form";
 
 interface CountBasedFields {
   reward: number;
@@ -23,6 +23,18 @@ export const CountBasedGoalForm = () => {
         control={control}
         name="goal_count"
         inputProps={{ label: "Goal Count" }}
+        controllerProps={{
+          rules: {
+            min: {
+              value: 1,
+              message: "The value should be bigger than 0",
+            },
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <ControlledSelectMenu
         control={control}
@@ -34,11 +46,31 @@ export const CountBasedGoalForm = () => {
         control={control}
         name="reward_per_item"
         inputProps={{ label: "Reward per Item" }}
+        controllerProps={{
+          rules: {
+            min: {
+              value: 0,
+              message: "The value cannot be negative",
+            },
+          },
+        }}
       />
       <ControlledNumberInput
         control={control}
         name="reward"
         inputProps={{ label: "Final Reward" }}
+        controllerProps={{
+          rules: {
+            min: {
+              value: 1,
+              message: "The value should be bigger than 0",
+            },
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
     </>
   );

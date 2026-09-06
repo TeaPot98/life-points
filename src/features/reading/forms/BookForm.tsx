@@ -1,5 +1,8 @@
 import { Button } from "../../../components/buttons";
-import { ControlledNumberInput, ControlledTextInput } from "../../../components/inputs";
+import {
+  ControlledNumberInput,
+  ControlledTextInput,
+} from "../../../components/inputs";
 
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -32,21 +35,57 @@ export const BookForm = ({ onSubmit, defaultValues }: BookFormProps) => {
         control={control}
         name="title"
         textInputPros={{ label: "Title" }}
+        controllerProps={{
+          rules: {
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <ControlledTextInput
         control={control}
         name="author"
         textInputPros={{ label: "Author" }}
+        controllerProps={{
+          rules: {
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <ControlledNumberInput
         control={control}
         name="number_of_pages"
         inputProps={{ label: "Number of Pages" }}
+        controllerProps={{
+          rules: {
+            min: {
+              value: 1,
+              message: "The value should be bigger than 0",
+            },
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <ControlledNumberInput
         control={control}
         name="read_pages"
         inputProps={{ label: "Read Pages (optional)" }}
+        controllerProps={{
+          rules: {
+            min: {
+              value: 0,
+              message: "The value should be bigger than 0",
+            },
+          },
+        }}
       />
       <Button icon="plus" onPress={handleSubmit(onSubmit)}>
         Save

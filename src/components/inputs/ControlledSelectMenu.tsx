@@ -37,7 +37,7 @@ export const ControlledSelectMenu = <
         <SelectMenu
           onValueChange={onChange}
           options={options}
-          selectedOption={options.find((o) => o.value === value)}
+          selectedOption={options.find((o) => o.value === value) ?? options[0]}
           {...selectProps}
         />
       )}

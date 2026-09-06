@@ -5,19 +5,19 @@ import {
   SelectMenuOption,
 } from "../../../components/inputs";
 
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { StyleSheet, View } from "react-native";
 import { useQueryKeyStore } from "../../../api-hooks";
 import { IconWithBackground } from "../../../components";
 import { Button } from "../../../components/buttons";
 import { useUserContext } from "../../../context";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useAppTheme } from "../../../theme";
 import { ActivityType } from "../../../types/activities";
 import { GoalSchedule, IDraftMilestone } from "../../../types/goals";
 import { FontAwesomeName } from "../../../types/icons";
-import { useQuery } from "@tanstack/react-query";
-import { useAppTheme } from "../../../theme";
-import { useEffect, useMemo } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
 import { CountBasedGoalForm } from "./CountBasedGoalForm";
 import { MilestonesGoalForm } from "./MilestonesGoalForm";
 import { TimeBasedGoalForm } from "./TimeBasedGoalForm";
@@ -96,6 +96,14 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
           control={control}
           name="name"
           textInputPros={{ label: "Name" }}
+          controllerProps={{
+            rules: {
+              required: {
+                value: true,
+                message: "This field is required",
+              },
+            },
+          }}
         />
         <ControlledSelectMenu
           options={activitiesOptions}

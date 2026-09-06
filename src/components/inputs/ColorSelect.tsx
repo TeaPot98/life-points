@@ -1,8 +1,8 @@
-import { IconWithBackground } from "../IconWithBackground";
+import { useMemo } from "react";
 import { useAppTheme } from "../../theme";
 import { FixedColor } from "../../theme/types";
 import { formatCamelCase } from "../../utils";
-import { useMemo } from "react";
+import { IconWithBackground } from "../IconWithBackground";
 import { SelectMenu, SelectMenuOption, SelectMenuProps } from "./SelectMenu";
 
 export type ColorSelectProps = Omit<
@@ -18,7 +18,9 @@ export const ColorSelect = ({ value, ...props }: ColorSelectProps) => {
   return (
     <SelectMenu
       options={colorOptions}
-      selectedOption={colorOptions.find((o) => o.value === value)}
+      selectedOption={
+        colorOptions.find((o) => o.value === value) ?? colorOptions[0]
+      }
       {...props}
     />
   );

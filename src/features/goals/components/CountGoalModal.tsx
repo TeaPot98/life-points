@@ -1,12 +1,15 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 import Api from "../../../api";
-import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "../../../api-hooks";
+import {
+  useMarkUserGoalAsCompleted,
+  useQueryKeyStore,
+} from "../../../api-hooks";
 import { Button } from "../../../components/buttons";
 import { ControlledNumberInput } from "../../../components/inputs";
 import { useGoalsContext } from "../../../context";
 import { IUserGoal } from "../../../types/goals";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 
 type FormFieldsType = {
   incrementWith: number;
@@ -102,6 +105,18 @@ export const CountGoalModal = () => {
             control={control}
             name="incrementWith"
             inputProps={{ label: "Increment with" }}
+            controllerProps={{
+              rules: {
+                required: {
+                  value: true,
+                  message: "This field is required",
+                },
+                min: {
+                  value: 0,
+                  message: "Value should be bigger than 0",
+                },
+              },
+            }}
           />
           <Button onPress={handleSubmit(onSubmit)}>Save</Button>
 

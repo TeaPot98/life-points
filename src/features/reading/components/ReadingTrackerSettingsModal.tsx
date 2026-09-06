@@ -1,13 +1,13 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 import Api from "../../../api";
 import { useQueryKeyStore } from "../../../api-hooks";
 import { Button } from "../../../components/buttons";
 import { ControlledNumberInput } from "../../../components/inputs";
 import { useBooksContext } from "../../../context";
 import { IReadingTracker } from "../../../types/books";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 
 type FormFieldsType = {
   rewardPerPage: number;
@@ -90,6 +90,14 @@ export const ReadingTrackerSettingsModal = () => {
             control={control}
             name="rewardPerPage"
             inputProps={{ label: "Reward per page" }}
+            controllerProps={{
+              rules: {
+                min: {
+                  value: 0,
+                  message: "Value should be bigger than 0",
+                },
+              },
+            }}
           />
           <Button onPress={handleSubmit(onSubmit)}>Save</Button>
 

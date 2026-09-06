@@ -1,12 +1,12 @@
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { StyleSheet, View } from "react-native";
 import { Button } from "../../../components/buttons";
 import {
   ControlledColorSelect,
   ControlledIconSelect,
   ControlledTextInput,
 } from "../../../components/inputs";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
 
 export type RewardActivityFormValues = {
   name: string;
@@ -37,6 +37,14 @@ export const RewardActivityForm = ({
         control={control}
         name="name"
         textInputPros={{ label: "Name" }}
+        controllerProps={{
+          rules: {
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <ControlledIconSelect
         control={control}

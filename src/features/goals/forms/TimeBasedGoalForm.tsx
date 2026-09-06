@@ -3,12 +3,12 @@ import {
   ControlledSelectMenu,
 } from "../../../components/inputs";
 
-import { GOAL_SCHEDULE_OPTIONS } from "../../../constants";
-import { GoalSchedule } from "../../../types/goals";
 import { useFormContext } from "react-hook-form";
+import { DURATION_OPTIONS, GOAL_SCHEDULE_OPTIONS } from "../../../constants";
+import { GoalSchedule } from "../../../types/goals";
 
 interface TimeBasedFields {
-  duration?: number;
+  duration: number;
   reward: number;
   schedule?: GoalSchedule;
 }
@@ -18,10 +18,12 @@ export const TimeBasedGoalForm = () => {
 
   return (
     <>
-      <ControlledNumberInput
+      <ControlledSelectMenu
+        // @ts-ignore TODO: fix this
         control={control}
         name="duration"
         inputProps={{ label: "Duration" }}
+        option={DURATION_OPTIONS}
       />
       <ControlledSelectMenu
         control={control}
@@ -33,6 +35,11 @@ export const TimeBasedGoalForm = () => {
         control={control}
         name="reward"
         inputProps={{ label: "Reward" }}
+        controllerProps={{
+          rules: {
+            min: { value: 0, message: "The value cannot be negative" },
+          },
+        }}
       />
     </>
   );

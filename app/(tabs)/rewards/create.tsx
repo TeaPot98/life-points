@@ -1,13 +1,18 @@
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
 import { Button } from "../../../src/components/buttons";
-import { ControlledPicker, ControlledTextInput } from "../../../src/components/inputs";
+import {
+  ControlledSelectMenu,
+  ControlledTextInput,
+  SelectMenuOption,
+} from "../../../src/components/inputs";
 
-import { useUserContext } from "../../../src/context";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
+import { DURATION_OPTIONS } from "../../../src/constants";
+import { useUserContext } from "../../../src/context";
 
 type FormFieldValues = {
   reward_activity_id: number;
@@ -46,29 +51,47 @@ export default function CreateRewardScreen() {
 
   const rewardActivitiesOptions = useMemo(
     () =>
-      rewardActivities?.map((activity) => ({
-        label: activity.name,
-        value: activity.id,
-      })) ?? [],
+      rewardActivities?.map(
+        (activity) =>
+          ({
+            title: activity.name,
+            value: activity.id,
+          }) satisfies SelectMenuOption<number>,
+      ) ?? [],
     [rewardActivities],
   );
 
   return (
     <View style={styles.container}>
-      <ControlledPicker
+      <ControlledSelectMenu
         control={control}
         name="reward_activity_id"
         options={rewardActivitiesOptions}
+        selectProps={{ label: "Activity" }}
       />
-      <ControlledTextInput
+      <ControlledSelectMenu
+        // @ts-ignore - Fix this
         control={control}
         name="duration"
-        textInputPros={{ label: "Duration (optional)" }}
+        options={DURATION_OPTIONS}
+        selectProps={{ label: "Duration" }}
       />
       <ControlledTextInput
         control={control}
         name="price"
         textInputPros={{ label: "Price" }}
+        controllerProps={{
+          rules: {
+            min: {
+              value: 1,
+              message: "The value should be bigger than 1",
+            },
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <Button icon="check" onPress={handleSubmit(onSubmit)}>
         Save

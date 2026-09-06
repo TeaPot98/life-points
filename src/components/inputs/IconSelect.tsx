@@ -1,6 +1,6 @@
-import { IconWithBackground } from "../IconWithBackground";
-import { FontAwesomeName } from "../../types/icons";
 import { useMemo } from "react";
+import { FontAwesomeName } from "../../types/icons";
+import { IconWithBackground } from "../IconWithBackground";
 import { SelectMenu, SelectMenuOption, SelectMenuProps } from "./SelectMenu";
 
 export type IconSelectProps = Omit<
@@ -16,7 +16,9 @@ export const IconSelect = ({ value, ...props }: IconSelectProps) => {
   return (
     <SelectMenu
       options={iconOptions}
-      selectedOption={iconOptions.find((o) => o.value === value)}
+      selectedOption={
+        iconOptions.find((o) => o.value === value) ?? iconOptions[0]
+      }
       {...props}
     />
   );

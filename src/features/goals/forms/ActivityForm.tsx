@@ -38,6 +38,14 @@ export const ActivityForm = ({
         control={control}
         name="name"
         textInputPros={{ label: "Name" }}
+        controllerProps={{
+          rules: {
+            required: {
+              value: true,
+              message: "This field is required",
+            },
+          },
+        }}
       />
       <ControlledIconSelect
         control={control}
