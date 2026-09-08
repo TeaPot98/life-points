@@ -1,16 +1,18 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { ScrollView } from "react-native";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
 import { useUserContext } from "../../../src/context";
 import { GoalForm, GoalFormValues } from "../../../src/features/goals";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
-import { ScrollView } from "react-native";
 
 export default function CreateGoalScreen() {
   const router = useRouter();
   const { user } = useUserContext();
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { mutateAsync: createGoal } = useMutation({
     mutationFn: Api.goals.create,
@@ -48,6 +50,7 @@ export default function CreateGoalScreen() {
     schedule = "none",
   }: GoalFormValues) => {
     try {
+      setIsSubmitting(true);
       switch (type) {
         case "count":
           await createGoal({
@@ -97,15 +100,17 @@ export default function CreateGoalScreen() {
           break;
       }
 
-      router.back();
+      router.replace("/(tabs)/goals/manage");
     } catch (error) {
       console.error("An error occured while creating a goal", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <ScrollView>
-      <GoalForm onSubmit={onSubmit} />
+      <GoalForm onSubmit={onSubmit} isSubmitting={isSubmitting} />
     </ScrollView>
   );
 }

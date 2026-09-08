@@ -1,14 +1,15 @@
-import { Card, IconWithBackground } from "../../../components";
-import { Button } from "../../../components/buttons";
-import { IActivity } from "../../../types/activities";
-import { FontAwesomeName } from "../../../types/icons";
-import { FixedColor } from "../../../theme/types";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
+import { Card, IconWithBackground } from "../../../components";
+import { IconButton } from "../../../components/buttons";
+import { FixedColor } from "../../../theme/types";
+import { IActivity, IDefaultActivity } from "../../../types/activities";
+import { FontAwesomeName } from "../../../types/icons";
 
 type ActivityCardProps = {
-  activity: IActivity;
+  activity: IActivity | IDefaultActivity;
 };
 
 export const ActivityCard = ({ activity }: ActivityCardProps) => {
@@ -16,7 +17,7 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
 
   return (
     <Card>
-      <Card.Content>
+      <Card.Content style={styles.cardContent}>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             <IconWithBackground
@@ -26,26 +27,31 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
             <Text variant="titleMedium">{activity.name}</Text>
           </View>
         </View>
+        {activity.user_id && (
+          <Card.Actions>
+            <IconButton
+              icon="pencil"
+              color="secondary"
+              onPress={() =>
+                router.push({
+                  pathname: "/goals/activities/[id]/edit",
+                  params: { id: String(activity.id) },
+                })
+              }
+            >
+              <FontAwesome />
+            </IconButton>
+          </Card.Actions>
+        )}
       </Card.Content>
-      <Card.Actions>
-        <Button
-          onPress={() =>
-            router.push({
-              pathname: "/goals/activities/[id]/edit",
-              params: { id: String(activity.id) },
-            })
-          }
-        >
-          Edit
-        </Button>
-      </Card.Actions>
     </Card>
   );
 };
 
 const styles = StyleSheet.create({
+  cardContent: { flexDirection: "row", justifyContent: "space-between" },
   container: {
-    width: "100%",
+    // width: "100%",
   },
   rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
   iconContainer: {

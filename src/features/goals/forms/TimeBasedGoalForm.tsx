@@ -19,11 +19,10 @@ export const TimeBasedGoalForm = () => {
   return (
     <>
       <ControlledSelectMenu
-        // @ts-ignore TODO: fix this
         control={control}
         name="duration"
-        inputProps={{ label: "Duration" }}
-        option={DURATION_OPTIONS}
+        options={DURATION_OPTIONS}
+        selectProps={{ label: "Duration" }}
       />
       <ControlledSelectMenu
         control={control}

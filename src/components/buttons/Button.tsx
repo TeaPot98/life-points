@@ -1,8 +1,8 @@
-import { useContainerColors } from "../../theme";
-import { CoreColor } from "../../theme/types";
 import { ComponentProps } from "react";
 import { StyleSheet } from "react-native";
 import { Button as PaperButton } from "react-native-paper";
+import { useContainerColors } from "../../theme";
+import { CoreColor } from "../../theme/types";
 
 type PaperButtonProps = ComponentProps<typeof PaperButton> & {
   color?: CoreColor;

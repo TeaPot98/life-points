@@ -1,6 +1,7 @@
 import { DarkTheme as NavigationDarkTheme } from "@react-navigation/native";
 import { DeepPartial } from "react-hook-form";
 import { MD3DarkTheme } from "react-native-paper";
+import { FIXED_COLORS } from "./fixedColors";
 import { CustomTheme } from "./types";
 
 const THEME_OVERRIDE = {
@@ -39,23 +40,7 @@ export const CustomDarkTheme = {
   colors: {
     ...MD3DarkTheme.colors,
     ...THEME_OVERRIDE.colors,
-    fixed: {
-      primary: {
-        main: "#00B0FD",
-        dark: "#002B42",
-        contrastText: "#002B42",
-      },
-      lightBlue: {
-        main: "#62cadf",
-        dark: "#0288D1",
-        contrastText: "#FFF",
-      },
-      red: {
-        main: "#DB073D",
-        dark: "#8F0A2B",
-        contrastText: "#FFF",
-      },
-    },
+    fixed: FIXED_COLORS,
   },
 } satisfies CustomTheme;
 

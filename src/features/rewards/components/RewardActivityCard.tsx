@@ -1,14 +1,17 @@
-import { Card, IconWithBackground } from "../../../components";
-import { Button } from "../../../components/buttons";
-import { FontAwesomeName } from "../../../types/icons";
-import { IRewardActivity } from "../../../types/rewards";
-import { FixedColor } from "../../../theme/types";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
+import { Card, IconWithBackground } from "../../../components";
+import { IconButton } from "../../../components/buttons";
+import { FixedColor } from "../../../theme/types";
+import { FontAwesomeName } from "../../../types/icons";
+import {
+  IDefaultRewardActivity,
+  IRewardActivity,
+} from "../../../types/rewards";
 
 type RewardActivityCardProps = {
-  rewardActivity: IRewardActivity;
+  rewardActivity: IRewardActivity | IDefaultRewardActivity;
 };
 
 export const RewardActivityCard = ({
@@ -18,7 +21,7 @@ export const RewardActivityCard = ({
 
   return (
     <Card>
-      <Card.Content>
+      <Card.Content style={styles.cardContent}>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             <IconWithBackground
@@ -28,27 +31,30 @@ export const RewardActivityCard = ({
             <Text variant="titleMedium">{rewardActivity.name}</Text>
           </View>
         </View>
+        {rewardActivity.user_id !== "all" && (
+          <Card.Actions>
+            <IconButton
+              icon="pencil"
+              color="secondary"
+              onPress={() =>
+                router.push({
+                  pathname: "/rewards/reward-activities/[id]/edit",
+                  params: { id: String(rewardActivity.id) },
+                })
+              }
+            />
+          </Card.Actions>
+        )}
       </Card.Content>
-      <Card.Actions>
-        <Button
-          onPress={() =>
-            router.push({
-              pathname: "/rewards/reward-activities/[id]/edit",
-              params: { id: String(rewardActivity.id) },
-            })
-          }
-        >
-          Edit
-        </Button>
-      </Card.Actions>
     </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    // width: "100%",
   },
+  cardContent: { flexDirection: "row", justifyContent: "space-between" },
   rowContainer: { flexDirection: "row", alignItems: "center", gap: 12 },
   iconContainer: {
     backgroundColor: "#ccc",

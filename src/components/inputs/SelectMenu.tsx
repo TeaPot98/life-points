@@ -1,9 +1,9 @@
-import { Button } from "../buttons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useAppTheme } from "../../theme";
-import { CustomTheme } from "../../theme/types";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { useAppTheme } from "../../theme";
+import { CustomTheme } from "../../theme/types";
+import { Button } from "../buttons";
 
 import { Menu, Text } from "react-native-paper";
 import { IconSource } from "react-native-paper/lib/typescript/components/Icon";

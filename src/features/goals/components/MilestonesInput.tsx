@@ -1,11 +1,11 @@
-import { Card, Chip } from "../../../components";
-import { Button } from "../../../components/buttons";
-import { NumberInput, TextInput } from "../../../components/inputs";
-import { IDraftMilestone } from "../../../types/goals";
 import { useState } from "react";
 import { Control, Controller, ControllerProps } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { Divider, Text } from "react-native-paper";
+import { Card, Chip, SectionDivider } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { NumberInput, TextInput } from "../../../components/inputs";
+import { IDraftMilestone } from "../../../types/goals";
 
 const EMPTY_MILESTONE = {
   name: "",
@@ -47,12 +47,7 @@ export const MilestonesInput = ({
       {...controllerProps}
       render={({ field: { onChange, value = [] } }) => (
         <View style={styles.container}>
-          {value?.length && (
-            <View>
-              <Text>Milestones</Text>
-              <Divider />
-            </View>
-          )}
+          {value?.length && <SectionDivider text="Milestones" />}
           {value?.map((milestone, index) => (
             <View key={index}>
               {/* {index === editMilestoneIndex ? (
@@ -162,10 +157,7 @@ const MilestoneInput = ({
 }: MilestoneInputProps) => {
   return (
     <View style={styles.milestoneInput}>
-      <View>
-        <Text>New Milestone</Text>
-        <Divider />
-      </View>
+      <SectionDivider text="New Milestone" />
       <TextInput label="Name" value={name} onChangeText={onNameChange} />
       <NumberInput
         label="Reward"

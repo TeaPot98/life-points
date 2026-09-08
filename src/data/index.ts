@@ -15,3 +15,6 @@ const MockData = {
 };
 
 export default MockData;
+
+export * from "./default-activities";
+export * from "./default-reward-activities";

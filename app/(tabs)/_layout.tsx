@@ -2,10 +2,12 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
 
+import { StyleSheet } from "react-native";
+import { BottomNavigation } from "react-native-paper";
 import Colors from "../../src/constants/Colors";
 import { useCustomizationContext } from "../../src/context";
 import { useAppTheme } from "../../src/theme";
-import { BottomNavigation } from "react-native-paper";
+import { CustomTheme } from "../../src/theme/types";
 
 export const unstable_settings = {
   initialRouteName: "goals",
@@ -21,6 +23,7 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const theme = useAppTheme();
+  const styles = getStyles(theme);
   const { colorScheme } = useCustomizationContext();
 
   return (
@@ -33,17 +36,7 @@ export default function TabLayout() {
         tabBar={({ navigation, state, descriptors, insets }) => (
           <BottomNavigation.Bar
             compact
-            style={{
-              borderRadius: 80,
-              overflow: "hidden",
-              marginBottom: 50,
-              marginHorizontal: 10,
-              height: 80,
-              borderWidth: 2,
-              borderBottomWidth: 4,
-              borderRightWidth: 3,
-              borderColor: theme.colors.outlineVariant,
-            }}
+            style={styles.navigationBar}
             navigationState={state}
             safeAreaInsets={insets}
             onTabPress={({ route }) => navigation.navigate(route.name)}
@@ -93,3 +86,18 @@ export default function TabLayout() {
     </>
   );
 }
+
+const getStyles = (theme: CustomTheme) =>
+  StyleSheet.create({
+    navigationBar: {
+      borderRadius: 80,
+      overflow: "hidden",
+      marginBottom: 0,
+      marginHorizontal: 10,
+      height: 80,
+      borderWidth: 2,
+      borderBottomWidth: 4,
+      borderRightWidth: 3,
+      borderColor: theme.colors.outlineVariant,
+    },
+  });

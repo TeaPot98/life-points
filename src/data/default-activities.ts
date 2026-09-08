@@ -1,0 +1,60 @@
+import { IDefaultActivity } from "../types/activities";
+
+export const DEFAULT_ACTIVITIES = [
+  {
+    id: -1,
+    created_at: "local",
+    user_id: "all",
+    name: "Reading",
+    color: "blue",
+    icon: "book",
+  },
+  {
+    id: -2,
+    created_at: "local",
+    user_id: "all",
+    name: "Workout",
+    color: "green",
+    icon: "smile-o",
+  },
+  {
+    id: -3,
+    created_at: "local",
+    user_id: "all",
+    name: "Project",
+    color: "yellow",
+    icon: "road",
+  },
+  {
+    id: -4,
+    created_at: "local",
+    user_id: "all",
+    name: "Drawing",
+    color: "pink",
+    icon: "pencil",
+  },
+  {
+    id: -5,
+    created_at: "local",
+    user_id: "all",
+    name: "Music",
+    color: "purple",
+    icon: "music",
+  },
+  {
+    id: -6,
+    created_at: "local",
+    user_id: "all",
+    name: "Chores",
+    color: "orange",
+    icon: "home",
+  },
+  {
+    id: -7,
+    created_at: "local",
+    user_id: "all",
+    name: "Study",
+    color: "red",
+    icon: "book",
+  },
+] satisfies IDefaultActivity[];

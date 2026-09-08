@@ -1,8 +1,8 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { FontAwesomeName } from "../types/icons";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { useAppTheme } from "../theme";
 import { CustomTheme, FixedColor } from "../theme/types";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { FontAwesomeName } from "../types/icons";
 
 type IconWithBackgroundProps = {
   name?: FontAwesomeName;
@@ -13,7 +13,7 @@ type IconWithBackgroundProps = {
 
 export const IconWithBackground = ({
   name,
-  color = "primary",
+  color = "blue",
   style,
   iconSize = 24,
 }: IconWithBackgroundProps) => {

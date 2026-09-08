@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { DURATION_OPTIONS } from "../../../src/constants";
 import { useUserContext } from "../../../src/context";
+import { DEFAULT_REWARD_ACTIVITIES } from "../../../src/data";
 
 type FormFieldValues = {
   reward_activity_id: number;
@@ -51,7 +52,7 @@ export default function CreateRewardScreen() {
 
   const rewardActivitiesOptions = useMemo(
     () =>
-      rewardActivities?.map(
+      rewardActivities?.concat(DEFAULT_REWARD_ACTIVITIES).map(
         (activity) =>
           ({
             title: activity.name,

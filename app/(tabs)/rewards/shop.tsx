@@ -1,16 +1,18 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import Api from "../../../src/api";
-import { useQueryKeyStore } from "../../../src/api-hooks";
-import { FAB } from "../../../src/components/buttons";
-import { useUserContext } from "../../../src/context";
-import { RewardCard } from "../../../src/features/rewards/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import Api from "../../../src/api";
+import { useQueryKeyStore } from "../../../src/api-hooks";
+import { FAB, getFabActionProps } from "../../../src/components/buttons";
+import { useUserContext } from "../../../src/context";
+import { RewardCard } from "../../../src/features/rewards/components";
+import { useAppTheme } from "../../../src/theme";
 
 export default function RewardsShopScreen() {
   const router = useRouter();
+  const theme = useAppTheme();
   const isFocused = useIsFocused();
   const { user } = useUserContext();
   const queryKeyStore = useQueryKeyStore();
@@ -30,14 +32,16 @@ export default function RewardsShopScreen() {
           <FAB
             actions={[
               {
-                icon: "star",
-                label: "Activity Reward",
+                icon: "gamepad",
+                label: "Reward Activity",
                 onPress: () => router.push("/rewards/reward-activities/create"),
+                ...getFabActionProps(theme),
               },
               {
-                icon: "star",
+                icon: "heart",
                 label: "Reward",
                 onPress: () => router.push("/(tabs)/rewards/create"),
+                ...getFabActionProps(theme),
               },
             ]}
           />

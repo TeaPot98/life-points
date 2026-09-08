@@ -5,21 +5,22 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
+import { ThemeProvider } from "@react-navigation/native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { StatusBar } from "expo-status-bar";
+import { PaperProvider } from "react-native-paper";
 import {
   CustomizationContext,
   CustomizationContextProvider,
   UserContextProvider,
 } from "../src/context";
 import { CustomizationModal } from "../src/features/customization";
-import { ThemeProvider } from "@react-navigation/native";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   CustomDarkTheme,
   CustomLightTheme,
   CustomNavigationDarkTheme,
   CustomNavigationLightTheme,
 } from "../src/theme";
-import { PaperProvider } from "react-native-paper";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -82,9 +83,20 @@ function RootLayoutNav() {
                       : CustomNavigationLightTheme
                   }
                 >
+                  <StatusBar
+                    style={colorScheme === "dark" ? "light" : "dark"}
+                  />
                   <Stack>
                     <Stack.Screen
                       name="(tabs)"
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="(public)/sign-in"
+                      options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                      name="(public)/sign-up"
                       options={{ headerShown: false }}
                     />
                     <Stack.Screen

@@ -1,18 +1,23 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import Api from "../../../src/api";
-import { useQueryKeyStore } from "../../../src/api-hooks";
-import { FAB } from "../../../src/components/buttons";
-import { useUserContext } from "../../../src/context";
-import { BookCard, ReadingStatistics } from "../../../src/features/reading/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
-import { isNil } from "../../../src/utils";
 import { useRouter } from "expo-router";
 import { Divider } from "react-native-paper";
+import Api from "../../../src/api";
+import { useQueryKeyStore } from "../../../src/api-hooks";
+import { FAB, getFabActionProps } from "../../../src/components/buttons";
+import { useUserContext } from "../../../src/context";
+import {
+  BookCard,
+  ReadingStatistics,
+} from "../../../src/features/reading/components";
+import { useAppTheme } from "../../../src/theme";
+import { isNil } from "../../../src/utils";
 
 export default function ReadingTabScreen() {
   const router = useRouter();
+  const theme = useAppTheme();
   const { user } = useUserContext();
   const isFocused = useIsFocused();
   const queryKeyStore = useQueryKeyStore();
@@ -47,6 +52,7 @@ export default function ReadingTabScreen() {
               icon: "book",
               label: "New Book",
               onPress: () => router.push("/reading/books/create"),
+              ...getFabActionProps(theme),
             },
           ]}
         />

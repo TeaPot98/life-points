@@ -14,7 +14,9 @@ import { useQueryKeyStore } from "../../../api-hooks";
 import { IconWithBackground } from "../../../components";
 import { Button } from "../../../components/buttons";
 import { useUserContext } from "../../../context";
+import { DEFAULT_ACTIVITIES } from "../../../data";
 import { useAppTheme } from "../../../theme";
+import { FixedColor } from "../../../theme/types";
 import { ActivityType } from "../../../types/activities";
 import { GoalSchedule, IDraftMilestone } from "../../../types/goals";
 import { FontAwesomeName } from "../../../types/icons";
@@ -37,9 +39,14 @@ export type GoalFormValues = {
 type GoalFormProps = {
   defaultValues?: GoalFormValues;
   onSubmit: (values: GoalFormValues) => void;
+  isSubmitting: boolean;
 };
 
-export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
+export const GoalForm = ({
+  onSubmit,
+  defaultValues,
+  isSubmitting,
+}: GoalFormProps) => {
   const { user } = useUserContext();
   const form = useForm<GoalFormValues>({
     defaultValues: defaultValues ?? { schedule: "none", type: "time" },
@@ -72,7 +79,7 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
 
   const activitiesOptions = useMemo(
     () =>
-      activities?.map(
+      (activities ?? []).concat(DEFAULT_ACTIVITIES).map(
         (activity) =>
           ({
             title: activity.name,
@@ -82,12 +89,15 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
                 name={activity.icon as FontAwesomeName}
                 style={{ width: 40 }}
                 iconSize={size}
+                color={activity.color as FixedColor}
               />
             ),
           }) satisfies SelectMenuOption<number>,
       ) ?? [],
     [activities],
   );
+
+  console.log({ activitiesOptions, activityTypeOptions });
 
   return (
     <FormProvider {...form}>
@@ -120,7 +130,13 @@ export const GoalForm = ({ onSubmit, defaultValues }: GoalFormProps) => {
         {watch("type") === "time" && <TimeBasedGoalForm />}
         {watch("type") === "count" && <CountBasedGoalForm />}
         {watch("type") === "milestone" && <MilestonesGoalForm />}
-        <Button onPress={handleSubmit(onSubmit)}>Save</Button>
+        <Button
+          onPress={handleSubmit(onSubmit)}
+          loading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          Save
+        </Button>
       </View>
     </FormProvider>
   );

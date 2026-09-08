@@ -3,13 +3,11 @@ import { Image, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Text } from "react-native-paper";
+import { HelperText, Text } from "react-native-paper";
 import { DividerWithText } from "../../src/components";
 import { Button } from "../../src/components/buttons";
 import { ControlledTextInput } from "../../src/components/inputs";
 import { useUserContext } from "../../src/context";
-import { useAppTheme } from "../../src/theme";
-import { CustomTheme } from "../../src/theme/types";
 import { isNil } from "../../src/utils";
 
 type FormFieldsType = {
@@ -23,9 +21,6 @@ export default function SignInScreen() {
   const { handleSubmit, control } = useForm<FormFieldsType>();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const theme = useAppTheme();
-  const styles = getStyles(theme);
 
   const signIn = useCallback(
     async (values: FormFieldsType) => {
@@ -49,6 +44,16 @@ export default function SignInScreen() {
 
   return (
     <View style={styles.container}>
+      <Text variant="titleLarge" style={styles.appTitle}>
+        Life Points
+      </Text>
+      <Text variant="titleSmall" style={styles.appSubtitle}>
+        Level Up Your Daily Routine
+      </Text>
+
+      <Text variant="titleMedium" style={styles.title}>
+        Log In Into Your Account
+      </Text>
       <ControlledTextInput
         control={control}
         name="email"
@@ -82,7 +87,7 @@ export default function SignInScreen() {
       >
         Log In
       </Button>
-      {!isNil(error) && <Text style={styles.errorText}>{error}</Text>}
+      {!isNil(error) && <HelperText type="error">{error}</HelperText>}
       <DividerWithText text="OR" />
       <Button
         color="secondary"
@@ -107,16 +112,13 @@ export default function SignInScreen() {
   );
 }
 
-const getStyles = (theme: CustomTheme) =>
-  StyleSheet.create({
-    container: {
-      justifyContent: "center",
-      padding: 16,
-      gap: 8,
-    },
-    errorText: { color: theme.colors.error },
-    textInput: {
-      fontSize: 20,
-      fontWeight: "bold",
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+    padding: 16,
+    gap: 8,
+  },
+  appTitle: { alignSelf: "center", textAlign: "center", marginTop: 60 },
+  appSubtitle: { alignSelf: "center", textAlign: "center", marginBottom: 40 },
+  title: { alignSelf: "center" },
+});

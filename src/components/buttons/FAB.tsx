@@ -1,8 +1,8 @@
-import { useAppTheme } from "../../theme";
-import { CustomTheme } from "../../theme/types";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
 import { FABGroupProps, Portal, FAB as VanillaFAB } from "react-native-paper";
+import { useAppTheme } from "../../theme";
+import { CustomTheme } from "../../theme/types";
 
 type FABProps = Omit<
   FABGroupProps,
@@ -35,7 +35,6 @@ const styles = (theme: CustomTheme) =>
     container: {
       position: "absolute",
       right: 0,
-      bottom: 72,
     },
     fab: {
       color: "#fff",
@@ -45,5 +44,19 @@ const styles = (theme: CustomTheme) =>
       borderBottomWidth: 4,
       borderRightWidth: 4,
       borderColor: theme.colors.onPrimaryContainer,
+      bottom: 72,
     },
   });
+
+export const getFabActionProps = (theme: CustomTheme) =>
+  ({
+    style: {
+      borderWidth: 2,
+      borderBottomWidth: 4,
+      borderRightWidth: 4,
+      backgroundColor: theme.colors.secondaryContainer,
+      borderColor: theme.colors.onSecondaryContainer,
+    },
+    wrapperStyle: { bottom: 72 },
+    color: theme.colors.onSecondaryContainer,
+  }) satisfies Partial<FABProps["actions"][number]>;

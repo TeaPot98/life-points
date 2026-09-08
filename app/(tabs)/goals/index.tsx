@@ -1,17 +1,21 @@
-import Api from "../../../src/api";
-import { useQueryKeyStore } from "../../../src/api-hooks";
-import { Button, FAB } from "../../../src/components/buttons";
-import { useUserContext } from "../../../src/context";
-import { UserGoalCard } from "../../../src/features/goals/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
-import { useAppTheme } from "../../../src/theme";
-import { CustomTheme } from "../../../src/theme/types";
-import { computeGoalCompletionPercentage } from "../../../src/utils/goals";
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Divider, Text } from "react-native-paper";
+import Api from "../../../src/api";
+import { useQueryKeyStore } from "../../../src/api-hooks";
+import { NoData, SectionDivider } from "../../../src/components";
+import {
+  Button,
+  FAB,
+  getFabActionProps,
+} from "../../../src/components/buttons";
+import { useUserContext } from "../../../src/context";
+import { UserGoalCard } from "../../../src/features/goals/components";
+import { useAppTheme } from "../../../src/theme";
+import { CustomTheme } from "../../../src/theme/types";
+import { computeGoalCompletionPercentage } from "../../../src/utils/goals";
 
 export default function GoalsTabScreen() {
   const router = useRouter();
@@ -22,7 +26,7 @@ export default function GoalsTabScreen() {
 
   const styles = getStyles(theme);
 
-  const { data: userGoals } = useQuery({
+  const { data: userGoals, isLoading } = useQuery({
     queryKey: queryKeyStore.userGoals.getAll,
     queryFn: () => Api.userGoals.getAll(user?.id ?? ""),
   });
@@ -63,15 +67,21 @@ export default function GoalsTabScreen() {
             Manage Activities
           </Button>
         </View>
+        {!isLoading && !userGoals?.length && (
+          <View style={styles.noDataContainer}>
+            <NoData
+              action={
+                <Button onPress={() => router.push("/goals/create")}>
+                  Create Goal
+                </Button>
+              }
+            />
+          </View>
+        )}
         {inProgressGoals?.map((userGoal) => (
           <UserGoalCard key={userGoal.id} userGoal={userGoal} />
         ))}
-        {completedGoals?.length && (
-          <View>
-            <Text>Completed</Text>
-            <Divider />
-          </View>
-        )}
+        {!!completedGoals?.length && <SectionDivider text="Completed" />}
         {completedGoals?.map((userGoal) => (
           <UserGoalCard key={userGoal.id} userGoal={userGoal} />
         ))}
@@ -79,14 +89,16 @@ export default function GoalsTabScreen() {
           <FAB
             actions={[
               {
-                icon: "star",
+                icon: "music",
                 label: "Activity",
                 onPress: () => router.push("/goals/activities/create"),
+                ...getFabActionProps(theme),
               },
               {
-                icon: "star",
+                icon: "flag",
                 label: "Goal",
                 onPress: () => router.push("/goals/create"),
+                ...getFabActionProps(theme),
               },
             ]}
           />
@@ -108,4 +120,5 @@ const getStyles = (theme: CustomTheme) =>
       flexDirection: "row",
       gap: 8,
     },
+    noDataContainer: { width: "100%", marginTop: 80, alignItems: "center" },
   });

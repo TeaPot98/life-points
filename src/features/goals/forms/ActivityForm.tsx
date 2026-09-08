@@ -18,11 +18,13 @@ export type ActivityFormValues = {
 type ActivityFormProps = {
   defaultValues?: ActivityFormValues;
   onSubmit: (values: ActivityFormValues) => void;
+  isSubmitting: boolean;
 };
 
 export const ActivityForm = ({
   onSubmit,
   defaultValues,
+  isSubmitting,
 }: ActivityFormProps) => {
   const { handleSubmit, control, reset } = useForm<ActivityFormValues>({
     defaultValues,
@@ -57,7 +59,12 @@ export const ActivityForm = ({
         name="color"
         selectProps={{ label: "Color" }}
       />
-      <Button icon="check" onPress={handleSubmit(onSubmit)}>
+      <Button
+        icon="check"
+        onPress={handleSubmit(onSubmit)}
+        loading={isSubmitting}
+        disabled={isSubmitting}
+      >
         Save
       </Button>
     </View>

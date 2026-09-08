@@ -1,7 +1,7 @@
 import { DefaultTheme as NavigationDefaultTheme } from "@react-navigation/native";
 import { DeepPartial } from "react-hook-form";
 import { MD3LightTheme } from "react-native-paper";
-import { ShadedColor } from "./types";
+import { FIXED_COLORS } from "./fixedColors";
 
 const THEME_OVERRIDE = {
   colors: {
@@ -41,23 +41,7 @@ export const CustomLightTheme = {
     ...THEME_OVERRIDE.colors,
     // outline: "#AAA",
     // primary: THEME_OVERRIDE.colors.primary,
-    fixed: {
-      primary: {
-        main: "#00B0FD",
-        dark: "#002B42",
-        contrastText: "#002B42",
-      },
-      lightBlue: {
-        main: "#62cadf",
-        dark: "#0288D1",
-        contrastText: "#FFF",
-      },
-      red: {
-        main: "#DB073D",
-        dark: "#8F0A2B",
-        contrastText: "#FFF",
-      },
-    } satisfies Record<string, ShadedColor>,
+    fixed: FIXED_COLORS,
   },
 } as const;
 

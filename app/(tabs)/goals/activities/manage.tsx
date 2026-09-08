@@ -1,43 +1,62 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import Api from "../../../../src/api";
-import { useQueryKeyStore } from "../../../../src/api-hooks";
-import { FAB } from "../../../../src/components/buttons";
-import { useUserContext } from "../../../../src/context";
-import { ActivityCard } from "../../../../src/features/goals/components";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import Api from "../../../../src/api";
+import { useQueryKeyStore } from "../../../../src/api-hooks";
+import { SectionDivider } from "../../../../src/components";
+import {
+  Button,
+  FAB,
+  getFabActionProps,
+} from "../../../../src/components/buttons";
+import { useUserContext } from "../../../../src/context";
+import { ActivityCard } from "../../../../src/features/goals/components";
+import { useAppTheme } from "../../../../src/theme";
 
 export default function ManageActivitiesScreen() {
   const router = useRouter();
+  const theme = useAppTheme();
   const isFocused = useIsFocused();
   const { user } = useUserContext();
   const queryKeyStore = useQueryKeyStore();
 
-  const { data: activities } = useQuery({
+  const { data: activities, isLoading } = useQuery({
     queryKey: queryKeyStore.activities.getAll,
     queryFn: () => Api.activities.getAll(user?.id ?? ""),
   });
 
+  const customActivities = activities?.filter((a) => a.user_id) ?? [];
+  const defaultActivities = activities?.filter((a) => !a.user_id) ?? [];
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        {activities?.map((activity) => (
+        {!isLoading && <SectionDivider text="Custom Activities" />}
+        {
+          <Button
+            color="secondary"
+            onPress={() => router.push("/goals/activities/create")}
+          >
+            Add Activity
+          </Button>
+        }
+        {customActivities?.map((activity) => (
+          <ActivityCard key={activity.id} activity={activity} />
+        ))}
+        <SectionDivider text="Default Activities" />
+        {defaultActivities?.map((activity) => (
           <ActivityCard key={activity.id} activity={activity} />
         ))}
         {isFocused && (
           <FAB
             actions={[
               {
-                icon: "star",
+                icon: "music",
                 label: "Activity",
                 onPress: () => router.push("/goals/activities/create"),
-              },
-              {
-                icon: "star",
-                label: "Goal",
-                onPress: () => router.push("/goals/create"),
+                ...getFabActionProps(theme),
               },
             ]}
           />

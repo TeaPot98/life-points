@@ -19,7 +19,7 @@ const activities = {
     const { data, error } = await supabase
       .from("activities")
       .select()
-      .eq("user_id", userId);
+      .or(`user_id.eq.${userId},user_id.is.null`);
 
     if (error) {
       console.error(error);

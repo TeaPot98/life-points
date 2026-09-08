@@ -1,10 +1,13 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import Api from "../../../../../src/api";
 import { useQueryKeyStore } from "../../../../../src/api-hooks";
 import { useUserContext } from "../../../../../src/context";
-import { ActivityForm, ActivityFormValues } from "../../../../../src/features/goals";
+import {
+  ActivityForm,
+  ActivityFormValues,
+} from "../../../../../src/features/goals";
 import { IActivity } from "../../../../../src/types/activities";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function EditActivityScreen() {
   const router = useRouter();
@@ -19,25 +22,26 @@ export default function EditActivityScreen() {
     queryFn: () => Api.activities.getById(Number(id), userId),
   });
 
-  const { mutateAsync: updateActivity } = useMutation({
-    mutationFn: (payload: Partial<IActivity> & { id: number }) =>
-      Api.activities.update(payload.id, payload),
-    onSuccess: (_, { id }) =>
-      Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: queryKeyStore.activities.getAll,
-        }),
-        queryClient.invalidateQueries({
-          queryKey: queryKeyStore.activities.getById(id),
-        }),
-        queryClient.invalidateQueries({
-          queryKey: queryKeyStore.goals.getAll,
-        }),
-        queryClient.invalidateQueries({
-          queryKey: queryKeyStore.userGoals.getAll,
-        }),
-      ]),
-  });
+  const { mutateAsync: updateActivity, isPending: isActivityUpdating } =
+    useMutation({
+      mutationFn: (payload: Partial<IActivity> & { id: number }) =>
+        Api.activities.update(payload.id, payload),
+      onSuccess: (_, { id }) =>
+        Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: queryKeyStore.activities.getAll,
+          }),
+          queryClient.invalidateQueries({
+            queryKey: queryKeyStore.activities.getById(id),
+          }),
+          queryClient.invalidateQueries({
+            queryKey: queryKeyStore.goals.getAll,
+          }),
+          queryClient.invalidateQueries({
+            queryKey: queryKeyStore.userGoals.getAll,
+          }),
+        ]),
+    });
 
   const onSubmit = async (values: ActivityFormValues) => {
     try {
@@ -64,6 +68,7 @@ export default function EditActivityScreen() {
         icon: activity.icon,
         color: activity.color,
       }}
+      isSubmitting={isActivityUpdating || isActivityFetching}
     />
   );
 }

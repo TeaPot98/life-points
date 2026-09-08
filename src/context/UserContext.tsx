@@ -70,6 +70,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
     // Hardcoding it here makes the reset of the implementations simpler
     queryKey: ["user-data", user?.id ?? ""],
     queryFn: () => Api.userData.getByUserId(user?.id ?? ""),
+    enabled: !!user,
   });
 
   useEffect(() => {

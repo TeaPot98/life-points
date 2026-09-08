@@ -1,4 +1,6 @@
+import { FixedColor } from "../theme/types";
 import { Database } from "./database";
+import { FontAwesomeName } from "./icons";
 
 export type RewardsUpdatePayload =
   Database["public"]["Tables"]["rewards"]["Update"];
@@ -20,6 +22,13 @@ export type UserRewardsCreatePayload =
 
 export type IRewardActivity =
   Database["public"]["Tables"]["reward_activities"]["Row"];
+
+export type IDefaultRewardActivity = IRewardActivity & {
+  user_id: "all";
+  color: FixedColor;
+  created_at: "local";
+  icon: FontAwesomeName;
+};
 
 export type IReward = Database["public"]["Tables"]["rewards"]["Row"] & {
   activity: IRewardActivity;

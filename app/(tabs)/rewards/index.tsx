@@ -1,20 +1,27 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 
-import Api from "../../../src/api";
-import { useQueryKeyStore } from "../../../src/api-hooks";
-import { Button, FAB } from "../../../src/components/buttons";
-import { useUserContext } from "../../../src/context";
-import { UserRewardCard } from "../../../src/features/rewards/components/UserRewardCard";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { Divider } from "react-native-paper";
+import Api from "../../../src/api";
+import { useQueryKeyStore } from "../../../src/api-hooks";
+import {
+  Button,
+  FAB,
+  getFabActionProps,
+} from "../../../src/components/buttons";
+import { useUserContext } from "../../../src/context";
+import { UserRewardCard } from "../../../src/features/rewards/components/UserRewardCard";
+import { useAppTheme } from "../../../src/theme";
 
 export default function UserRewardsTabScreen() {
   const router = useRouter();
   const isFocused = useIsFocused();
   const { user } = useUserContext();
   const queryKeyStore = useQueryKeyStore();
+
+  const theme = useAppTheme();
 
   const { data: userRewards } = useQuery({
     queryKey: queryKeyStore.userRewards.getAll,
@@ -51,15 +58,17 @@ export default function UserRewardsTabScreen() {
             <FAB
               actions={[
                 {
-                  icon: "star",
+                  icon: "gamepad",
                   label: "Activity Reward",
                   onPress: () =>
                     router.push("/rewards/reward-activities/create"),
+                  ...getFabActionProps(theme),
                 },
                 {
-                  icon: "star",
+                  icon: "heart",
                   label: "Reward",
                   onPress: () => router.push("/rewards/create"),
+                  ...getFabActionProps(theme),
                 },
               ]}
             />
@@ -92,4 +101,5 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   cardsContainer: { gap: 8 },
+  fabAction: {},
 });
