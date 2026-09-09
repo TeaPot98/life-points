@@ -21,7 +21,7 @@ export type Database = {
           icon: string;
           id: number;
           name: string;
-          user_id: string;
+          user_id: string | null;
         };
         Insert: {
           color: string;
@@ -29,7 +29,7 @@ export type Database = {
           icon: string;
           id?: number;
           name: string;
-          user_id: string;
+          user_id?: string | null;
         };
         Update: {
           color?: string;
@@ -37,7 +37,7 @@ export type Database = {
           icon?: string;
           id?: number;
           name?: string;
-          user_id?: string;
+          user_id?: string | null;
         };
         Relationships: [];
       };
@@ -46,6 +46,7 @@ export type Database = {
           author: string;
           created_at: string;
           id: number;
+          image_path: string | null;
           last_updated_at: string | null;
           number_of_pages: number;
           read_pages: number;
@@ -56,6 +57,7 @@ export type Database = {
           author: string;
           created_at?: string;
           id?: number;
+          image_path?: string | null;
           last_updated_at?: string | null;
           number_of_pages: number;
           read_pages?: number;
@@ -66,6 +68,7 @@ export type Database = {
           author?: string;
           created_at?: string;
           id?: number;
+          image_path?: string | null;
           last_updated_at?: string | null;
           number_of_pages?: number;
           read_pages?: number;
@@ -198,7 +201,7 @@ export type Database = {
           icon: string;
           id: number;
           name: string;
-          user_id: string;
+          user_id: string | null;
         };
         Insert: {
           color: string;
@@ -206,7 +209,7 @@ export type Database = {
           icon: string;
           id?: number;
           name: string;
-          user_id: string;
+          user_id?: string | null;
         };
         Update: {
           color?: string;
@@ -214,7 +217,7 @@ export type Database = {
           icon?: string;
           id?: number;
           name?: string;
-          user_id?: string;
+          user_id?: string | null;
         };
         Relationships: [];
       };

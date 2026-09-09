@@ -1,14 +1,16 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import { useMarkBookAsRead } from "../../../api-hooks";
 import { Card, Chip, IconWithBackground } from "../../../components";
 import { Button } from "../../../components/buttons";
 import { ProgressBar } from "../../../components/ProgressBar";
-import { useBooksContext } from "../../../context";
+import { useBooksContext, useUserContext } from "../../../context";
 import { useAppTheme } from "../../../theme";
 import { IBook } from "../../../types/books";
+import { getBookCover } from "../../../utils";
 
 type BookCardProps = {
   book: IBook;
@@ -17,15 +19,29 @@ type BookCardProps = {
 export const BookCard = ({ book }: BookCardProps) => {
   const router = useRouter();
   const theme = useAppTheme();
+  const { user } = useUserContext();
   const markBookAsRead = useMarkBookAsRead();
   const { setBookModalOpen, setBookToEdit } = useBooksContext();
 
   const isRead = book.read_pages >= book.number_of_pages;
 
+  const { data: imgUrl } = useQuery({
+    queryKey: ["book-images", book.image_path, user?.id],
+    queryFn: () => getBookCover(book.image_path!),
+    enabled: !!book.image_path,
+  });
+
   return (
     <Card>
       <Card.Content style={styles.cardContent}>
-        <IconWithBackground name="book" color="red" />
+        {imgUrl ? (
+          <Image
+            source={{ uri: imgUrl }}
+            style={{ width: 80, height: 80, borderRadius: 12 }}
+          />
+        ) : (
+          <IconWithBackground name="book" color="red" />
+        )}
         <View>
           <View style={styles.titleContainer}>
             <Text style={{ fontWeight: "700" }}>{book.title} </Text>

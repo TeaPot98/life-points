@@ -1,24 +1,27 @@
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import Api from "../../../api";
-import { useMarkUserGoalAsCompleted, useQueryKeyStore } from "../../../api-hooks";
+import {
+  useMarkUserGoalAsCompleted,
+  useQueryKeyStore,
+} from "../../../api-hooks";
 import { Card, IconWithBackground } from "../../../components";
 import { Button } from "../../../components/buttons";
 import { Chip } from "../../../components/Chip";
 import { ProgressBar } from "../../../components/ProgressBar";
 import { ACTIVITY_TYPE_ICONS } from "../../../constants";
 import { useGoalsContext } from "../../../context";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IUserGoal } from "../../../types/goals";
-import { FontAwesomeName } from "../../../types/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppTheme } from "../../../theme";
 import { CustomTheme, FixedColor } from "../../../theme/types";
+import { IUserGoal } from "../../../types/goals";
+import { FontAwesomeName } from "../../../types/icons";
 import { capitalize, fromSecondsToHumanReadable, isNil } from "../../../utils";
 import { computeGoalCompletionPercentage } from "../../../utils/goals";
-import dayjs from "dayjs";
-import { useRouter } from "expo-router";
-import { useCallback } from "react";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
 
 type UserGoalCardProps = {
   userGoal: IUserGoal;
@@ -151,7 +154,9 @@ export const UserGoalCard = ({
             </Button>
           )}
         {isCompleted ? (
-          <Chip icon="check">Completed</Chip>
+          <Chip icon="check" color="green">
+            Completed
+          </Chip>
         ) : (
           <Button onPress={() => markUserGoalAsCompleted(userGoal)}>
             <FontAwesome name="check" />

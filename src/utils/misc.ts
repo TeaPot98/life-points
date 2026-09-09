@@ -1,3 +1,6 @@
+import { CustomLightTheme } from "../theme";
+import { FixedColor } from "../theme/types";
+
 /**
  *
  * @param value any
@@ -29,4 +32,9 @@ export function formatCamelCase(value: string) {
   return value
     .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
     .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+export function isFixedColor(value: string): value is FixedColor {
+  // @ts-ignore
+  return !!CustomLightTheme.colors.fixed[value];
 }

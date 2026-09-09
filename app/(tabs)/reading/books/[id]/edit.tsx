@@ -15,7 +15,7 @@ export default function EditBookScreen() {
   const queryKeyStore = useQueryKeyStore();
   const { triggerNotification } = useNotifications();
 
-  const { mutateAsync: updateBook } = useMutation({
+  const { mutateAsync: updateBook, isPending } = useMutation({
     mutationFn: (payload: Partial<IBook> & { id: number }) =>
       Api.books.update(payload.id, payload),
     onSuccess: () =>
@@ -66,7 +66,9 @@ export default function EditBookScreen() {
         number_of_pages: book.number_of_pages,
         read_pages: book.read_pages,
         title: book.title,
+        image_storage_path: book.image_path,
       }}
+      isSubmitting={isPending}
     />
   );
 }
