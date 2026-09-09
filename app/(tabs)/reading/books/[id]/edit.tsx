@@ -1,10 +1,10 @@
-import Api from "../../../../../src/api";
-import { useQueryKeyStore } from "../../../../../src/api-hooks";
-import { useUserContext } from "../../../../../src/context";
-import { BookForm, BookFormValues } from "../../../../../src/features/reading";
-import { IBook } from "../../../../../src/types/books";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import Api from "../../../../../src/api";
+import { useQueryKeyStore } from "../../../../../src/api-hooks";
+import { useNotifications, useUserContext } from "../../../../../src/context";
+import { BookForm, BookFormValues } from "../../../../../src/features/reading";
+import { IBook } from "../../../../../src/types/books";
 
 export default function EditBookScreen() {
   const router = useRouter();
@@ -13,6 +13,7 @@ export default function EditBookScreen() {
   const userId = user?.id ?? "";
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const { triggerNotification } = useNotifications();
 
   const { mutateAsync: updateBook } = useMutation({
     mutationFn: (payload: Partial<IBook> & { id: number }) =>
@@ -31,9 +32,10 @@ export default function EditBookScreen() {
       ]),
   });
 
-  const { data: book, isFetching: isBookFetching } = useQuery({
+  const { data: book } = useQuery({
     queryKey: queryKeyStore.books.getById(Number(id)),
     queryFn: () => Api.books.getById(Number(id), userId),
+    enabled: !!user,
   });
 
   const onSubmit = async (values: BookFormValues) => {
@@ -45,9 +47,12 @@ export default function EditBookScreen() {
 
       await updateBook({ ...values, id: book.id, user_id: userId });
 
+      triggerNotification({ message: "Book successfully saved!" });
+
       router.back();
     } catch (error) {
       console.error("An error occured while adding a book", error);
+      triggerNotification({ type: "error" });
     }
   };
 

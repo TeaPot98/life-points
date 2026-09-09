@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import { ActivityIndicator } from "react-native-paper";
 import Api from "../../../../src/api";
 import { useQueryKeyStore } from "../../../../src/api-hooks";
 import { SectionDivider } from "../../../../src/components";
@@ -25,6 +26,7 @@ export default function ManageActivitiesScreen() {
   const { data: activities, isLoading } = useQuery({
     queryKey: queryKeyStore.activities.getAll,
     queryFn: () => Api.activities.getAll(user?.id ?? ""),
+    enabled: !!user,
   });
 
   const customActivities = activities?.filter((a) => a.user_id) ?? [];
@@ -49,6 +51,9 @@ export default function ManageActivitiesScreen() {
         {defaultActivities?.map((activity) => (
           <ActivityCard key={activity.id} activity={activity} />
         ))}
+        {isLoading && (
+          <ActivityIndicator size={80} style={styles.activityIndicator} />
+        )}
         {isFocused && (
           <FAB
             actions={[
@@ -82,4 +87,5 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
+  activityIndicator: { marginTop: 80 },
 });

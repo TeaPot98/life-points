@@ -3,9 +3,10 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Divider } from "react-native-paper";
+import { ActivityIndicator, Divider } from "react-native-paper";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
+import { NoData } from "../../../src/components";
 import {
   Button,
   FAB,
@@ -23,9 +24,10 @@ export default function UserRewardsTabScreen() {
 
   const theme = useAppTheme();
 
-  const { data: userRewards } = useQuery({
+  const { data: userRewards, isLoading } = useQuery({
     queryKey: queryKeyStore.userRewards.getAll,
     queryFn: () => Api.userRewards.getAll(user?.id ?? ""),
+    enabled: !!user,
   });
 
   return (
@@ -54,6 +56,21 @@ export default function UserRewardsTabScreen() {
           {userRewards?.map((userReward) => (
             <UserRewardCard key={userReward.id} userReward={userReward} />
           ))}
+          {isLoading && (
+            <ActivityIndicator size={80} style={styles.activityIndicator} />
+          )}
+          {!isLoading && !userRewards?.length && (
+            <View style={styles.noDataContainer}>
+              <NoData
+                action={
+                  <Button onPress={() => router.push("/(tabs)/rewards/create")}>
+                    Create Reward
+                  </Button>
+                }
+              />
+            </View>
+          )}
+
           {isFocused && (
             <FAB
               actions={[
@@ -101,5 +118,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   cardsContainer: { gap: 8 },
-  fabAction: {},
+  noDataContainer: { width: "100%", marginTop: 80, alignItems: "center" },
+  activityIndicator: { marginTop: 80 },
 });

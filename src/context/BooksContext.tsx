@@ -1,8 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 import Api from "../api";
 import { useQueryKeyStore } from "../api-hooks";
 import { IBook, IReadingTracker } from "../types/books";
-import { useQuery } from "@tanstack/react-query";
-import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { useUserContext } from "./UserContext";
 
 type BooksContextValue = {
@@ -37,6 +37,7 @@ export const BooksContextProvider = ({ children }: PropsWithChildren) => {
   const { data: readingTracker } = useQuery({
     queryKey: queryKeyStore.readingTracker.tracker,
     queryFn: () => Api.readingTracker.getByUserId(user?.id ?? ""),
+    enabled: !!user,
   });
 
   return (

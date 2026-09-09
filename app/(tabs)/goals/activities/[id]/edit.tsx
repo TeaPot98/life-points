@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Api from "../../../../../src/api";
 import { useQueryKeyStore } from "../../../../../src/api-hooks";
-import { useUserContext } from "../../../../../src/context";
+import { useNotifications, useUserContext } from "../../../../../src/context";
 import {
   ActivityForm,
   ActivityFormValues,
@@ -16,10 +16,12 @@ export default function EditActivityScreen() {
   const userId = user?.id ?? "";
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const { triggerNotification } = useNotifications();
 
   const { data: activity, isFetching: isActivityFetching } = useQuery({
     queryKey: queryKeyStore.activities.getById(Number(id)),
     queryFn: () => Api.activities.getById(Number(id), userId),
+    enabled: !!user,
   });
 
   const { mutateAsync: updateActivity, isPending: isActivityUpdating } =
@@ -52,9 +54,12 @@ export default function EditActivityScreen() {
 
       await updateActivity({ id: activity.id, ...values, user_id: userId });
 
+      triggerNotification({ message: "Goal activity successfully saved!" });
+
       router.back();
     } catch (error) {
       console.error("An error occured while adding a activity", error);
+      triggerNotification({ type: "error" });
     }
   };
 

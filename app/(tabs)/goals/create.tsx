@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ScrollView } from "react-native";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
-import { useUserContext } from "../../../src/context";
+import { useNotifications, useUserContext } from "../../../src/context";
 import { GoalForm, GoalFormValues } from "../../../src/features/goals";
 
 export default function CreateGoalScreen() {
@@ -12,6 +12,7 @@ export default function CreateGoalScreen() {
   const { user } = useUserContext();
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const { triggerNotification } = useNotifications();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { mutateAsync: createGoal } = useMutation({
@@ -100,9 +101,11 @@ export default function CreateGoalScreen() {
           break;
       }
 
+      triggerNotification({ message: "Goal successfully created!" });
       router.replace("/(tabs)/goals/manage");
     } catch (error) {
       console.error("An error occured while creating a goal", error);
+      triggerNotification({ type: "error" });
     } finally {
       setIsSubmitting(false);
     }

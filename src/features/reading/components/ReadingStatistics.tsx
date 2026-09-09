@@ -1,12 +1,12 @@
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import { Card } from "../../../components";
 import { Button } from "../../../components/buttons";
 import { useBooksContext } from "../../../context";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { IReadingStatistics } from "../../../types/books";
 import { useAppTheme } from "../../../theme";
 import { CustomTheme } from "../../../theme/types";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
+import { IReadingStatistics } from "../../../types/books";
 
 type ReadingStatisticsProps = {
   readingStatistics: IReadingStatistics | undefined;
@@ -17,7 +17,7 @@ export const ReadingStatistics = ({
 }: ReadingStatisticsProps) => {
   const theme = useAppTheme();
   const styles = getStyles(theme);
-  const { setReadingTrackerModalOpen } = useBooksContext();
+  const { setReadingTrackerModalOpen, readingTracker } = useBooksContext();
 
   if (!readingStatistics) return;
 
@@ -28,7 +28,8 @@ export const ReadingStatistics = ({
           <Text variant="titleMedium">
             Total books: {readingStatistics?.total_books}
           </Text>
-          <Text>Last book: {readingStatistics?.last_book?.title}</Text>
+          <Text>Last book: {readingStatistics?.last_book?.title ?? "N/A"}</Text>
+          <Text>Reward per book: {readingTracker?.reward_per_page ?? 0}</Text>
         </View>
         <Button
           color="secondary"
@@ -50,5 +51,6 @@ const getStyles = (theme: CustomTheme) =>
     cardContent: {
       flexDirection: "row",
       justifyContent: "space-between",
+      alignItems: "center",
     },
   });

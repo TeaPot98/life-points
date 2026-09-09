@@ -8,7 +8,7 @@ import {
 } from "../../../api-hooks";
 import { Button } from "../../../components/buttons";
 import { ControlledNumberInput } from "../../../components/inputs";
-import { useGoalsContext } from "../../../context";
+import { useGoalsContext, useNotifications } from "../../../context";
 import { IUserGoal } from "../../../types/goals";
 
 type FormFieldsType = {
@@ -18,6 +18,7 @@ type FormFieldsType = {
 export const CountGoalModal = () => {
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const { triggerNotification } = useNotifications();
   const markGoalAsCompleted = useMarkUserGoalAsCompleted();
 
   const {
@@ -80,6 +81,9 @@ export const CountGoalModal = () => {
     if (!goalToEdit) return;
 
     await incrementGoal({ goalIncrement: incrementWith, prevGoal: goalToEdit });
+
+    triggerNotification();
+
     setIsOpen(false);
   };
 

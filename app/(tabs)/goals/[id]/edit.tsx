@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ScrollView } from "react-native";
 import Api from "../../../../src/api";
 import { useQueryKeyStore } from "../../../../src/api-hooks";
-import { useUserContext } from "../../../../src/context";
+import { useNotifications, useUserContext } from "../../../../src/context";
 import { GoalForm, GoalFormValues } from "../../../../src/features/goals";
 import { IDraftMilestone, IMilestone } from "../../../../src/types/goals";
 import { isNil } from "../../../../src/utils";
@@ -16,12 +16,14 @@ export default function UpdateGoalScreen() {
   const userId = user?.id ?? "";
   const queryKeyStore = useQueryKeyStore();
   const queryClient = useQueryClient();
+  const { triggerNotification } = useNotifications();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data: goal } = useQuery({
     queryKey: queryKeyStore.goals.getById(Number(id)),
     queryFn: () => Api.goals.getById(Number(id), userId),
+    enabled: !!user,
   });
 
   const { mutateAsync: updateGoal } = useMutation({
@@ -138,9 +140,11 @@ export default function UpdateGoalScreen() {
       await queryClient.invalidateQueries({
         queryKey: queryKeyStore.goals.getById(Number(id)),
       });
+      triggerNotification({ message: "Goal successfully saved!" });
       router.back();
     } catch (error) {
       console.error("An error occured while creating a goal", error);
+      triggerNotification({ type: "error" });
     } finally {
       setIsSubmitting(false);
     }

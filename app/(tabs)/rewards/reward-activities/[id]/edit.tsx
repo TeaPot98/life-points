@@ -1,13 +1,13 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import Api from "../../../../../src/api";
 import { useQueryKeyStore } from "../../../../../src/api-hooks";
-import { useUserContext } from "../../../../../src/context";
+import { useNotifications, useUserContext } from "../../../../../src/context";
 import {
   RewardActivityForm,
   RewardActivityFormValues,
 } from "../../../../../src/features/rewards";
 import { IRewardActivity } from "../../../../../src/types/rewards";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useLocalSearchParams, useRouter } from "expo-router";
 
 export default function EditRewardActivityScreen() {
   const router = useRouter();
@@ -16,14 +16,18 @@ export default function EditRewardActivityScreen() {
   const userId = user?.id ?? "";
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const { triggerNotification } = useNotifications();
 
-  const { data: rewardActivity, isFetching: isRewardActivityFetching } =
-    useQuery({
-      queryKey: queryKeyStore.rewardActivities.getById(Number(id)),
-      queryFn: () => Api.rewardActivities.getById(Number(id), userId),
-    });
+  const { data: rewardActivity } = useQuery({
+    queryKey: queryKeyStore.rewardActivities.getById(Number(id)),
+    queryFn: () => Api.rewardActivities.getById(Number(id), userId),
+    enabled: !!user,
+  });
 
-  const { mutateAsync: udpateRewardActivity } = useMutation({
+  const {
+    mutateAsync: udpateRewardActivity,
+    isPending: isUpdateRewardActivityPending,
+  } = useMutation({
     mutationFn: (payload: Partial<IRewardActivity> & { id: number }) =>
       Api.rewardActivities.update(payload.id, payload),
     onSuccess: (_, { id }) =>
@@ -56,9 +60,12 @@ export default function EditRewardActivityScreen() {
         user_id: userId,
       });
 
+      triggerNotification({ message: "Goal activity successfully saved!" });
+
       router.back();
     } catch (error) {
       console.error("An error occured while adding a rewardActivity", error);
+      triggerNotification({ type: "error" });
     }
   };
 
@@ -72,6 +79,7 @@ export default function EditRewardActivityScreen() {
         color: rewardActivity.color,
         name: rewardActivity.name,
       }}
+      isSubmitting={isUpdateRewardActivityPending}
     />
   );
 }

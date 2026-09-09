@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { ScrollView } from "react-native";
 import Api from "../../../../src/api";
 import { useQueryKeyStore } from "../../../../src/api-hooks";
-import { useUserContext } from "../../../../src/context";
+import { useNotifications, useUserContext } from "../../../../src/context";
 import {
   ActivityForm,
   ActivityFormValues,
@@ -14,6 +14,7 @@ export default function CreateActivityScreen() {
   const { user } = useUserContext();
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const { triggerNotification } = useNotifications();
 
   const { mutate: createActivitiy, isPending } = useMutation({
     mutationFn: Api.activities.create,
@@ -22,6 +23,7 @@ export default function CreateActivityScreen() {
       queryClient.invalidateQueries({
         queryKey: queryKeyStore.activities.getAll,
       });
+      triggerNotification({ message: "Goal activity successfully created!" });
     },
   });
 

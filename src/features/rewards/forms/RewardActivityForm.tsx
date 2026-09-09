@@ -17,11 +17,13 @@ export type RewardActivityFormValues = {
 type RewardActivityFormProps = {
   defaultValues?: RewardActivityFormValues;
   onSubmit: (values: RewardActivityFormValues) => void;
+  isSubmitting: boolean;
 };
 
 export const RewardActivityForm = ({
   onSubmit,
   defaultValues,
+  isSubmitting,
 }: RewardActivityFormProps) => {
   const { handleSubmit, control, reset } = useForm<RewardActivityFormValues>({
     defaultValues,
@@ -56,7 +58,12 @@ export const RewardActivityForm = ({
         name="color"
         selectProps={{ label: "Color" }}
       />
-      <Button icon="plus" onPress={handleSubmit(onSubmit)}>
+      <Button
+        icon="plus"
+        onPress={handleSubmit(onSubmit)}
+        disabled={isSubmitting}
+        loading={isSubmitting}
+      >
         Save
       </Button>
     </View>

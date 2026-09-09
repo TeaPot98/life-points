@@ -39,8 +39,7 @@ export const CustomLightTheme = {
   colors: {
     ...MD3LightTheme.colors,
     ...THEME_OVERRIDE.colors,
-    // outline: "#AAA",
-    // primary: THEME_OVERRIDE.colors.primary,
+    success: "#51bd6c",
     fixed: FIXED_COLORS,
   },
 } as const;

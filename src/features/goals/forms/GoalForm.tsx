@@ -14,7 +14,6 @@ import { useQueryKeyStore } from "../../../api-hooks";
 import { IconWithBackground } from "../../../components";
 import { Button } from "../../../components/buttons";
 import { useUserContext } from "../../../context";
-import { DEFAULT_ACTIVITIES } from "../../../data";
 import { useAppTheme } from "../../../theme";
 import { FixedColor } from "../../../theme/types";
 import { ActivityType } from "../../../types/activities";
@@ -57,8 +56,6 @@ export const GoalForm = ({
   const activityTypeOptions = useActivityTypeOptions();
 
   useEffect(() => {
-    console.log("Reset form", { defaultValues });
-
     if (!defaultValues) return;
     reset(defaultValues);
   }, [defaultValues, reset]);
@@ -66,6 +63,7 @@ export const GoalForm = ({
   const { data: activities, isSuccess } = useQuery({
     queryKey: queryKeyStore.activities.getAll,
     queryFn: () => Api.activities.getAll(user?.id ?? ""),
+    enabled: !!user,
   });
 
   useEffect(() => {
@@ -79,7 +77,7 @@ export const GoalForm = ({
 
   const activitiesOptions = useMemo(
     () =>
-      (activities ?? []).concat(DEFAULT_ACTIVITIES).map(
+      activities?.map(
         (activity) =>
           ({
             title: activity.name,
@@ -96,8 +94,6 @@ export const GoalForm = ({
       ) ?? [],
     [activities],
   );
-
-  console.log({ activitiesOptions, activityTypeOptions });
 
   return (
     <FormProvider {...form}>

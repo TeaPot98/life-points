@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { ControlledNumberInput } from "../../../components/inputs";
 import { IDraftMilestone } from "../../../types/goals";
@@ -10,13 +9,7 @@ interface MilestonesFields {
 }
 
 export const MilestonesGoalForm = () => {
-  const { control, watch } = useFormContext<MilestonesFields>();
-
-  const watchMilestones = watch("milestones");
-
-  useEffect(() => {
-    console.log({ watchMilestones });
-  }, [watchMilestones]);
+  const { control } = useFormContext<MilestonesFields>();
 
   return (
     <>

@@ -12,6 +12,7 @@ import { PaperProvider } from "react-native-paper";
 import {
   CustomizationContext,
   CustomizationContextProvider,
+  NotificationsProvider,
   UserContextProvider,
 } from "../src/context";
 import { CustomizationModal } from "../src/features/customization";
@@ -83,28 +84,30 @@ function RootLayoutNav() {
                       : CustomNavigationLightTheme
                   }
                 >
-                  <StatusBar
-                    style={colorScheme === "dark" ? "light" : "dark"}
-                  />
-                  <Stack>
-                    <Stack.Screen
-                      name="(tabs)"
-                      options={{ headerShown: false }}
+                  <NotificationsProvider>
+                    <StatusBar
+                      style={colorScheme === "dark" ? "light" : "dark"}
                     />
-                    <Stack.Screen
-                      name="(public)/sign-in"
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name="(public)/sign-up"
-                      options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                      name="modal"
-                      options={{ presentation: "modal" }}
-                    />
-                  </Stack>
-                  <CustomizationModal />
+                    <Stack>
+                      <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="(public)/sign-in"
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="(public)/sign-up"
+                        options={{ headerShown: false }}
+                      />
+                      <Stack.Screen
+                        name="modal"
+                        options={{ presentation: "modal" }}
+                      />
+                    </Stack>
+                    <CustomizationModal />
+                  </NotificationsProvider>
                 </ThemeProvider>
               </PaperProvider>
             )}

@@ -3,10 +3,15 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { Divider } from "react-native-paper";
+import { ActivityIndicator, Divider } from "react-native-paper";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
-import { FAB, getFabActionProps } from "../../../src/components/buttons";
+import { NoData } from "../../../src/components";
+import {
+  Button,
+  FAB,
+  getFabActionProps,
+} from "../../../src/components/buttons";
 import { useUserContext } from "../../../src/context";
 import {
   BookCard,
@@ -25,11 +30,13 @@ export default function ReadingTabScreen() {
   const { data: readingStatistics } = useQuery({
     queryKey: queryKeyStore.readingTracker.readingStatistics,
     queryFn: () => Api.readingTracker.getStatistics(user?.id ?? ""),
+    enabled: !!user,
   });
 
-  const { data: books } = useQuery({
+  const { data: books, isLoading } = useQuery({
     queryKey: queryKeyStore.books.getAll,
     queryFn: () => Api.books.getAll(user?.id ?? ""),
+    enabled: !!user,
   });
 
   return (
@@ -43,6 +50,22 @@ export default function ReadingTabScreen() {
           {books?.map((book) => (
             <BookCard key={book.id} book={book} />
           ))}
+          {!isLoading && !books?.length && (
+            <View style={styles.noDataContainer}>
+              <NoData
+                action={
+                  <Button
+                    onPress={() => router.push("/(tabs)/reading/books/create")}
+                  >
+                    Add Book
+                  </Button>
+                }
+              />
+            </View>
+          )}
+          {isLoading && (
+            <ActivityIndicator size={80} style={styles.activityIndicator} />
+          )}
         </View>
       </ScrollView>
       {isFocused && (
@@ -81,4 +104,6 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
+  noDataContainer: { width: "100%", marginTop: 80, alignItems: "center" },
+  activityIndicator: { marginTop: 80 },
 });

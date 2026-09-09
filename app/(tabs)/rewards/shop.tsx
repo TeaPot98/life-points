@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import { ActivityIndicator } from "react-native-paper";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
 import { FAB, getFabActionProps } from "../../../src/components/buttons";
@@ -17,9 +18,10 @@ export default function RewardsShopScreen() {
   const { user } = useUserContext();
   const queryKeyStore = useQueryKeyStore();
 
-  const { data: rewards } = useQuery({
+  const { data: rewards, isLoading } = useQuery({
     queryKey: queryKeyStore.rewards.getAll,
     queryFn: () => Api.rewards.getAll(user?.id ?? ""),
+    enabled: !!user,
   });
 
   return (
@@ -28,6 +30,9 @@ export default function RewardsShopScreen() {
         {rewards?.map((reward) => (
           <RewardCard key={reward.id} reward={reward} />
         ))}
+        {isLoading && (
+          <ActivityIndicator size={80} style={styles.activityIndicator} />
+        )}
         {isFocused && (
           <FAB
             actions={[
@@ -68,4 +73,5 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
+  activityIndicator: { marginTop: 80 },
 });

@@ -19,6 +19,7 @@ export default function UserGoalDetailsScreen() {
   const { data: userGoal } = useQuery({
     queryKey: queryKeyStore.userGoals.getById(Number(id)),
     queryFn: () => Api.userGoals.getById(Number(id), user?.id ?? ""),
+    enabled: !!user,
   });
 
   if (!userGoal) return;

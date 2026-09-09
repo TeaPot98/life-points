@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import { ActivityIndicator } from "react-native-paper";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
 import { NoData } from "../../../src/components";
@@ -25,6 +26,7 @@ export default function ManageGoalsScreen() {
   const { data: goals, isLoading } = useQuery({
     queryKey: queryKeyStore.goals.getAll,
     queryFn: () => Api.goals.getAll(user?.id ?? ""),
+    enabled: !!user,
   });
 
   return (
@@ -43,6 +45,9 @@ export default function ManageGoalsScreen() {
               }
             />
           </View>
+        )}
+        {isLoading && (
+          <ActivityIndicator size={80} style={styles.activityIndicator} />
         )}
         {isFocused && (
           <FAB
@@ -84,4 +89,5 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   noDataContainer: { width: "100%", marginTop: 80, alignItems: "center" },
+  activityIndicator: { marginTop: 80 },
 });

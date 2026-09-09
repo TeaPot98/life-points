@@ -40,6 +40,7 @@ export const CustomDarkTheme = {
   colors: {
     ...MD3DarkTheme.colors,
     ...THEME_OVERRIDE.colors,
+    success: "#51bd6c",
     fixed: FIXED_COLORS,
   },
 } satisfies CustomTheme;

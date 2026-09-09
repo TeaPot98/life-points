@@ -1,7 +1,4 @@
-import {
-  UserGoalsCreatePayload,
-  UserGoalsUpdatePayload,
-} from "../types/goals";
+import { UserGoalsCreatePayload, UserGoalsUpdatePayload } from "../types/goals";
 import { supabase } from "./supabase";
 
 const userGoals = {
@@ -26,8 +23,6 @@ const userGoals = {
       )
       .eq("user_id", userId);
 
-    console.log({ userId });
-
     if (error) {
       console.error(error);
       throw error;
@@ -44,8 +39,6 @@ const userGoals = {
       .eq("id", userGoalId)
       .eq("user_id", userId)
       .single();
-
-    console.log({ userId });
 
     if (error) {
       console.error(error);

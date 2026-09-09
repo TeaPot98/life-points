@@ -21,7 +21,7 @@ const rewardActivities = {
     const { data, error } = await supabase
       .from("reward_activities")
       .select()
-      .eq("user_id", userId);
+      .or(`user_id.eq.${userId},user_id.is.null`);
 
     if (error) {
       console.error(error);
