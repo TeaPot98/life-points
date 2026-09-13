@@ -33,9 +33,23 @@ export default function GoalsTabScreen() {
     enabled: !!user,
   });
 
+  const activeGoals = useMemo(
+    () =>
+      userGoals?.filter(
+        (g) =>
+          (g.goal.type !== "time" || !g.started_at) &&
+          (computeGoalCompletionPercentage(g) ?? 0) < 100,
+      ),
+    [userGoals],
+  );
   const inProgressGoals = useMemo(
     () =>
-      userGoals?.filter((g) => (computeGoalCompletionPercentage(g) ?? 0) < 100),
+      userGoals?.filter(
+        (g) =>
+          g.goal.type === "time" &&
+          g.started_at &&
+          (computeGoalCompletionPercentage(g) ?? 0) < 100,
+      ),
     [userGoals],
   );
   const completedGoals = useMemo(
@@ -83,7 +97,12 @@ export default function GoalsTabScreen() {
         {isLoading && (
           <ActivityIndicator size={80} style={styles.activityIndicator} />
         )}
+        {!!inProgressGoals?.length && <SectionDivider text="In Progress" />}
         {inProgressGoals?.map((userGoal) => (
+          <UserGoalCard key={userGoal.id} userGoal={userGoal} />
+        ))}
+        {!!activeGoals?.length && <SectionDivider text="Active" />}
+        {activeGoals?.map((userGoal) => (
           <UserGoalCard key={userGoal.id} userGoal={userGoal} />
         ))}
         {!!completedGoals?.length && <SectionDivider text="Completed" />}

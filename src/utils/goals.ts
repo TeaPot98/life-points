@@ -1,5 +1,5 @@
-import { IUserGoal } from "../types/goals";
 import dayjs from "dayjs";
+import { IUserGoal } from "../types/goals";
 import { isNil } from "./misc";
 
 export function computeGoalCompletionPercentage(userGoal: IUserGoal) {
@@ -33,14 +33,14 @@ export function computeGoalCompletionPercentage(userGoal: IUserGoal) {
       );
 
     case "time":
-      if (isNil(userGoal.started_at) || isNil(userGoal.goal.duration))
-        return null;
-
-      const diffInSeconds = dayjs(userGoal.started_at).diff() / 1000;
+      if (isNil(userGoal.goal.duration)) return null;
 
       return Math.min(
-        (Math.abs(diffInSeconds) * 100) / userGoal.goal.duration,
         100,
+        Math.max(
+          0,
+          ((userGoal.completed_duration ?? 0) * 100) / userGoal.goal.duration,
+        ),
       );
     case "milestone":
       if (!userGoal.goal.milestones.length) return 0;
@@ -53,4 +53,13 @@ export function computeGoalCompletionPercentage(userGoal: IUserGoal) {
     default:
       return null;
   }
+}
+
+export function computeTimeGoalCompletion(
+  startedAt: string,
+  totalDuration: number,
+) {
+  const diffInSeconds = dayjs().diff(startedAt, "seconds");
+
+  return Math.min(1, Math.max(0, diffInSeconds / totalDuration));
 }

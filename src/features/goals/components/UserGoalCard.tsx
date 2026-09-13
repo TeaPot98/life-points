@@ -10,7 +10,7 @@ import {
   useMarkUserGoalAsCompleted,
   useQueryKeyStore,
 } from "../../../api-hooks";
-import { Card, IconWithBackground } from "../../../components";
+import { Card, IconWithBackground, TimeProgressBar } from "../../../components";
 import { Button } from "../../../components/buttons";
 import { Chip } from "../../../components/Chip";
 import { ProgressBar } from "../../../components/ProgressBar";
@@ -83,8 +83,6 @@ export const UserGoalCard = ({
         setGoalToEdit(userGoal);
         setCountGoalModalOpen(true);
         break;
-      case "time":
-        break;
       default:
         break;
     }
@@ -93,6 +91,12 @@ export const UserGoalCard = ({
   const onPlayClick = useCallback(() => {
     updateUserGoal({ id, started_at: dayjs().toISOString() });
   }, [id, updateUserGoal]);
+
+  const onTimeGoalCompletion = useCallback(() => {
+    if (!duration || userGoal.completed_duration >= duration) return;
+
+    markUserGoalAsCompleted(userGoal);
+  }, [duration, markUserGoalAsCompleted, userGoal]);
 
   return (
     <Card>
@@ -132,17 +136,30 @@ export const UserGoalCard = ({
               <Chip icon="clock-o">{capitalize(schedule)}</Chip>
             )}
           </View>
-          {!isNil(percentage) && (
+          {!isNil(percentage) && type !== "time" && (
             <ProgressBar
               value={percentage / 100}
               style={{ alignSelf: "stretch" }}
+            />
+          )}
+          {type === "time" && duration && (
+            <TimeProgressBar
+              startedAt={userGoal.started_at}
+              totalDuration={duration}
+              onCompletion={onTimeGoalCompletion}
+              completed={(userGoal.completed_duration ?? 0) >= duration}
             />
           )}
         </View>
       </Card.Content>
       <View style={styles.actionsContainer}>
         {type === "time" && !isCompleted && !userGoal.completed_at && (
-          <Button onPress={onPlayClick} color="secondary">
+          <Button
+            onPress={onPlayClick}
+            color="secondary"
+            loading={!!userGoal.started_at}
+            disabled={!!userGoal.started_at}
+          >
             <FontAwesome name="play" />
           </Button>
         )}

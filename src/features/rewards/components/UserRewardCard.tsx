@@ -1,17 +1,17 @@
-import Api from "../../../api";
-import { useQueryKeyStore } from "../../../api-hooks";
-import { Card, Chip, IconWithBackground } from "../../../components";
-import { Button } from "../../../components/buttons";
-import { FontAwesomeName } from "../../../types/icons";
-import { IUserReward } from "../../../types/rewards";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAppTheme } from "../../../theme";
-import { CustomTheme, FixedColor } from "../../../theme/types";
-import { fromSecondsToHumanReadable, isNil } from "../../../utils";
 import dayjs from "dayjs";
 import { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
+import Api from "../../../api";
+import { useQueryKeyStore } from "../../../api-hooks";
+import { Card, Chip, IconWithBackground } from "../../../components";
+import { Button } from "../../../components/buttons";
+import { useAppTheme } from "../../../theme";
+import { CustomTheme, FixedColor } from "../../../theme/types";
+import { FontAwesomeName } from "../../../types/icons";
+import { IUserReward } from "../../../types/rewards";
+import { fromSecondsToHumanReadable, isNil } from "../../../utils";
 
 type UserRewardCardProps = {
   userReward: IUserReward;
@@ -74,7 +74,7 @@ export const UserRewardCard = ({ userReward }: UserRewardCardProps) => {
       </Card.Content>
       <Card.Actions>
         <Button
-          color={isClaimed ? "error" : "secondary"}
+          color={isClaimed ? "secondary" : "primary"}
           icon="check"
           disabled={isClaimed}
           onPress={onClaimPress}

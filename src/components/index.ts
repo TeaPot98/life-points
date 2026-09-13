@@ -6,3 +6,4 @@ export * from "./NoData";
 export * from "./ProgressBar";
 export * from "./SectionDivider";
 export * from "./TabHeader";
+export * from "./TimeProgressBar";
