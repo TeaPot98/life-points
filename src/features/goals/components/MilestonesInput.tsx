@@ -47,7 +47,7 @@ export const MilestonesInput = ({
       {...controllerProps}
       render={({ field: { onChange, value = [] } }) => (
         <View style={styles.container}>
-          {value?.length && <SectionDivider text="Milestones" />}
+          {!!value?.length && <SectionDivider text="Milestones" />}
           {value?.map((milestone, index) => (
             <View key={index}>
               {/* {index === editMilestoneIndex ? (

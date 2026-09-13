@@ -6,7 +6,12 @@ import { useRouter } from "expo-router";
 import { ActivityIndicator } from "react-native-paper";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
-import { FAB, getFabActionProps } from "../../../src/components/buttons";
+import { NoData } from "../../../src/components";
+import {
+  Button,
+  FAB,
+  getFabActionProps,
+} from "../../../src/components/buttons";
 import { useUserContext } from "../../../src/context";
 import { RewardCard } from "../../../src/features/rewards/components";
 import { useAppTheme } from "../../../src/theme";
@@ -32,6 +37,17 @@ export default function RewardsShopScreen() {
         ))}
         {isLoading && (
           <ActivityIndicator size={80} style={styles.activityIndicator} />
+        )}
+        {!isLoading && !rewards?.length && (
+          <View style={styles.noDataContainer}>
+            <NoData
+              action={
+                <Button onPress={() => router.push("/(tabs)/rewards/create")}>
+                  Create Reward
+                </Button>
+              }
+            />
+          </View>
         )}
         {isFocused && (
           <FAB
@@ -74,4 +90,5 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   activityIndicator: { marginTop: 80 },
+  noDataContainer: { width: "100%", marginTop: 80, alignItems: "center" },
 });

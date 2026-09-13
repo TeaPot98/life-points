@@ -4,6 +4,7 @@ import React from "react";
 
 import { StyleSheet } from "react-native";
 import { BottomNavigation } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Colors from "../../src/constants/Colors";
 import { useCustomizationContext } from "../../src/context";
 import { useAppTheme } from "../../src/theme";
@@ -25,6 +26,7 @@ export default function TabLayout() {
   const theme = useAppTheme();
   const styles = getStyles(theme);
   const { colorScheme } = useCustomizationContext();
+  const insets = useSafeAreaInsets();
 
   return (
     <>
@@ -32,11 +34,14 @@ export default function TabLayout() {
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
           headerShown: false,
+          sceneStyle: {
+            paddingBottom: insets.bottom,
+          },
         }}
-        tabBar={({ navigation, state, descriptors, insets }) => (
+        tabBar={({ navigation, state, descriptors }) => (
           <BottomNavigation.Bar
             compact
-            style={styles.navigationBar}
+            style={{ ...styles.navigationBar, bottom: insets.bottom }}
             navigationState={state}
             safeAreaInsets={insets}
             onTabPress={({ route }) => navigation.navigate(route.name)}
@@ -92,7 +97,6 @@ const getStyles = (theme: CustomTheme) =>
     navigationBar: {
       borderRadius: 80,
       overflow: "hidden",
-      marginBottom: 0,
       marginHorizontal: 10,
       height: 80,
       borderWidth: 2,

@@ -29,7 +29,7 @@ export const ReadingStatistics = ({
             Total books: {readingStatistics?.total_books}
           </Text>
           <Text>Last book: {readingStatistics?.last_book?.title ?? "N/A"}</Text>
-          <Text>Reward per book: {readingTracker?.reward_per_page ?? 0}</Text>
+          <Text>Reward per page: {readingTracker?.reward_per_page ?? 0}</Text>
         </View>
         <Button
           color="secondary"

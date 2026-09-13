@@ -9,6 +9,7 @@ import {
   IDefaultRewardActivity,
   IRewardActivity,
 } from "../../../types/rewards";
+import { isNil } from "../../../utils";
 
 type RewardActivityCardProps = {
   rewardActivity: IRewardActivity | IDefaultRewardActivity;
@@ -31,7 +32,7 @@ export const RewardActivityCard = ({
             <Text variant="titleMedium">{rewardActivity.name}</Text>
           </View>
         </View>
-        {rewardActivity.user_id !== "all" && (
+        {!isNil(rewardActivity.user_id) && (
           <Card.Actions>
             <IconButton
               icon="pencil"

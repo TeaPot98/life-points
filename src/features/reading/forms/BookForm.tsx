@@ -154,11 +154,11 @@ export const BookForm = ({
       {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
       {!defaultValues && (
         <View style={styles.imageActions}>
-          <Button icon="image" onPress={pickImage}>
+          <Button icon="image" color="secondary" onPress={pickImage}>
             Choose photo
           </Button>
 
-          <Button icon="camera" onPress={takePhoto}>
+          <Button icon="camera" color="secondary" onPress={takePhoto}>
             Take photo
           </Button>
         </View>

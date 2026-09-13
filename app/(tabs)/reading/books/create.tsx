@@ -5,7 +5,8 @@ import Api from "../../../../src/api";
 import { useQueryKeyStore } from "../../../../src/api-hooks";
 import { useNotifications, useUserContext } from "../../../../src/context";
 import { BookForm, BookFormValues } from "../../../../src/features/reading";
-import { uploadBookCover } from "../../../../src/utils";
+import { IReadingTracker } from "../../../../src/types/books";
+import { isNil, uploadBookCover } from "../../../../src/utils";
 
 export default function CreateBookScreen() {
   const router = useRouter();
@@ -50,6 +51,23 @@ export default function CreateBookScreen() {
       ]),
   });
 
+  const { mutateAsync: updateReatingTracker } = useMutation({
+    mutationFn: async ({
+      id,
+      ...payload
+    }: Partial<IReadingTracker> & { id: number }) =>
+      Api.readingTracker.update(id, payload),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.readingTracker.tracker,
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.readingTracker.readingStatistics,
+      });
+    },
+  });
+
   const onSubmit = async ({
     number_of_pages,
     read_pages,
@@ -59,24 +77,31 @@ export default function CreateBookScreen() {
     try {
       setIsSubmitting(true);
 
-      const readingTracker = await fetchReadingTracker();
+      let readingTracker = await fetchReadingTracker();
       let imagePath: string | null = null;
 
       if (!readingTracker) {
-        await createReadingTracker({ user_id: userId });
+        readingTracker = await createReadingTracker({ user_id: userId });
       }
 
       if (image_uri) {
         imagePath = await uploadBookCover(image_uri, userId);
       }
 
-      await createBook({
+      const newBook = await createBook({
         number_of_pages: Number(number_of_pages),
         read_pages: Number(read_pages ?? "0"),
         ...values,
         user_id: userId,
         image_path: imagePath,
       });
+
+      if (readingTracker && isNil(readingTracker.latest_book_id)) {
+        await updateReatingTracker({
+          id: readingTracker.id,
+          latest_book_id: newBook.id,
+        });
+      }
 
       triggerNotification({ message: "Book successfully created!" });
       router.back();

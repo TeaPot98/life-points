@@ -1,12 +1,12 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
 import Api from "../../../api";
 import { useMarkBookAsRead, useQueryKeyStore } from "../../../api-hooks";
 import { Button } from "../../../components/buttons";
 import { ControlledNumberInput } from "../../../components/inputs";
 import { useBooksContext } from "../../../context";
-import { IBook } from "../../../types/books";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { Divider, Modal, Portal, Surface, Text } from "react-native-paper";
+import { IBook, IReadingTracker } from "../../../types/books";
 
 type FormFieldsType = {
   incrementWith: number;
@@ -23,6 +23,23 @@ export const BookModal = () => {
     isBookModalOpen: isOpen,
     setBookModalOpen: setIsOpen,
   } = useBooksContext();
+
+  const { mutateAsync: updateReatingTracker } = useMutation({
+    mutationFn: async ({
+      id,
+      ...payload
+    }: Partial<IReadingTracker> & { id: number }) =>
+      Api.readingTracker.update(id, payload),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.readingTracker.tracker,
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: queryKeyStore.readingTracker.readingStatistics,
+      });
+    },
+  });
 
   const { control, handleSubmit } = useForm<FormFieldsType>({
     validate: async ({ formValues }) => {
@@ -60,6 +77,11 @@ export const BookModal = () => {
           goalIncrement * readingTracker.reward_per_page,
         );
       }
+
+      await updateReatingTracker({
+        id: readingTracker.id,
+        latest_book_id: book.id,
+      });
     },
     onSuccess: async (_, { book }) =>
       Promise.all([

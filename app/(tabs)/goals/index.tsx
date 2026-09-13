@@ -71,7 +71,7 @@ export default function GoalsTabScreen() {
               router.push("/goals/manage");
             }}
           >
-            Manage Goals
+            Goals
           </Button>
           <Button
             icon="cog"
@@ -80,7 +80,7 @@ export default function GoalsTabScreen() {
               router.push("/goals/activities/manage");
             }}
           >
-            Manage Activities
+            Goal Activities
           </Button>
         </View>
         {!isLoading && !userGoals?.length && (

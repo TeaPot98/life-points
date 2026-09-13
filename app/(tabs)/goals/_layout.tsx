@@ -30,7 +30,7 @@ export default function ActivitiesLayout() {
           <Stack.Screen
             name="index"
             options={{
-              title: "Goals",
+              title: "My Goals",
               headerLeft: () => (
                 <Pressable
                   onPress={() => router.push("/goals/manage")}

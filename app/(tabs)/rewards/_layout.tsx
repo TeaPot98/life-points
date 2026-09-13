@@ -15,7 +15,7 @@ export default function RewardsLayout() {
         ),
       }}
     >
-      <Stack.Screen name="index" options={{ title: "Rewards" }} />
+      <Stack.Screen name="index" options={{ title: "My Rewards" }} />
       <Stack.Screen name="create" options={{ title: "Create Reward" }} />
       <Stack.Screen name="shop" options={{ title: "Rewards Shop" }} />
       <Stack.Screen

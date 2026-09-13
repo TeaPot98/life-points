@@ -3,7 +3,11 @@ import { supabase } from "./supabase";
 
 const books = {
   async create(payload: BooksCreatePayload) {
-    const { data, error } = await supabase.from("books").insert(payload);
+    const { data, error } = await supabase
+      .from("books")
+      .insert(payload)
+      .select()
+      .single();
 
     if (error) {
       console.error(error);

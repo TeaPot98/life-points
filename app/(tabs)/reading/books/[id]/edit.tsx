@@ -38,14 +38,23 @@ export default function EditBookScreen() {
     enabled: !!user,
   });
 
-  const onSubmit = async (values: BookFormValues) => {
+  const onSubmit = async ({
+    image_storage_path,
+    ...values
+  }: BookFormValues) => {
     try {
       if (!book) {
         console.error("The book was not yet fetched");
         return;
       }
 
-      await updateBook({ ...values, id: book.id, user_id: userId });
+      console.log({ values });
+
+      await updateBook({
+        ...values,
+        id: book.id,
+        user_id: userId,
+      });
 
       triggerNotification({ message: "Book successfully saved!" });
 

@@ -1,16 +1,16 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import Api from "../../../api";
 import { useQueryKeyStore } from "../../../api-hooks";
 import { Card, Chip, IconWithBackground } from "../../../components";
 import { Button } from "../../../components/buttons";
-import { useUserContext } from "../../../context";
-import { FontAwesomeName } from "../../../types/icons";
-import { IReward } from "../../../types/rewards";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNotifications, useUserContext } from "../../../context";
 import { useAppTheme } from "../../../theme";
 import { CustomTheme, FixedColor } from "../../../theme/types";
+import { FontAwesomeName } from "../../../types/icons";
+import { IReward } from "../../../types/rewards";
 import { fromSecondsToHumanReadable, isNil } from "../../../utils";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
 
 type RewardCardProps = {
   reward: IReward;
@@ -22,6 +22,7 @@ export const RewardCard = ({ reward }: RewardCardProps) => {
   const userId = user?.id ?? "";
   const queryClient = useQueryClient();
   const queryKeyStore = useQueryKeyStore();
+  const { triggerNotification } = useNotifications();
 
   const styles = getStyles(theme);
 
@@ -37,6 +38,10 @@ export const RewardCard = ({ reward }: RewardCardProps) => {
       });
       await queryClient.invalidateQueries({
         queryKey: queryKeyStore.userRewards.getAll,
+      });
+
+      triggerNotification({
+        message: "Success! Claim you reward in the Rewards tab",
       });
     },
   });

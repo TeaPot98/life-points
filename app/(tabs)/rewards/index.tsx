@@ -3,10 +3,11 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
+import { useMemo } from "react";
 import { ActivityIndicator, Divider } from "react-native-paper";
 import Api from "../../../src/api";
 import { useQueryKeyStore } from "../../../src/api-hooks";
-import { NoData } from "../../../src/components";
+import { NoData, SectionDivider } from "../../../src/components";
 import {
   Button,
   FAB,
@@ -30,30 +31,48 @@ export default function UserRewardsTabScreen() {
     enabled: !!user,
   });
 
+  const activeRewards = useMemo(
+    () => userRewards?.filter((r) => !r.claimed_at),
+    [userRewards],
+  );
+  const claimedRewards = useMemo(
+    () => userRewards?.filter((r) => !!r.claimed_at),
+    [userRewards],
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonsContainer}>
         <Button
           color="tertiary"
+          icon="cog"
           onPress={() => {
             router.push("/rewards/reward-activities/manage");
           }}
         >
-          Manage Reward Activities
+          Reward Activities
         </Button>
         <Button
+          icon="cart"
           color="tertiary"
           onPress={() => {
             router.push("/rewards/shop");
           }}
         >
-          Buy Rewards
+          Rewards Shop
         </Button>
       </View>
       <Divider style={styles.divider} />
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.cardsContainer}>
-          {userRewards?.map((userReward) => (
+          {!!activeRewards?.length && <SectionDivider text="Active Rewards" />}
+          {activeRewards?.map((userReward) => (
+            <UserRewardCard key={userReward.id} userReward={userReward} />
+          ))}
+          {!!claimedRewards?.length && (
+            <SectionDivider text="Claimed Rewards" />
+          )}
+          {claimedRewards?.map((userReward) => (
             <UserRewardCard key={userReward.id} userReward={userReward} />
           ))}
           {isLoading && (
@@ -76,7 +95,7 @@ export default function UserRewardsTabScreen() {
               actions={[
                 {
                   icon: "gamepad",
-                  label: "Activity Reward",
+                  label: "Reward Activity",
                   onPress: () =>
                     router.push("/rewards/reward-activities/create"),
                   ...getFabActionProps(theme),
